@@ -249,7 +249,14 @@ button:hover {
   display: none;
 }
 .video-container {
-  position: relative; /* needed for absolute children like micStatus */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding: 0 20px; /* needed for absolute children like micStatus */
 }
 #micToggle {
   width: 50px;
