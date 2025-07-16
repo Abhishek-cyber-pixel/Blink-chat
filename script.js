@@ -85,6 +85,15 @@ let placeholderImage = document.getElementById("placeholderImage");
 let videoOn = true; // video is currently ON
 
 toggleVideoBtn.addEventListener("click", () => {
+  // Get mic track
+const audioTrack = localStream.getAudioTracks()[0];
+
+if (audioTrack) {
+  audioTrack.enabled = videoOn; // mic on only when video on
+  micStatus.style.display = "block";
+  micStatus.textContent = videoOn ? "🎤" : "🔇";
+}
+
   if (!localStream) return;
 
   const videoTrack = localStream.getVideoTracks()[0];
@@ -118,6 +127,7 @@ uploadImageInput.addEventListener("change", (event) => {
 
     reader.readAsDataURL(file); // read file as base64 string
   }
+  
 });
 
 
