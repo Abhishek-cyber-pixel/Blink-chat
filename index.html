@@ -1,49 +1,50 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Omegle Clone</title>
+  <title>Blink Chat</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Blink chat</h1>
-  <div class="background-animation">
-  <div class="circle"></div>
-  <div class="circle small"></div>
-  <div class="circle medium"></div>
-  <div class="circle large"></div>
-</div>
+  <div class="background-animation" id="background">
+    <div class="circle"></div>
+    <div class="circle small"></div>
+    <div class="circle medium"></div>
+    <div class="circle large"></div>
+  </div>
 
   <div class="video-container">
-    <video id="localVideo" autoplay muted></video>
-    <img id="micToggle" src="mics.png" alt="Mic Toggle" />
-<video id="remoteVideo" autoplay></video>
-<img id="placeholderImage" src="user.jpg" style="display:none;" />
-    
+    <div class="video-wrapper">
+      <video id="localVideo" autoplay muted></video>
+      <img id="micToggle" src="mics.png" alt="Mic Toggle" class="mic-icon" />
+      <img id="placeholderImage" src="user.jpg" style="display:none;" />
+    </div>
+    <video id="remoteVideo" autoplay></video>
   </div>
+
   <div class="controls">
     <div class="chat-box">
-  <div id="messages" class="messages"></div>
-  <div class="chat-input">
-    <input type="text" id="msgInput" placeholder="Type a message..." />
-    <button id="sendBtn">Send</button>
+      <div id="messages" class="messages"></div>
+      <div class="chat-input">
+        <input type="text" id="msgInput" placeholder="Type a message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <div class="row">
+        <button id="startBtn">Start</button>
+        <button id="nextBtn">Next</button>
+        <button id="toggleVideoBtn">Turn Off Video</button>
+      </div>
+      <div class="row upload-wrapper">
+        <label for="uploadImage" class="upload-btn">🎨 Upload Photo</label>
+        <input type="file" id="uploadImage" accept="image/*" />
+        <div class="color-toggle" id="themeToggle"></div>
+      </div>
+    </div>
   </div>
-
-<div class="button-group">
-  <div class="row">
-    <button id="startBtn">Start</button>
-    <button id="nextBtn">Next</button>
-    <button id="toggleVideoBtn">Turn Off Video</button>
-  </div>
-  <div class="row">
-    <label for="uploadImage" class="upload-btn">Upload Your Photo</label>
-    <input type="file" id="uploadImage" accept="image/*" />
-  </div>
-</div>
-
-
-
 
   <script src="script.js"></script>
 </body>
