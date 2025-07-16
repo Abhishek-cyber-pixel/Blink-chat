@@ -188,3 +188,7 @@ button:hover {
   box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
 }
 
+#uploadImage {
+  margin-top: 10px;
+  color: white;
+}
