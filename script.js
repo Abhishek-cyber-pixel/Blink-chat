@@ -91,6 +91,30 @@ msgElement.className = "message"; // Important line
 msgElement.textContent = "You: " + message;
 messagesDiv.appendChild(msgElement);
 messagesDiv.scrollTop = messagesDiv.scrollHeight;
+let toggleVideoBtn = document.getElementById("toggleVideoBtn");
+let placeholderImage = document.getElementById("placeholderImage");
+let videoOn = true; // video is currently ON
+
+toggleVideoBtn.addEventListener("click", () => {
+  if (!localStream) return;
+
+  const videoTrack = localStream.getVideoTracks()[0];
+  if (videoTrack) {
+    videoTrack.enabled = !videoTrack.enabled;
+    videoOn = videoTrack.enabled;
+
+    // Update UI
+    if (!videoOn) {
+      localVideo.style.display = "none";
+      placeholderImage.style.display = "block";
+      toggleVideoBtn.textContent = "Turn On Video";
+    } else {
+      localVideo.style.display = "block";
+      placeholderImage.style.display = "none";
+      toggleVideoBtn.textContent = "Turn Off Video";
+    }
+  }
+});
 
 
 
