@@ -1,99 +1,92 @@
 let localVideo = document.getElementById("localVideo");
 let remoteVideo = document.getElementById("remoteVideo");
 let startBtn = document.getElementById("startBtn");
+let toggleVideoBtn = document.getElementById("toggleVideoBtn");
+let placeholderImage = document.getElementById("placeholderImage");
+let uploadImageInput = document.getElementById("uploadImage");
+let micToggle = document.getElementById("micToggle");
+let msgInput = document.getElementById("msgInput");
+let sendBtn = document.getElementById("sendBtn");
+let messagesDiv = document.getElementById("messages");
+let nextBtn = document.getElementById("nextBtn");
 
 let localStream;
 let peerConnection;
+let videoOn = true;
+let isMicOn = true;
+
 const config = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
 };
 
+// Start button
 startBtn.addEventListener("click", async () => {
-  // 1. Get local camera stream
   try {
     localStream = await navigator.mediaDevices.getUserMedia({
-  video: { facingMode: "user" },
-  audio: true
-});
+      video: { facingMode: "user" },
+      audio: true
+    });
 
     localVideo.srcObject = localStream;
 
-    // 2. Create peer connection
     peerConnection = new RTCPeerConnection(config);
 
-    // 3. Add local tracks to peer
     localStream.getTracks().forEach(track => {
       peerConnection.addTrack(track, localStream);
     });
-    
 
-    // 4. Remote stream setup
     peerConnection.ontrack = event => {
       const [remoteStream] = event.streams;
       remoteVideo.srcObject = remoteStream;
     };
 
-    // 🟡 Real signaling (Socket.io) will go here in backend step
     console.log("Local stream ready. Waiting for signaling...");
-
   } catch (error) {
     console.error("Error accessing camera:", error);
     alert("Please allow camera and mic access.");
   }
 });
-let msgInput = document.getElementById("msgInput");
-let sendBtn = document.getElementById("sendBtn");
-let messagesDiv = document.getElementById("messages");
 
-// Show sent message in chat
+// Send message
 sendBtn.addEventListener("click", () => {
   const message = msgInput.value.trim();
   if (message === "") return;
 
-  // Display on local chat window
   const msgElement = document.createElement("div");
   msgElement.textContent = "You: " + message;
-msgElement.className = "message"; 
-
+  msgElement.className = "message";
   messagesDiv.appendChild(msgElement);
-
-  // TODO: Emit this message to remote peer via signaling (Socket.io)
-  // socket.emit("message", message);
 
   msgInput.value = "";
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
-let nextBtn = document.getElementById("nextBtn");
 
-nextBtn.addEventListener("click", () => {
-  // Clear chat messages
-  messagesDiv.innerHTML = "";
-
-  // TODO: Disconnect current peerConnection and find a new one
-  console.log("Next button clicked. Chat cleared.");
+  // TODO: send message to remote via socket
 });
 
+// Enter key to send
 msgInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    event.preventDefault(); // Prevent newline (optional)
-    sendBtn.click(); // Trigger send button
+    event.preventDefault();
+    sendBtn.click();
   }
 });
 
-let toggleVideoBtn = document.getElementById("toggleVideoBtn");
-let placeholderImage = document.getElementById("placeholderImage");
-let videoOn = true; // video is currently ON
+// Next button
+nextBtn.addEventListener("click", () => {
+  messagesDiv.innerHTML = "";
 
+  if (peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+  localVideo.srcObject = null;
+  remoteVideo.srcObject = null;
+
+  console.log("Next button clicked. Chat cleared.");
+});
+
+// Turn video on/off
 toggleVideoBtn.addEventListener("click", () => {
-  // Get mic track
-const audioTrack = localStream.getAudioTracks()[0];
-
-if (audioTrack) {
-  audioTrack.enabled = videoOn; // mic on only when video on
-  micStatus.style.display = "block";
-  micStatus.textContent = videoOn ? "🎤" : "🔇";
-}
-
   if (!localStream) return;
 
   const videoTrack = localStream.getVideoTracks()[0];
@@ -101,37 +94,19 @@ if (audioTrack) {
     videoTrack.enabled = !videoTrack.enabled;
     videoOn = videoTrack.enabled;
 
-    // Update UI
-    if (!videoOn) {
-      localVideo.style.display = "none";
-      placeholderImage.style.display = "block";
-      toggleVideoBtn.textContent = "Turn On Video";
-    } else {
+    if (videoOn) {
       localVideo.style.display = "block";
       placeholderImage.style.display = "none";
       toggleVideoBtn.textContent = "Turn Off Video";
+    } else {
+      localVideo.style.display = "none";
+      placeholderImage.style.display = "block";
+      toggleVideoBtn.textContent = "Turn On Video";
     }
   }
 });
-let uploadImageInput = document.getElementById("uploadImage");
 
-uploadImageInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      placeholderImage.src = e.target.result;
-      console.log("Custom image set.");
-    };
-
-    reader.readAsDataURL(file); // read file as base64 string
-  }
-  
-});
-let micToggle = document.getElementById("micToggle");
-let isMicOn = true;
-
+// Mic on/off with icon
 micToggle.addEventListener("click", () => {
   if (!localStream) return;
 
@@ -140,7 +115,27 @@ micToggle.addEventListener("click", () => {
     isMicOn = !audioTrack.enabled;
     audioTrack.enabled = isMicOn;
 
-    // Update image icon
     micToggle.src = isMicOn ? "mics.png" : "images/mic-off.png";
+
+    // If video is off, show placeholder again
+    if (!videoOn) {
+      placeholderImage.style.display = "block";
+      localVideo.style.display = "none";
+    }
   }
 });
+
+// Upload custom image
+if (uploadImageInput) {
+  uploadImageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        placeholderImage.src = e.target.result;
+        console.log("Custom image set.");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
