@@ -141,7 +141,7 @@ micToggle.addEventListener("click", () => {
     audioTrack.enabled = isMicOn;
 
     // Update image icon
-    micToggle.src = isMicOn ? "images/mic-on.png" : "images/mic-off.png";
+    micToggle.src = isMicOn ? "mics.png" : "images/mic-off.png";
   }
 });
 
