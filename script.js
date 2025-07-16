@@ -53,7 +53,8 @@ sendBtn.addEventListener("click", () => {
   // Display on local chat window
   const msgElement = document.createElement("div");
   msgElement.textContent = "You: " + message;
-  msgElement.style.marginBottom = "8px";
+msgElement.className = "message"; 
+
   messagesDiv.appendChild(msgElement);
 
   // TODO: Emit this message to remote peer via signaling (Socket.io)
@@ -78,4 +79,11 @@ msgInput.addEventListener("keydown", (event) => {
     sendBtn.click(); // Trigger send button
   }
 });
+if (peerConnection) {
+  peerConnection.close();
+  peerConnection = null;
+}
+localVideo.srcObject = null;
+remoteVideo.srcObject = null;
+
 
