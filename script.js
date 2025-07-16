@@ -91,6 +91,7 @@ msgElement.className = "message"; // Important line
 msgElement.textContent = "You: " + message;
 messagesDiv.appendChild(msgElement);
 messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
 let toggleVideoBtn = document.getElementById("toggleVideoBtn");
 let placeholderImage = document.getElementById("placeholderImage");
 let videoOn = true; // video is currently ON
