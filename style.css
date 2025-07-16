@@ -1,3 +1,4 @@
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
@@ -5,11 +6,6 @@ body {
   color: #ffffff;
   margin: 0;
   padding: 0;
-  transition: background 0.5s ease;
-}
-
-.background-pink {
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
 }
 
 h1 {
@@ -27,14 +23,9 @@ h1 {
   flex-wrap: wrap;
   margin-top: 40px;
   padding: 0 20px;
-  position: relative;
 }
 
-.video-wrapper {
-  position: relative;
-}
-
-video, #placeholderImage {
+video {
   width: 100%;
   max-width: 400px;
   height: 300px;
@@ -43,23 +34,6 @@ video, #placeholderImage {
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
   object-fit: cover;
-}
-
-#localVideo {
-  transform: scaleX(-1);
-}
-
-#remoteVideo {
-  transform: none;
-}
-
-.mic-icon {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
 }
 
 .controls {
@@ -79,37 +53,220 @@ button {
   transition: all 0.3s ease;
 }
 
+
 button:hover {
   background: #00cccc;
   transform: scale(1.05);
 }
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
 
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.1);
+  animation: float 20s linear infinite;
+}
+
+.circle.small {
+  width: 60px;
+  height: 60px;
+  top: 20%;
+  left: 15%;
+}
+
+.circle.medium {
+  width: 100px;
+  height: 100px;
+  top: 70%;
+  left: 60%;
+}
+
+.circle.large {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 80%;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-1000px) rotate(360deg);
+  }
+}
+.chat-box {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.messages {
+  height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+  text-align: left;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  background: #00e6e6;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.chat-input button:hover {
+  background: #00cccc;
+}
+.message {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.3s forwards;
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+  color: #fff;
+  text-align: left;
+  width: fit-content;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#placeholderImage {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 4px solid #00e6e6;
+  box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+}
 .upload-wrapper {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .upload-btn {
-  padding: 12px 20px;
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 16px;
   background: #00e6e6;
   color: #000;
-  border-radius: 20px;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  display: inline-block;
   box-shadow: 0 0 15px rgba(0, 230, 230, 0.5);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.upload-btn:hover {
+  background: #00cccc;
+  transform: scale(1.05);
 }
 
 #uploadImage {
+  display: none; /* hide the ugly default file input */
+}
+#localVideo {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  background: #000;
+  border: 4px solid #00e6e6;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+  object-fit: cover;
+  transform: scaleX(-1); /* 👈 Fix flip */
+}
+
+#remoteVideo {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  background: #000;
+  border: 4px solid #00e6e6;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+  object-fit: cover;
+  /* ✅ No flip for remote user */
+}
+#micStatus {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 10px;
+  border-radius: 50px;
+  color: #fff;
+  z-index: 10;
   display: none;
 }
-
-.color-toggle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: pink;
-  margin-left: 15px;
+.video-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding: 0 20px; /* needed for absolute children like micStatus */
+}
+#micToggle {
+  width: 50px;
+  height: 50px;
   cursor: pointer;
-  box-shadow: 0 0 8px rgba(255, 192, 203, 0.8);
-  display: inline-block;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
 }
 
+#micToggle:hover {
+  transform: scale(1.1);
+}
