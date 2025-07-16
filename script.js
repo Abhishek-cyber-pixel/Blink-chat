@@ -129,6 +129,21 @@ uploadImageInput.addEventListener("change", (event) => {
   }
   
 });
+let micToggle = document.getElementById("micToggle");
+let isMicOn = true;
+
+micToggle.addEventListener("click", () => {
+  if (!localStream) return;
+
+  const audioTrack = localStream.getAudioTracks()[0];
+  if (audioTrack) {
+    isMicOn = !audioTrack.enabled;
+    audioTrack.enabled = isMicOn;
+
+    // Update image icon
+    micToggle.src = isMicOn ? "images/mic-on.png" : "images/mic-off.png";
+  }
+});
 
 
 
