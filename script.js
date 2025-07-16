@@ -1,25 +1,13 @@
 let localVideo = document.getElementById("localVideo");
 let remoteVideo = document.getElementById("remoteVideo");
 let startBtn = document.getElementById("startBtn");
-let toggleVideoBtn = document.getElementById("toggleVideoBtn");
-let placeholderImage = document.getElementById("placeholderImage");
-let uploadImageInput = document.getElementById("uploadImage");
-let micToggle = document.getElementById("micToggle");
-let msgInput = document.getElementById("msgInput");
-let sendBtn = document.getElementById("sendBtn");
-let messagesDiv = document.getElementById("messages");
-let nextBtn = document.getElementById("nextBtn");
 
 let localStream;
 let peerConnection;
-let videoOn = true;
-let isMicOn = true;
-
 const config = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
 };
 
-// Start button
 startBtn.addEventListener("click", async () => {
   try {
     localStream = await navigator.mediaDevices.getUserMedia({
@@ -47,7 +35,10 @@ startBtn.addEventListener("click", async () => {
   }
 });
 
-// Send message
+let msgInput = document.getElementById("msgInput");
+let sendBtn = document.getElementById("sendBtn");
+let messagesDiv = document.getElementById("messages");
+
 sendBtn.addEventListener("click", () => {
   const message = msgInput.value.trim();
   if (message === "") return;
@@ -59,11 +50,8 @@ sendBtn.addEventListener("click", () => {
 
   msgInput.value = "";
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-  // TODO: send message to remote via socket
 });
 
-// Enter key to send
 msgInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -71,7 +59,8 @@ msgInput.addEventListener("keydown", (event) => {
   }
 });
 
-// Next button
+let nextBtn = document.getElementById("nextBtn");
+
 nextBtn.addEventListener("click", () => {
   messagesDiv.innerHTML = "";
 
@@ -79,13 +68,17 @@ nextBtn.addEventListener("click", () => {
     peerConnection.close();
     peerConnection = null;
   }
+
   localVideo.srcObject = null;
   remoteVideo.srcObject = null;
 
   console.log("Next button clicked. Chat cleared.");
 });
 
-// Turn video on/off
+let toggleVideoBtn = document.getElementById("toggleVideoBtn");
+let placeholderImage = document.getElementById("placeholderImage");
+let videoOn = true;
+
 toggleVideoBtn.addEventListener("click", () => {
   if (!localStream) return;
 
@@ -94,48 +87,34 @@ toggleVideoBtn.addEventListener("click", () => {
     videoTrack.enabled = !videoTrack.enabled;
     videoOn = videoTrack.enabled;
 
-    if (videoOn) {
-      localVideo.style.display = "block";
-      placeholderImage.style.display = "none";
-      toggleVideoBtn.textContent = "Turn Off Video";
-    } else {
+    if (!videoOn) {
       localVideo.style.display = "none";
       placeholderImage.style.display = "block";
       toggleVideoBtn.textContent = "Turn On Video";
+    } else {
+      localVideo.style.display = "block";
+      placeholderImage.style.display = "none";
+      toggleVideoBtn.textContent = "Turn Off Video";
     }
   }
 });
 
-// Mic on/off with icon
+let uploadImageInput = document.getElementById("uploadImage");
+
+uploadImageInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      placeholderImage.src = e.target.result;
+      console.log("Custom image set.");
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+let micToggle = document.getElementById("micToggle");
+let isMicOn = true;
+
 micToggle.addEventListener("click", () => {
   if (!localStream) return;
-
-  const audioTrack = localStream.getAudioTracks()[0];
-  if (audioTrack) {
-    isMicOn = !audioTrack.enabled;
-    audioTrack.enabled = isMicOn;
-
-    micToggle.src = isMicOn ? "mics.png" : "images/mic-off.png";
-
-    // If video is off, show placeholder again
-    if (!videoOn) {
-      placeholderImage.style.display = "block";
-      localVideo.style.display = "none";
-    }
-  }
-});
-
-// Upload custom image
-if (uploadImageInput) {
-  uploadImageInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        placeholderImage.src = e.target.result;
-        console.log("Custom image set.");
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-}
