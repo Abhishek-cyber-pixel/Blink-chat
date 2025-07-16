@@ -86,4 +86,11 @@ if (peerConnection) {
 localVideo.srcObject = null;
 remoteVideo.srcObject = null;
 
+const msgElement = document.createElement("div");
+msgElement.className = "message"; // Important line
+msgElement.textContent = "You: " + message;
+messagesDiv.appendChild(msgElement);
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+
 
