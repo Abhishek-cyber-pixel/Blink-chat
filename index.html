@@ -8,42 +8,51 @@
 </head>
 <body>
   <h1>Blink chat</h1>
-  <div class="background-animation">
-  <div class="circle"></div>
-  <div class="circle small"></div>
-  <div class="circle medium"></div>
-  <div class="circle large"></div>
-</div>
 
-  <div class="video-container">
-    <video id="localVideo" autoplay muted></video>
-    <img id="micToggle" src="mics.png" alt="Mic Toggle" />
-<video id="remoteVideo" autoplay></video>
-<img id="placeholderImage" src="user.jpg" style="display:none;" />
-    
+  <!-- Background Animation -->
+  <div class="background-animation">
+    <div class="circle"></div>
+    <div class="circle small"></div>
+    <div class="circle medium"></div>
+    <div class="circle large"></div>
   </div>
+
+  <!-- Video Section -->
+  <div class="video-container">
+    <!-- Local Video with Placeholder and Mic Icon -->
+    <div class="local-wrapper">
+      <video id="localVideo" autoplay muted></video>
+      <img id="placeholderImage" src="user.jpg" style="display:none;" />
+      <img id="micToggle" src="mics.png" alt="Mic Toggle" />
+    </div>
+
+    <!-- Remote Video -->
+    <video id="remoteVideo" autoplay></video>
+  </div>
+
+  <!-- Controls Section -->
   <div class="controls">
     <div class="chat-box">
-  <div id="messages" class="messages"></div>
-  <div class="chat-input">
-    <input type="text" id="msgInput" placeholder="Type a message..." />
-    <button id="sendBtn">Send</button>
+      <div id="messages" class="messages"></div>
+      <div class="chat-input">
+        <input type="text" id="msgInput" placeholder="Type a message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <div class="row">
+        <button id="startBtn">Start</button>
+        <button id="nextBtn">Next</button>
+        <button id="toggleVideoBtn">Turn Off Video</button>
+      </div>
+      <div class="row">
+        <label for="uploadImage" class="upload-btn">Upload Your Photo</label>
+        <input type="file" id="uploadImage" accept="image/*" />
+      </div>
+    </div>
   </div>
-
-<div class="button-group">
-  <div class="row">
-    <button id="startBtn">Start</button>
-    <button id="nextBtn">Next</button>
-    <button id="toggleVideoBtn">Turn Off Video</button>
-  </div>
-  <div class="row">
-    <label for="uploadImage" class="upload-btn">Upload Your Photo</label>
-    <input type="file" id="uploadImage" accept="image/*" />
-  </div>
-</div>
-
-
-
 
   <script src="script.js"></script>
 </body>
