@@ -14,13 +14,11 @@
   <div class="circle medium"></div>
   <div class="circle large"></div>
 </div>
-   <img id="placeholderImage" src="https://via.placeholder.com/400x300?text=Video+Off" style="display:none;" />
-  <video id="remoteVideo" autoplay></video>
 
   <div class="video-container">
-  <video id="localVideo" autoplay muted></video>
- </div>
-
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+  </div>
   <div class="controls">
     <div class="chat-box">
   <div id="messages" class="messages"></div>
@@ -29,13 +27,14 @@
     <button id="sendBtn">Send</button>
   </div>
 </div>
-
+     
     <button id="startBtn">Start</button>
     <button id="nextBtn">Next</button>
-    <button id="toggleVideoBtn">Turn Off Video</button>
-     <img id="placeholderImage" src="https://via.placeholder.com/400x300?text=Camera+Off" style="display:none;" />
-
   </div>
+  <button id="toggleVideoBtn">Turn Off Video</button>
+<video id="localVideo" autoplay muted></video>
+<img id="placeholderImage" src="https://via.placeholder.com/400x300?text=Video+Off" style="display:none;" />
+
   <script src="script.js"></script>
 </body>
 </html>
