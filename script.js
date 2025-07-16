@@ -104,6 +104,22 @@ toggleVideoBtn.addEventListener("click", () => {
     }
   }
 });
+let uploadImageInput = document.getElementById("uploadImage");
+
+uploadImageInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      placeholderImage.src = e.target.result;
+      console.log("Custom image set.");
+    };
+
+    reader.readAsDataURL(file); // read file as base64 string
+  }
+});
+
 
 
 
