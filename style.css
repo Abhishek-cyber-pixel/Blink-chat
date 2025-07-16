@@ -270,3 +270,14 @@ button:hover {
 #micToggle:hover {
   transform: scale(1.1);
 }
+
+.mic-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 2;
+  pointer-events: auto;
+}
