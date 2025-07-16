@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Omegle Clone</title>
+  <title>Blink Chat</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Blink chat</h1>
+  <h1>Blink Chat</h1>
 
-  <!-- Background Animation -->
+  <!-- Background animation -->
   <div class="background-animation">
     <div class="circle"></div>
     <div class="circle small"></div>
@@ -19,14 +19,11 @@
 
   <!-- Video Section -->
   <div class="video-container">
-    <!-- Local Video with Placeholder and Mic Icon -->
     <div class="local-wrapper">
       <video id="localVideo" autoplay muted></video>
-      <img id="placeholderImage" src="user.jpg" style="display:none;" />
+      <img id="placeholderImage" src="user.jpg" style="display: none;" />
       <img id="micToggle" src="mics.png" alt="Mic Toggle" />
     </div>
-
-    <!-- Remote Video -->
     <video id="remoteVideo" autoplay></video>
   </div>
 
@@ -45,11 +42,12 @@
       <div class="row">
         <button id="startBtn">Start</button>
         <button id="nextBtn">Next</button>
+      </div>
+      <div class="row">
         <button id="toggleVideoBtn">Turn Off Video</button>
       </div>
       <div class="row">
-        <label for="uploadImage" class="upload-btn">Upload Your Photo</label>
-        <input type="file" id="uploadImage" accept="image/*" />
+        <label class="upload-note">Click camera icon above to mute/unmute audio</label>
       </div>
     </div>
   </div>
