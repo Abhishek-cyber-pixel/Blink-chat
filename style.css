@@ -1,14 +1,12 @@
-/* ========== GLOBAL ========== */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
+  text-align: center;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #ffffff;
-  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-/* ========== HEADING ========== */
 h1 {
   margin-top: 30px;
   font-size: 36px;
@@ -16,7 +14,61 @@ h1 {
   text-shadow: 0 0 10px #00e6e6;
 }
 
-/* ========== BACKGROUND ANIMATION ========== */
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+video {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  background: #000;
+  border: 4px solid #00e6e6;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+  object-fit: cover;
+}
+
+.local-wrapper {
+  position: relative;
+}
+
+#micToggle {
+  width: 40px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.controls {
+  margin-top: 40px;
+}
+
+button {
+  padding: 12px 30px;
+  margin: 10px;
+  font-size: 18px;
+  background: #00e6e6;
+  color: #000;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 230, 230, 0.5);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #00cccc;
+  transform: scale(1.05);
+}
+
 .background-animation {
   position: fixed;
   top: 0;
@@ -33,71 +85,33 @@ h1 {
   background: rgba(0, 255, 255, 0.1);
   animation: float 20s linear infinite;
 }
-.circle.small { width: 60px; height: 60px; top: 20%; left: 15%; }
-.circle.medium { width: 100px; height: 100px; top: 70%; left: 60%; }
-.circle.large { width: 150px; height: 150px; top: 40%; left: 80%; }
+
+.circle.small {
+  width: 60px;
+  height: 60px;
+  top: 20%;
+  left: 15%;
+}
+
+.circle.medium {
+  width: 100px;
+  height: 100px;
+  top: 70%;
+  left: 60%;
+}
+
+.circle.large {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 80%;
+}
 
 @keyframes float {
   0% { transform: translateY(0) rotate(0deg); }
   100% { transform: translateY(-1000px) rotate(360deg); }
 }
 
-/* ========== VIDEO SECTION ========== */
-.video-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-top: 40px;
-  padding: 0 20px;
-}
-
-.local-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-/* Local and Remote Video Styling */
-#localVideo,
-#remoteVideo,
-#placeholderImage {
-  width: 100%;
-  max-width: 400px;
-  height: 300px;
-  background: #000;
-  border: 4px solid #00e6e6;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
-  object-fit: cover;
-}
-
-#placeholderImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-}
-
-/* Mic Icon Styling */
-#micToggle {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 5px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  transition: transform 0.3s ease;
-}
-#micToggle:hover {
-  transform: scale(1.15);
-}
-
-/* ========== CHAT BOX ========== */
 .chat-box {
   width: 90%;
   max-width: 800px;
@@ -148,68 +162,12 @@ h1 {
   background: #00cccc;
 }
 
-/* Message animation */
 .message {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.3s forwards;
 }
+
 @keyframes fadeInUp {
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* ========== BUTTONS ========== */
-.button-group {
-  margin-top: 20px;
-}
-
-.button-group .row {
-  margin: 10px 0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-button {
-  padding: 12px 30px;
-  font-size: 16px;
-  background: #00e6e6;
-  color: #000;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(0, 230, 230, 0.5);
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background: #00cccc;
-  transform: scale(1.05);
-}
-
-/* Upload Button Style */
-.upload-btn {
-  padding: 10px 20px;
-  background: #00e6e6;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  color: black;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-  transition: 0.3s ease;
-}
-
-.upload-btn:hover {
-  background: #00cccc;
-}
-
-#uploadImage {
-  display: none;
-}
-.upload-note {
-  font-size: 14px;
-  color: #ccc;
-  margin-top: 10px;
-}
-
