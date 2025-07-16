@@ -207,3 +207,9 @@ button:hover {
 #uploadImage {
   display: none;
 }
+.upload-note {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 10px;
+}
+
