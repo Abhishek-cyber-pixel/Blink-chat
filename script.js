@@ -79,18 +79,6 @@ msgInput.addEventListener("keydown", (event) => {
     sendBtn.click(); // Trigger send button
   }
 });
-if (peerConnection) {
-  peerConnection.close();
-  peerConnection = null;
-}
-localVideo.srcObject = null;
-remoteVideo.srcObject = null;
-
-const msgElement = document.createElement("div");
-msgElement.className = "message"; // Important line
-msgElement.textContent = "You: " + message;
-messagesDiv.appendChild(msgElement);
-messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
 let toggleVideoBtn = document.getElementById("toggleVideoBtn");
 let placeholderImage = document.getElementById("placeholderImage");
