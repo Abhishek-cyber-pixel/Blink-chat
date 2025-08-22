@@ -1,142 +1,82 @@
+let papers = [];
 
-let localVideo = document.getElementById("localVideo");
-let remoteVideo = document.getElementById("remoteVideo");
-let startBtn = document.getElementById("startBtn");
-let toggleVideoBtn = document.getElementById("toggleVideoBtn");
-let placeholderImage = document.getElementById("placeholderImage");
-let uploadImageInput = document.getElementById("uploadImage");
-let micToggle = document.getElementById("micToggle");
-let msgInput = document.getElementById("msgInput");
-let sendBtn = document.getElementById("sendBtn");
-let messagesDiv = document.getElementById("messages");
-let nextBtn = document.getElementById("nextBtn");
+function uploadPaper() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
 
-let localStream;
-let peerConnection;
-let videoOn = true;
-let isMicOn = true;
-
-const config = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
-};
-
-// Start button
-startBtn.addEventListener("click", async () => {
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" },
-      audio: true
-    });
-
-    localVideo.srcObject = localStream;
-
-    peerConnection = new RTCPeerConnection(config);
-
-    localStream.getTracks().forEach(track => {
-      peerConnection.addTrack(track, localStream);
-    });
-
-    peerConnection.ontrack = event => {
-      const [remoteStream] = event.streams;
-      remoteVideo.srcObject = remoteStream;
-    };
-
-    console.log("Local stream ready. Waiting for signaling...");
-  } catch (error) {
-    console.error("Error accessing camera:", error);
-    alert("Please allow camera and mic access.");
+  if (!file) {
+    alert("Please select a file first!");
+    return;
   }
-});
 
-// Send message
-sendBtn.addEventListener("click", () => {
-  const message = msgInput.value.trim();
-  if (message === "") return;
+  // File ka URL banate hain
+  const fileURL = URL.createObjectURL(file);
 
-  const msgElement = document.createElement("div");
-  msgElement.textContent = "You: " + message;
-  msgElement.className = "message";
-  messagesDiv.appendChild(msgElement);
+  papers.push({
+    name: file.name,
+    url: fileURL,
+    type: file.type
+  });
 
-  msgInput.value = "";
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  renderList();
+  fileInput.value = "";
+}
 
-  // TODO: send message to remote via socket
-});
+function renderList() {
+  const list = document.getElementById("paperList");
+  list.innerHTML = "";
 
-// Enter key to send
-msgInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    sendBtn.click();
-  }
-});
-
-// Next button
-nextBtn.addEventListener("click", () => {
-  messagesDiv.innerHTML = "";
-
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-  localVideo.srcObject = null;
-  remoteVideo.srcObject = null;
-
-  console.log("Next button clicked. Chat cleared.");
-});
-
-// Turn video on/off
-toggleVideoBtn.addEventListener("click", () => {
-  if (!localStream) return;
-
-  const videoTrack = localStream.getVideoTracks()[0];
-  if (videoTrack) {
-    videoTrack.enabled = !videoTrack.enabled;
-    videoOn = videoTrack.enabled;
-
-    if (videoOn) {
-      localVideo.style.display = "block";
-      placeholderImage.style.display = "none";
-      toggleVideoBtn.textContent = "Turn Off Video";
-    } else {
-      localVideo.style.display = "none";
-      placeholderImage.style.display = "block";
-      toggleVideoBtn.textContent = "Turn On Video";
-    }
-  }
-});
-
-// Mic on/off with icon
-micToggle.addEventListener("click", () => {
-  if (!localStream) return;
-
-  const audioTrack = localStream.getAudioTracks()[0];
-  if (audioTrack) {
-    isMicOn = !audioTrack.enabled;
-    audioTrack.enabled = isMicOn;
-
-    micToggle.src = isMicOn ? "mics.png" : "images/mic-off.png";
-
-    // If video is off, show placeholder again
-    if (!videoOn) {
-      placeholderImage.style.display = "block";
-      localVideo.style.display = "none";
-    }
-  }
-});
-
-// Upload custom image
-if (uploadImageInput) {
-  uploadImageInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        placeholderImage.src = e.target.result;
-        console.log("Custom image set.");
-      };
-      reader.readAsDataURL(file);
-    }
+  papers.forEach((paper, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${paper.name}
+      <button onclick="openPaper(${index})">Open</button>
+    `;
+    list.appendChild(li);
   });
 }
+
+function openPaper(index) {
+  const previewSection = document.getElementById("previewSection");
+  const previewBox = document.getElementById("previewBox");
+
+  previewBox.innerHTML = ""; // clear old preview
+
+  const paper = papers[index];
+
+  // Agar image hai to <img>
+  if (paper.type.startsWith("image/")) {
+    const img = document.createElement("img");
+    img.src = paper.url;
+    img.style.maxWidth = "90%";
+    previewBox.appendChild(img);
+  } 
+  // Agar PDF hai to <embed>
+  else if (paper.type === "application/pdf") {
+    const embed = document.createElement("embed");
+    embed.src = paper.url;
+    embed.type = "application/pdf";
+    embed.width = "90%";
+    embed.height = "500px";
+    previewBox.appendChild(embed);
+  } 
+  else {
+    const p = document.createElement("p");
+    p.textContent = "Preview not supported. You can download this file.";
+    previewBox.appendChild(p);
+  }
+
+  previewSection.style.display = "block";
+}
+
+function goBack() {
+  document.getElementById("previewSection").style.display = "none";
+}
+  // Current page active highlight
+  document.querySelectorAll(".nav-link").forEach(link => {
+    if(link.href === window.location.href){
+      link.classList.add("active");
+    }
+  });
+
+
