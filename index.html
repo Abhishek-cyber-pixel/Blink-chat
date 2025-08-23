@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,18 +6,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign In - AbhiLearn</title>
 <style>
+:root {
+  --primary-gradient: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
+  --button-gradient: linear-gradient(135deg, #ffcc00, #ff8800);
+  --button-hover-gradient: linear-gradient(135deg, #fff, #ffcc00);
+  --error-color: #ff4d4d;
+  --success-color: #4dff4d;
+  --link-color: #00e6e6;
+  --link-hover-color: #ffffff;
+  --secondary-link-color: #ffcc66;
+  --card-bg: rgba(255,255,255,0.12);
+  --text-color: #fff;
+  --input-focus-glow: rgba(37,117,252,0.8);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
+  background: var(--primary-gradient);
   background-size: 400% 400%;
   animation: gradientMove 20s ease infinite;
   position: relative;
+  color: var(--text-color);
 }
 
 @keyframes gradientMove {
@@ -25,95 +45,130 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 0 15px;
+}
+
 .form-card {
-  background: rgba(255,255,255,0.12);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   padding: 2rem;
   border-radius: 20px;
   text-align: center;
   width: 100%;
-  max-width: 350px;
-  margin: 0 15px;
   position: relative;
   z-index: 10;
-  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .form-card h2 { 
-  color: #fff; 
   font-size: 2rem; 
   margin-bottom: 1.5rem; 
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.input-group {
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .form-card input { 
   width: 100%; 
   padding: 14px 16px;
-  margin: 12px 0; 
   border-radius: 10px; 
-  border:none; 
-  outline:none; 
-  font-size:1rem; 
-  box-sizing: border-box;
+  border: 2px solid transparent;
+  outline: none; 
+  font-size: 1rem; 
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
 }
 
 .form-card input:focus { 
-  box-shadow: 0 0 10px rgba(37,117,252,0.8); 
+  border-color: var(--input-focus-glow);
+  box-shadow: 0 0 10px var(--input-focus-glow);
+  background: rgba(255, 255, 255, 1);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .btn { 
-  width:100%; 
-  padding:14px; 
-  margin-top:15px; 
-  border:none; 
-  border-radius:12px; 
-  font-weight:bold; 
-  cursor:pointer; 
-  background: linear-gradient(135deg,#ffcc00,#ff8800); 
-  transition:0.3s ease;
+  width: 100%; 
+  padding: 14px; 
+  margin-top: 15px; 
+  border: none; 
+  border-radius: 12px; 
+  font-weight: bold; 
+  cursor: pointer; 
+  background: var(--button-gradient);
+  color: #333;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .btn:hover { 
-  background: linear-gradient(135deg,#fff,#ffcc00); 
-  color:#333; 
+  background: var(--button-hover-gradient);
   transform: translateY(-3px); 
-  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
 
-#error-message, #success-message {
+.btn:active {
+  transform: translateY(-1px);
+}
+
+#error-message, #success-message,
+#signup-error-message, #signup-success-message,
+#forgot-error-message, #forgot-success-message {
   margin-top: 12px;
   font-weight: bold;
-}
-#error-message {color:#ff4d4d;}
-#success-message {color:#4dff4d;}
-
-.create-link {
-  margin-top: 15px; 
-  text-align: center;
-}
-  .forgot-link {
-  text-align: right; 
-  margin-top: 5px; 
-  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
+.error { color: var(--error-color); background: rgba(255, 77, 77, 0.1); }
+.success { color: var(--success-color); background: rgba(77, 255, 77, 0.1); }
 
-   .forgot-link a, 
-.create-link a {
-  color: black;         /* Black color */
-  font-size: 1.05rem;   /* Thoda bada */
-  font-weight: bold;    /* Bold text */
+.form-links {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.forgot-link, .create-link {
+  text-align: right;
+}
+
+.forgot-link a, .create-link a, .form-links a {
+  color: var(--link-color);
+  font-size: 0.9rem;
   text-decoration: none;
-  transition: 0.3s;
+  transition: all 0.3s;
 }
 
-.forgot-link a:hover, 
-.create-link a:hover {
-  color: #333;          /* Hover par thoda dark gray */
+.create-link a {
+  color: var(--secondary-link-color);
+}
+
+.forgot-link a:hover, .create-link a:hover, .form-links a:hover {
+  color: var(--link-hover-color);
+  text-shadow: 0 0 8px var(--link-color);
   text-decoration: underline;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .bubble {
@@ -122,201 +177,430 @@ body {
   background: rgba(255,255,255,0.15);
   box-shadow: 0 0 15px rgba(255,255,255,0.3);
   pointer-events: none;
-  z-index:1;
+  z-index: 1;
 }
 
-@media(max-width:500px){
+.password-strength {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  text-align: left;
+  height: 20px;
+}
+
+.strength-weak { color: #ff4d4d; }
+.strength-medium { color: #ffcc00; }
+.strength-strong { color: #4dff4d; }
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 500px) {
   .form-card {
-    width: auto;
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .form-card h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .bubble {
+    display: none;
   }
 }
 </style>
 </head>
 <body>
 
-<!-- Login Form -->
-<div class="form-card" id="login-form">
-  <h2>🔒 Sign In</h2>
-  <input type="text" id="login-username" placeholder="Enter Username" required>
-  <input type="password" id="login-password" placeholder="Enter Password" required>
+<div class="form-container">
+  <!-- Login Form -->
+  <div class="form-card" id="login-form">
+    <h2>🔒 Sign In</h2>
+    <div class="input-group">
+      <input type="text" id="login-username" placeholder="Enter Username" required aria-label="Username">
+    </div>
+    <div class="input-group">
+      <input type="password" id="login-password" placeholder="Enter Password" required aria-label="Password">
+      <button type="button" class="password-toggle" aria-label="Show password">👁️</button>
+    </div>
 
-  <!-- Forgot Password niche right -->
-  <div class="forgot-link">
-    <a href="#" onclick="showForgotPassword(event)">Forgot Password?</a>
-  </div>
+    <div class="forgot-link">
+      <a href="#" onclick="showForgotPassword(event)">Forgot Password?</a>
+    </div>
 
-  <button class="btn" onclick="login()">Login</button>
+    <button class="btn" onclick="login()" id="login-btn">Login</button>
 
-  <!-- Create account niche centre -->
-  <div class="create-link">
+    <div class="create-link">
       <a href="#" onclick="showSignup(event)">Create new account</a>
+    </div>
+
+    <p id="error-message" class="hidden"></p>
   </div>
 
-  <p id="error-message"></p>
-</div>
-
-<!-- Signup Form -->
-<div class="form-card hidden" id="signup-form">
+  <!-- Signup Form -->
+  <div class="form-card hidden" id="signup-form">
     <h2>🚀 Create New Account</h2>
-    <input type="email" id="signup-email" placeholder="Enter Email" required>
-    <input type="text" id="signup-username" placeholder="Choose a Username" required>
-    <input type="password" id="signup-password" placeholder="Create a Password" required>
-    <button class="btn" onclick="signup()">Sign Up</button>
-    <div class="form-links">
-        <a href="#" onclick="showLogin(event)">Already have an account? Sign In</a>
+    <div class="input-group">
+      <input type="email" id="signup-email" placeholder="Enter Email" required aria-label="Email">
     </div>
-    <p id="signup-error-message"></p>
-    <p id="signup-success-message"></p>
-</div>
+    <div class="input-group">
+      <input type="text" id="signup-username" placeholder="Choose a Username" required aria-label="Username">
+    </div>
+    <div class="input-group">
+      <input type="password" id="signup-password" placeholder="Create a Password" required aria-label="Password">
+      <button type="button" class="password-toggle" aria-label="Show password">👁️</button>
+      <div class="password-strength" id="password-strength"></div>
+    </div>
+    <button class="btn" onclick="signup()" id="signup-btn">Sign Up</button>
+    <div class="form-links">
+      <a href="#" onclick="showLogin(event)">Already have an account? Sign In</a>
+    </div>
+    <p id="signup-error-message" class="hidden"></p>
+    <p id="signup-success-message" class="hidden"></p>
+  </div>
 
-<!-- Forgot Password Form -->
-<div class="form-card hidden" id="forgot-password-form">
+  <!-- Forgot Password Form -->
+  <div class="form-card hidden" id="forgot-password-form">
     <h2>🤔 Forgot Password</h2>
-    <input type="text" id="forgot-username" placeholder="Enter Your Username" required>
-    <input type="email" id="forgot-email" placeholder="Enter Your Email" required>
-    <button class="btn" onclick="recoverPassword()">Recover Password</button>
-    <div class="form-links">
-        <a href="#" onclick="showLogin(event)">Back to Sign In</a>
+    <div class="input-group">
+      <input type="text" id="forgot-username" placeholder="Enter Your Username" required aria-label="Username">
     </div>
-    <p id="forgot-error-message"></p>
-    <p id="forgot-success-message"></p>
+    <div class="input-group">
+      <input type="email" id="forgot-email" placeholder="Enter Your Email" required aria-label="Email">
+    </div>
+    <button class="btn" onclick="recoverPassword()" id="recover-btn">Recover Password</button>
+    <div class="form-links">
+      <a href="#" onclick="showLogin(event)">Back to Sign In</a>
+    </div>
+    <p id="forgot-error-message" class="hidden"></p>
+    <p id="forgot-success-message" class="hidden"></p>
+  </div>
 </div>
 
 <script>
+// --- Utility Functions ---
+function $(id) {
+  return document.getElementById(id);
+}
+
+function showMessage(element, message, type) {
+  element.textContent = message;
+  element.className = type;
+  element.classList.remove('hidden');
+}
+
+function hideMessage(element) {
+  element.classList.add('hidden');
+}
+
+function hashPassword(password) {
+  // Simple hash function for demonstration - in production use a more secure method
+  let hash = 0;
+  for (let i = 0; i < password.length; i++) {
+    const char = password.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return hash.toString();
+}
+
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function checkPasswordStrength(password) {
+  if (password.length < 8) return { strength: 0, text: 'Weak: Too short' };
+  
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (password.match(/[a-z]+/)) strength++;
+  if (password.match(/[A-Z]+/)) strength++;
+  if (password.match(/[0-9]+/)) strength++;
+  if (password.match(/[!@#$%^&*(),.?":{}|<>]+/)) strength++;
+  
+  if (strength < 2) return { strength: 1, text: 'Weak' };
+  if (strength < 4) return { strength: 2, text: 'Medium' };
+  return { strength: 3, text: 'Strong' };
+}
+
 // --- PAGE NAVIGATION ---
-const loginForm = document.getElementById('login-form');
-const signupForm = document.getElementById('signup-form');
-const forgotPasswordForm = document.getElementById('forgot-password-form');
+const loginForm = $('login-form');
+const signupForm = $('signup-form');
+const forgotPasswordForm = $('forgot-password-form');
 
 function showLogin(event) {
-    if(event) event.preventDefault();
-    loginForm.classList.remove('hidden');
-    signupForm.classList.add('hidden');
-    forgotPasswordForm.classList.add('hidden');
-    clearMessages();
+  if(event) event.preventDefault();
+  loginForm.classList.remove('hidden');
+  signupForm.classList.add('hidden');
+  forgotPasswordForm.classList.add('hidden');
+  clearMessages();
 }
 
 function showSignup(event) {
-    if(event) event.preventDefault();
-    loginForm.classList.add('hidden');
-    signupForm.classList.remove('hidden');
-    forgotPasswordForm.classList.add('hidden');
-    clearMessages();
+  if(event) event.preventDefault();
+  loginForm.classList.add('hidden');
+  signupForm.classList.remove('hidden');
+  forgotPasswordForm.classList.add('hidden');
+  clearMessages();
 }
 
 function showForgotPassword(event) {
-    if(event) event.preventDefault();
-    loginForm.classList.add('hidden');
-    signupForm.classList.add('hidden');
-    forgotPasswordForm.classList.remove('hidden');
-    clearMessages();
+  if(event) event.preventDefault();
+  loginForm.classList.add('hidden');
+  signupForm.classList.add('hidden');
+  forgotPasswordForm.classList.remove('hidden');
+  clearMessages();
 }
 
 function clearMessages() {
-    document.getElementById('error-message').textContent = '';
-    document.getElementById('signup-error-message').textContent = '';
-    document.getElementById('signup-success-message').textContent = '';
-    document.getElementById('forgot-error-message').textContent = '';
-    document.getElementById('forgot-success-message').textContent = '';
+  const messages = [
+    'error-message', 
+    'signup-error-message', 
+    'signup-success-message', 
+    'forgot-error-message', 
+    'forgot-success-message'
+  ];
+  
+  messages.forEach(id => {
+    $(id).textContent = '';
+    $(id).classList.add('hidden');
+  });
 }
 
 // --- AUTHENTICATION LOGIC ---
 if (!localStorage.getItem('users')) {
-    const defaultUsers = [{ email: 'abhishek@example.com', username: 'Abhishek pant', password: '987654321' }];
-    localStorage.setItem('users', JSON.stringify(defaultUsers));
+  // Store hashed passwords instead of plain text
+  const defaultUsers = [{
+    email: 'abhishek@example.com', 
+    username: 'Abhishek pant', 
+    password: hashPassword('987654321')
+  }];
+  localStorage.setItem('users', JSON.stringify(defaultUsers));
 }
 
 function login() {
-  const username = document.getElementById("login-username").value.trim();
-  const password = document.getElementById("login-password").value.trim();
-  const errorMessage = document.getElementById("error-message");
-
-  const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-  const user = storedUsers.find(u => u.username === username && u.password === password);
-
-  if(user) {
-    localStorage.setItem("isLoggedIn","true");
-    localStorage.setItem("currentUser", username);
-    errorMessage.textContent = "";
-    // redirect to index2.html
-    window.location.href = "index2.html";
-  } else {
-    errorMessage.textContent = "❌ Invalid Username or Password!";
+  const username = $("login-username").value.trim();
+  const password = $("login-password").value.trim();
+  const errorMessage = $("error-message");
+  const loginBtn = $("login-btn");
+  
+  if (!username || !password) {
+    showMessage(errorMessage, "Please fill in all fields", "error");
+    return;
   }
+  
+  // Show loading state
+  const originalText = loginBtn.textContent;
+  loginBtn.innerHTML = '<span class="loading"></span> Logging in...';
+  loginBtn.disabled = true;
+  
+  // Simulate network delay
+  setTimeout(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = storedUsers.find(u => u.username === username && u.password === hashPassword(password));
+    
+    if(user) {
+      hideMessage(errorMessage);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", username);
+      
+      // Redirect to index2.html
+      window.location.href = "index2.html";
+    } else {
+      showMessage(errorMessage, "❌ Invalid Username or Password!", "error");
+    }
+    
+    // Reset button
+    loginBtn.textContent = originalText;
+    loginBtn.disabled = false;
+  }, 800);
 }
 
 function signup() {
-    const email = document.getElementById("signup-email").value;
-    const username = document.getElementById("signup-username").value;
-    const password = document.getElementById("signup-password").value;
-    const errorMessage = document.getElementById("signup-error-message");
-    const successMessage = document.getElementById("signup-success-message");
-
-    if (!email || !username || !password) {
-        errorMessage.textContent = "Please fill out all fields.";
-        return;
-    }
-
+  const email = $("signup-email").value.trim();
+  const username = $("signup-username").value.trim();
+  const password = $("signup-password").value.trim();
+  const errorMessage = $("signup-error-message");
+  const successMessage = $("signup-success-message");
+  const signupBtn = $("signup-btn");
+  
+  if (!email || !username || !password) {
+    showMessage(errorMessage, "Please fill out all fields.", "error");
+    hideMessage(successMessage);
+    return;
+  }
+  
+  if (!validateEmail(email)) {
+    showMessage(errorMessage, "Please enter a valid email address.", "error");
+    hideMessage(successMessage);
+    return;
+  }
+  
+  const passwordStrength = checkPasswordStrength(password);
+  if (passwordStrength.strength < 2) {
+    showMessage(errorMessage, "Password is too weak. Please use at least 8 characters with a mix of letters and numbers.", "error");
+    hideMessage(successMessage);
+    return;
+  }
+  
+  // Show loading state
+  const originalText = signupBtn.textContent;
+  signupBtn.innerHTML = '<span class="loading"></span> Creating account...';
+  signupBtn.disabled = true;
+  
+  // Simulate network delay
+  setTimeout(() => {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-
+    
     if (users.some(user => user.username === username)) {
-        errorMessage.textContent = "❌ Username is already taken.";
-        successMessage.textContent = "";
-        return;
+      showMessage(errorMessage, "❌ Username is already taken.", "error");
+      hideMessage(successMessage);
+      signupBtn.textContent = originalText;
+      signupBtn.disabled = false;
+      return;
     }
     
     if (users.some(user => user.email === email)) {
-        errorMessage.textContent = "❌ An account with this email already exists.";
-        successMessage.textContent = "";
-        return;
+      showMessage(errorMessage, "❌ An account with this email already exists.", "error");
+      hideMessage(successMessage);
+      signupBtn.textContent = originalText;
+      signupBtn.disabled = false;
+      return;
     }
-
-    const newUser = { email, username, password };
+    
+    const newUser = { 
+      email, 
+      username, 
+      password: hashPassword(password) // Store hashed password
+    };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-
-    successMessage.textContent = "✅ Account created successfully! You can now sign in.";
-    errorMessage.textContent = "";
+    
+    showMessage(successMessage, "✅ Account created successfully! You can now sign in.", "success");
+    hideMessage(errorMessage);
+    
+    // Clear form
+    $("signup-email").value = "";
+    $("signup-username").value = "";
+    $("signup-password").value = "";
+    
+    signupBtn.textContent = originalText;
+    signupBtn.disabled = false;
+  }, 800);
 }
 
 function recoverPassword() {
-    const username = document.getElementById("forgot-username").value;
-    const email = document.getElementById("forgot-email").value;
-    const errorMessage = document.getElementById("forgot-error-message");
-    const successMessage = document.getElementById("forgot-success-message");
-    
-    if (!username || !email) {
-        errorMessage.textContent = "Please enter both username and email.";
-        successMessage.textContent = "";
-        return;
-    }
-
+  const username = $("forgot-username").value.trim();
+  const email = $("forgot-email").value.trim();
+  const errorMessage = $("forgot-error-message");
+  const successMessage = $("forgot-success-message");
+  const recoverBtn = $("recover-btn");
+  
+  if (!username || !email) {
+    showMessage(errorMessage, "Please enter both username and email.", "error");
+    hideMessage(successMessage);
+    return;
+  }
+  
+  if (!validateEmail(email)) {
+    showMessage(errorMessage, "Please enter a valid email address.", "error");
+    hideMessage(successMessage);
+    return;
+  }
+  
+  // Show loading state
+  const originalText = recoverBtn.textContent;
+  recoverBtn.innerHTML = '<span class="loading"></span> Recovering...';
+  recoverBtn.disabled = true;
+  
+  // Simulate network delay
+  setTimeout(() => {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     const user = storedUsers.find(u => u.username === username && u.email === email);
-
+    
     if (user) {
-        successMessage.textContent = `🔑 Your password is: ${user.password}`;
-        errorMessage.textContent = "";
+      // In a real application, you would send a reset email instead of showing the password
+      showMessage(successMessage, "📧 Password reset instructions have been sent to your email.", "success");
+      hideMessage(errorMessage);
     } else {
-        errorMessage.textContent = "❌ No account found with that username and email.";
-        successMessage.textContent = "";
+      showMessage(errorMessage, "❌ No account found with that username and email.", "error");
+      hideMessage(successMessage);
     }
+    
+    recoverBtn.textContent = originalText;
+    recoverBtn.disabled = false;
+  }, 800);
 }
 
-// --- ENTER KEY LOGIN SUPPORT ---
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        if (!signupForm.classList.contains("hidden")) {
-            signup();
-        } else if (!forgotPasswordForm.classList.contains("hidden")) {
-            recoverPassword();
-        } else {
-            login();
-        }
+// --- PASSWORD VISIBILITY TOGGLE ---
+document.querySelectorAll('.password-toggle').forEach(toggle => {
+  toggle.addEventListener('click', function() {
+    const input = this.previousElementSibling;
+    if (input.type === 'password') {
+      input.type = 'text';
+      this.textContent = '🔒';
+      this.setAttribute('aria-label', 'Hide password');
+    } else {
+      input.type = 'password';
+      this.textContent = '👁️';
+      this.setAttribute('aria-label', 'Show password');
     }
+  });
+});
+
+// --- PASSWORD STRENGTH CHECKER ---
+$('signup-password').addEventListener('input', function() {
+  const strengthElement = $('password-strength');
+  const password = this.value;
+  
+  if (password.length === 0) {
+    strengthElement.textContent = '';
+    return;
+  }
+  
+  const strength = checkPasswordStrength(password);
+  strengthElement.textContent = strength.text;
+  
+  if (strength.strength === 1) {
+    strengthElement.className = 'password-strength strength-weak';
+  } else if (strength.strength === 2) {
+    strengthElement.className = 'password-strength strength-medium';
+  } else if (strength.strength === 3) {
+    strengthElement.className = 'password-strength strength-strong';
+  }
+});
+
+// --- ENTER KEY SUPPORT ---
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    if (!signupForm.classList.contains("hidden")) {
+      signup();
+    } else if (!forgotPasswordForm.classList.contains("hidden")) {
+      recoverPassword();
+    } else {
+      login();
+    }
+  }
 });
 
 // --- BUBBLE ANIMATION ---
@@ -336,11 +620,16 @@ function createBubble(){
   b.animate([
     { transform: 'translate(0,0)', opacity:0.8 },
     { transform: `translate(${driftX}px,-${window.innerHeight+size}px)`, opacity:0 }
-  ], { duration:duration, easing:'linear' });
+  ], { duration: duration, easing: 'linear' });
 
-  setTimeout(()=>{b.remove();},duration);
+  setTimeout(() => { b.remove(); }, duration);
 }
-setInterval(()=>{for(let i=0;i<3;i++) createBubble();},1500);
+
+// Reduce bubbles for performance on mobile
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+setInterval(() => {
+  for(let i = 0; i < (isMobile ? 1 : 3); i++) createBubble();
+}, 1500);
 
 // --- INITIALIZE ---
 showLogin();
