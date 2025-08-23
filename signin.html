@@ -25,7 +25,6 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* Sign-in Card */
 .form-card {
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(12px);
@@ -80,9 +79,50 @@ body {
   box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
 
-#error {color:#ff4d4d; margin-top:12px;}
+#error-message, #success-message {
+  margin-top: 12px;
+  font-weight: bold;
+}
+#error-message {color:#ff4d4d;}
+#success-message {color:#4dff4d;}
 
-/* Bubble styles */
+.forgot-link {
+  text-align: right; 
+  margin-top: 5px; 
+  margin-bottom: 10px;
+}
+.forgot-link a {
+  color: #00e6e6; /* Aqua */
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.forgot-link a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px #00ffff;
+  text-decoration: underline;
+}
+
+.create-link {
+  margin-top: 15px; 
+  text-align: center;
+}
+.create-link a {
+  color: #ffcc66; /* Goldish Orange */
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.create-link a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px #ffcc66;
+  text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
 .bubble {
   position: absolute;
   border-radius: 50%;
@@ -92,7 +132,6 @@ body {
   z-index:1;
 }
 
-/* Mobile adjustments */
 @media(max-width:500px){
   .form-card {
     width: auto;
@@ -105,35 +144,189 @@ body {
 </head>
 <body>
 
-<div class="form-card">
+<!-- Login Form -->
+<div class="form-card" id="login-form">
   <h2>🔒 Sign In</h2>
-  <input type="text" id="username" placeholder="Enter Username">
-  <input type="password" id="password" placeholder="Enter Password">
+  <input type="text" id="login-username" placeholder="Enter Username" required>
+  <input type="password" id="login-password" placeholder="Enter Password" required>
+
+  <!-- Forgot Password niche right -->
+  <div class="forgot-link">
+    <a href="#" onclick="showForgotPassword(event)">Forgot Password?</a>
+  </div>
+
   <button class="btn" onclick="login()">Login</button>
-  <p id="error"></p>
+
+  <!-- Create account niche centre -->
+  <div class="create-link">
+      <a href="#" onclick="showSignup(event)">Create new account</a>
+  </div>
+
+  <p id="error-message"></p>
+</div>
+
+<!-- Signup Form -->
+<div class="form-card hidden" id="signup-form">
+    <h2>🚀 Create New Account</h2>
+    <input type="email" id="signup-email" placeholder="Enter Email" required>
+    <input type="text" id="signup-username" placeholder="Choose a Username" required>
+    <input type="password" id="signup-password" placeholder="Create a Password" required>
+    <button class="btn" onclick="signup()">Sign Up</button>
+    <div class="form-links">
+        <a href="#" onclick="showLogin(event)">Already have an account? Sign In</a>
+    </div>
+    <p id="signup-error-message"></p>
+    <p id="signup-success-message"></p>
+</div>
+
+<!-- Forgot Password Form -->
+<div class="form-card hidden" id="forgot-password-form">
+    <h2>🤔 Forgot Password</h2>
+    <input type="text" id="forgot-username" placeholder="Enter Your Username" required>
+    <input type="email" id="forgot-email" placeholder="Enter Your Email" required>
+    <button class="btn" onclick="recoverPassword()">Recover Password</button>
+    <div class="form-links">
+        <a href="#" onclick="showLogin(event)">Back to Sign In</a>
+    </div>
+    <p id="forgot-error-message"></p>
+    <p id="forgot-success-message"></p>
 </div>
 
 <script>
+// --- PAGE NAVIGATION ---
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const forgotPasswordForm = document.getElementById('forgot-password-form');
+
+function showLogin(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
+    forgotPasswordForm.classList.add('hidden');
+    clearMessages();
+}
+
+function showSignup(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.add('hidden');
+    signupForm.classList.remove('hidden');
+    forgotPasswordForm.classList.add('hidden');
+    clearMessages();
+}
+
+function showForgotPassword(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.add('hidden');
+    signupForm.classList.add('hidden');
+    forgotPasswordForm.classList.remove('hidden');
+    clearMessages();
+}
+
+function clearMessages() {
+    document.getElementById('error-message').textContent = '';
+    document.getElementById('signup-error-message').textContent = '';
+    document.getElementById('signup-success-message').textContent = '';
+    document.getElementById('forgot-error-message').textContent = '';
+    document.getElementById('forgot-success-message').textContent = '';
+}
+
+// --- AUTHENTICATION LOGIC ---
+if (!localStorage.getItem('users')) {
+    const defaultUsers = [{ email: 'abhishek@example.com', username: 'Abhishek pant', password: '987654321' }];
+    localStorage.setItem('users', JSON.stringify(defaultUsers));
+}
+
 function login() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-  if(user === "Abhishek pant" && pass === "987654321") {
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+  const errorMessage = document.getElementById("error-message");
+
+  const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = storedUsers.find(u => u.username === username && u.password === password);
+
+  if(user) {
     localStorage.setItem("isLoggedIn","true");
-    window.location.href="index.html";
+    localStorage.setItem("currentUser", username);
+    errorMessage.textContent = "";
+    // redirect to index2.html
+    window.location.href = "index2.html";
   } else {
-    document.getElementById("error").textContent = "❌ Invalid Username or Password!";
+    errorMessage.textContent = "❌ Invalid Username or Password!";
   }
 }
 
-// Trigger login on Enter key
-document.getElementById("username").addEventListener("keypress", function(e){
-  if(e.key === "Enter") login();
-});
-document.getElementById("password").addEventListener("keypress", function(e){
-  if(e.key === "Enter") login();
+function signup() {
+    const email = document.getElementById("signup-email").value;
+    const username = document.getElementById("signup-username").value;
+    const password = document.getElementById("signup-password").value;
+    const errorMessage = document.getElementById("signup-error-message");
+    const successMessage = document.getElementById("signup-success-message");
+
+    if (!email || !username || !password) {
+        errorMessage.textContent = "Please fill out all fields.";
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+    if (users.some(user => user.username === username)) {
+        errorMessage.textContent = "❌ Username is already taken.";
+        successMessage.textContent = "";
+        return;
+    }
+    
+    if (users.some(user => user.email === email)) {
+        errorMessage.textContent = "❌ An account with this email already exists.";
+        successMessage.textContent = "";
+        return;
+    }
+
+    const newUser = { email, username, password };
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    successMessage.textContent = "✅ Account created successfully! You can now sign in.";
+    errorMessage.textContent = "";
+}
+
+function recoverPassword() {
+    const username = document.getElementById("forgot-username").value;
+    const email = document.getElementById("forgot-email").value;
+    const errorMessage = document.getElementById("forgot-error-message");
+    const successMessage = document.getElementById("forgot-success-message");
+    
+    if (!username || !email) {
+        errorMessage.textContent = "Please enter both username and email.";
+        successMessage.textContent = "";
+        return;
+    }
+
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = storedUsers.find(u => u.username === username && u.email === email);
+
+    if (user) {
+        successMessage.textContent = `🔑 Your password is: ${user.password}`;
+        errorMessage.textContent = "";
+    } else {
+        errorMessage.textContent = "❌ No account found with that username and email.";
+        successMessage.textContent = "";
+    }
+}
+
+// --- ENTER KEY LOGIN SUPPORT ---
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        if (!signupForm.classList.contains("hidden")) {
+            signup();
+        } else if (!forgotPasswordForm.classList.contains("hidden")) {
+            recoverPassword();
+        } else {
+            login();
+        }
+    }
 });
 
-// Bubble generation
+// --- BUBBLE ANIMATION ---
 function createBubble(){
   const b = document.createElement('div');
   b.classList.add('bubble');
@@ -154,9 +347,10 @@ function createBubble(){
 
   setTimeout(()=>{b.remove();},duration);
 }
-
-// Generate bubbles continuously
 setInterval(()=>{for(let i=0;i<3;i++) createBubble();},1500);
+
+// --- INITIALIZE ---
+showLogin();
 </script>
 
 </body>
