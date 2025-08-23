@@ -139,8 +139,6 @@ body {
     margin-right: 15px;
     padding: 2rem;
   }
-
-  
 }
 </style>
 </head>
@@ -239,8 +237,8 @@ if (!localStorage.getItem('users')) {
 }
 
 function login() {
-  const username = document.getElementById("login-username").value;
-  const password = document.getElementById("login-password").value;
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value.trim();
   const errorMessage = document.getElementById("error-message");
 
   const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
@@ -248,8 +246,10 @@ function login() {
 
   if(user) {
     localStorage.setItem("isLoggedIn","true");
-    alert(`Welcome back, ${username}!`);
+    localStorage.setItem("currentUser", username);
     errorMessage.textContent = "";
+    // redirect to index2.html
+    window.location.href = "index2.html";
   } else {
     errorMessage.textContent = "❌ Invalid Username or Password!";
   }
@@ -312,6 +312,19 @@ function recoverPassword() {
         successMessage.textContent = "";
     }
 }
+
+// --- ENTER KEY LOGIN SUPPORT ---
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        if (!signupForm.classList.contains("hidden")) {
+            signup();
+        } else if (!forgotPasswordForm.classList.contains("hidden")) {
+            recoverPassword();
+        } else {
+            login();
+        }
+    }
+});
 
 // --- BUBBLE ANIMATION ---
 function createBubble(){
