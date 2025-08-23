@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +11,9 @@
   --button-hover-gradient: linear-gradient(135deg, #fff, #ffcc00);
   --error-color: #ff4d4d;
   --success-color: #4dff4d;
-  --link-color: #00e6e6;
-  --link-hover-color: #ffffff;
-  --secondary-link-color: #ffcc66;
+  --link-color: #000000; /* Changed to black */
+  --link-hover-color: #333333; /* Dark gray on hover */
+  --secondary-link-color: #000000; /* Changed to black */
   --card-bg: rgba(255,255,255,0.12);
   --text-color: #fff;
   --input-focus-glow: rgba(37,117,252,0.8);
@@ -152,7 +151,8 @@ body {
 
 .forgot-link a, .create-link a, .form-links a {
   color: var(--link-color);
-  font-size: 0.9rem;
+  font-size: 1rem; /* Increased font size */
+  font-weight: 700; /* Made thicker */
   text-decoration: none;
   transition: all 0.3s;
 }
@@ -163,7 +163,7 @@ body {
 
 .forgot-link a:hover, .create-link a:hover, .form-links a:hover {
   color: var(--link-hover-color);
-  text-shadow: 0 0 8px var(--link-color);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   text-decoration: underline;
 }
 
@@ -313,7 +313,7 @@ function hideMessage(element) {
 }
 
 function hashPassword(password) {
-  // Simple hash function for demonstration - in production use a more secure method
+  // Simple hash function for demonstration
   let hash = 0;
   for (let i = 0; i < password.length; i++) {
     const char = password.charCodeAt(i);
@@ -391,9 +391,9 @@ function clearMessages() {
 if (!localStorage.getItem('users')) {
   // Store hashed passwords instead of plain text
   const defaultUsers = [{
-    email: 'abhishek@example.com', 
-    username: 'Abhishek pant', 
-    password: hashPassword('987654321')
+    email: 'abhi@example.com', 
+    username: 'Abhi', 
+    password: hashPassword('012345') // Pre-set permanent credentials
   }];
   localStorage.setItem('users', JSON.stringify(defaultUsers));
 }
