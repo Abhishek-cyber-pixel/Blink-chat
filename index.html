@@ -1,163 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In - AbhiLearn</title>
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
-  background-size: 400% 400%;
-  animation: gradientMove 20s ease infinite;
-  position: relative;
+.forgot-link a {
+  color: black;         
+  font-weight: bold;    
+  font-size: 1.05rem;   /* thoda bada */
+  text-decoration: none;
+  transition: 0.3s;
+}
+.forgot-link a:hover {
+  color: #333;          
+  text-decoration: underline;
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.create-link a {
+  color: black;         
+  font-weight: bold;    
+  font-size: 1.05rem;   /* thoda bada */
+  text-decoration: none;
+  transition: 0.3s;
 }
-
-/* Sign-in Card */
-.form-card {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-  padding: 2rem;
-  border-radius: 20px;
-  text-align: center;
-  width: 100%;
-  max-width: 350px;
-  margin: 0 15px;
-  position: relative;
-  z-index: 10;
-  box-sizing: border-box;
+.create-link a:hover {
+  color: #333;          
+  text-decoration: underline;
 }
-
-.form-card h2 { 
-  color: #fff; 
-  font-size: 2rem; 
-  margin-bottom: 1.5rem; 
-}
-
-.form-card input { 
-  width: 100%; 
-  padding: 14px 16px;
-  margin: 12px 0; 
-  border-radius: 10px; 
-  border:none; 
-  outline:none; 
-  font-size:1rem; 
-  box-sizing: border-box;
-}
-
-.form-card input:focus { 
-  box-shadow: 0 0 10px rgba(37,117,252,0.8); 
-}
-
-.btn { 
-  width:100%; 
-  padding:14px; 
-  margin-top:15px; 
-  border:none; 
-  border-radius:12px; 
-  font-weight:bold; 
-  cursor:pointer; 
-  background: linear-gradient(135deg,#ffcc00,#ff8800); 
-  transition:0.3s ease;
-}
-
-.btn:hover { 
-  background: linear-gradient(135deg,#fff,#ffcc00); 
-  color:#333; 
-  transform: translateY(-3px); 
-  box-shadow:0 6px 18px rgba(0,0,0,0.25);
-}
-
-#error {color:#ff4d4d; margin-top:12px;}
-
-/* Bubble styles */
-.bubble {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  box-shadow: 0 0 15px rgba(255,255,255,0.3);
-  pointer-events: none;
-  z-index:1;
-}
-
-/* Mobile adjustments */
-@media(max-width:500px){
-  .form-card {
-    width: auto;
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 2rem;
-  }
-}
-</style>
-</head>
-<body>
-
-<div class="form-card">
-  <h2>🔒 Sign In</h2>
-  <input type="text" id="username" placeholder="Enter Username">
-  <input type="password" id="password" placeholder="Enter Password">
-  <button class="btn" onclick="login()">Login</button>
-  <p id="error"></p>
-</div>
-
-<script>
-function login() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-  if(user === "Abhishek pant" && pass === "987654321") {
-    localStorage.setItem("isLoggedIn","true");
-    window.location.href="index2.html";
-  } else {
-    document.getElementById("error").textContent = "❌ Invalid Username or Password!";
-  }
-}
-
-// Trigger login on Enter key
-document.getElementById("username").addEventListener("keypress", function(e){
-  if(e.key === "Enter") login();
-});
-document.getElementById("password").addEventListener("keypress", function(e){
-  if(e.key === "Enter") login();
-});
-
-// Bubble generation
-function createBubble(){
-  const b = document.createElement('div');
-  b.classList.add('bubble');
-  const size = 40 + Math.random()*80;
-  b.style.width = size+'px';
-  b.style.height = size+'px';
-  b.style.left = Math.random()*window.innerWidth+'px';
-  b.style.top = Math.random()*window.innerHeight+'px';
-  document.body.appendChild(b);
-
-  const driftX = (Math.random()-0.5)*300;
-  const duration = 8000 + Math.random()*4000;
-
-  b.animate([
-    { transform: 'translate(0,0)', opacity:0.8 },
-    { transform: `translate(${driftX}px,-${window.innerHeight+size}px)`, opacity:0 }
-  ], { duration:duration, easing:'linear' });
-
-  setTimeout(()=>{b.remove();},duration);
-}
-
-// Generate bubbles continuously
-setInterval(()=>{for(let i=0;i<3;i++) createBubble();},1500);
-</script>
-
-</body>
-</html>
