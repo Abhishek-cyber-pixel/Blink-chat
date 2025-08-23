@@ -312,17 +312,6 @@ function hideMessage(element) {
   element.classList.add('hidden');
 }
 
-function hashPassword(password) {
-  // Simple hash function for demonstration
-  let hash = 0;
-  for (let i = 0; i < password.length; i++) {
-    const char = password.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
-  }
-  return hash.toString();
-}
-
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
@@ -389,11 +378,11 @@ function clearMessages() {
 
 // --- AUTHENTICATION LOGIC ---
 if (!localStorage.getItem('users')) {
-  // Store hashed passwords instead of plain text
+  // Store the pre-set credentials without hashing for simplicity
   const defaultUsers = [{
     email: 'abhi@example.com', 
     username: 'Abhi', 
-    password: hashPassword('012345') // Pre-set permanent credentials
+    password: '012345' // Pre-set permanent credentials
   }];
   localStorage.setItem('users', JSON.stringify(defaultUsers));
 }
@@ -417,22 +406,26 @@ function login() {
   // Simulate network delay
   setTimeout(() => {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = storedUsers.find(u => u.username === username && u.password === hashPassword(password));
+    const user = storedUsers.find(u => u.username === username && u.password === password);
     
     if(user) {
       hideMessage(errorMessage);
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("currentUser", username);
       
-      // Redirect to index2.html
-      window.location.href = "index2.html";
+      // Show success message before redirecting
+      showMessage(errorMessage, "✅ Login successful! Redirecting...", "success");
+      
+      // Redirect to index2.html after a brief delay
+      setTimeout(() => {
+        window.location.href = "index2.html";
+      }, 1000);
     } else {
       showMessage(errorMessage, "❌ Invalid Username or Password!", "error");
+      // Reset button
+      loginBtn.textContent = originalText;
+      loginBtn.disabled = false;
     }
-    
-    // Reset button
-    loginBtn.textContent = originalText;
-    loginBtn.disabled = false;
   }, 800);
 }
 
@@ -491,7 +484,7 @@ function signup() {
     const newUser = { 
       email, 
       username, 
-      password: hashPassword(password) // Store hashed password
+      password: password // Store password directly (not hashed for simplicity)
     };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
@@ -539,8 +532,7 @@ function recoverPassword() {
     const user = storedUsers.find(u => u.username === username && u.email === email);
     
     if (user) {
-      // In a real application, you would send a reset email instead of showing the password
-      showMessage(successMessage, "📧 Password reset instructions have been sent to your email.", "success");
+      showMessage(successMessage, `🔑 Your password is: ${user.password}`, "success");
       hideMessage(errorMessage);
     } else {
       showMessage(errorMessage, "❌ No account found with that username and email.", "error");
