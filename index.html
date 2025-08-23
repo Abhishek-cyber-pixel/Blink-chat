@@ -1,23 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In - AbhiLearn</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
+  background-size: 400% 400%;
+  animation: gradientMove 20s ease infinite;
+  position: relative;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.form-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 15px;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.form-card h2 { 
+  color: #fff; 
+  font-size: 2rem; 
+  margin-bottom: 1.5rem; 
+}
+
+.form-card input { 
+  width: 100%; 
+  padding: 14px 16px;
+  margin: 12px 0; 
+  border-radius: 10px; 
+  border:none; 
+  outline:none; 
+  font-size:1rem; 
+  box-sizing: border-box;
+}
+
+.form-card input:focus { 
+  box-shadow: 0 0 10px rgba(37,117,252,0.8); 
+}
+
+.btn { 
+  width:100%; 
+  padding:14px; 
+  margin-top:15px; 
+  border:none; 
+  border-radius:12px; 
+  font-weight:bold; 
+  cursor:pointer; 
+  background: linear-gradient(135deg,#ffcc00,#ff8800); 
+  transition:0.3s ease;
+}
+
+.btn:hover { 
+  background: linear-gradient(135deg,#fff,#ffcc00); 
+  color:#333; 
+  transform: translateY(-3px); 
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+
+#error-message, #success-message {
+  margin-top: 12px;
+  font-weight: bold;
+}
+#error-message {color:#ff4d4d;}
+#success-message {color:#4dff4d;}
+
+.forgot-link {
+  text-align: right; 
+  margin-top: 5px; 
+  margin-bottom: 10px;
+}
 .forgot-link a {
-  color: black;         
-  font-weight: bold;    
-  font-size: 1.05rem;   /* thoda bada */
+  color: #00e6e6; /* Aqua */
+  font-size: 0.9rem;
   text-decoration: none;
   transition: 0.3s;
 }
 .forgot-link a:hover {
-  color: #333;          
+  color: #ffffff;
+  text-shadow: 0 0 8px #00ffff;
   text-decoration: underline;
 }
 
+.create-link {
+  margin-top: 15px; 
+  text-align: center;
+}
 .create-link a {
-  color: black;         
-  font-weight: bold;    
-  font-size: 1.05rem;   /* thoda bada */
+  color: #ffcc66; /* Goldish Orange */
+  font-size: 0.9rem;
   text-decoration: none;
   transition: 0.3s;
 }
 .create-link a:hover {
-  color: #333;          
+  color: #ffffff;
+  text-shadow: 0 0 8px #ffcc66;
   text-decoration: underline;
 }
+
+.hidden {
+    display: none;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  pointer-events: none;
+  z-index:1;
+}
+
+@media(max-width:500px){
+  .form-card {
+    width: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 2rem;
+  }
+
+  
+}
+</style>
+</head>
+<body>
+
+<!-- Login Form -->
+<div class="form-card" id="login-form">
+  <h2>🔒 Sign In</h2>
+  <input type="text" id="login-username" placeholder="Enter Username" required>
+  <input type="password" id="login-password" placeholder="Enter Password" required>
+
+  <!-- Forgot Password niche right -->
+  <div class="forgot-link">
+    <a href="#" onclick="showForgotPassword(event)">Forgot Password?</a>
+  </div>
+
+  <button class="btn" onclick="login()">Login</button>
+
+  <!-- Create account niche centre -->
+  <div class="create-link">
+      <a href="#" onclick="showSignup(event)">Create new account</a>
+  </div>
+
+  <p id="error-message"></p>
+</div>
+
+<!-- Signup Form -->
+<div class="form-card hidden" id="signup-form">
+    <h2>🚀 Create New Account</h2>
+    <input type="email" id="signup-email" placeholder="Enter Email" required>
+    <input type="text" id="signup-username" placeholder="Choose a Username" required>
+    <input type="password" id="signup-password" placeholder="Create a Password" required>
+    <button class="btn" onclick="signup()">Sign Up</button>
+    <div class="form-links">
+        <a href="#" onclick="showLogin(event)">Already have an account? Sign In</a>
+    </div>
+    <p id="signup-error-message"></p>
+    <p id="signup-success-message"></p>
+</div>
+
+<!-- Forgot Password Form -->
+<div class="form-card hidden" id="forgot-password-form">
+    <h2>🤔 Forgot Password</h2>
+    <input type="text" id="forgot-username" placeholder="Enter Your Username" required>
+    <input type="email" id="forgot-email" placeholder="Enter Your Email" required>
+    <button class="btn" onclick="recoverPassword()">Recover Password</button>
+    <div class="form-links">
+        <a href="#" onclick="showLogin(event)">Back to Sign In</a>
+    </div>
+    <p id="forgot-error-message"></p>
+    <p id="forgot-success-message"></p>
+</div>
+
+<script>
+// --- PAGE NAVIGATION ---
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const forgotPasswordForm = document.getElementById('forgot-password-form');
+
+function showLogin(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
+    forgotPasswordForm.classList.add('hidden');
+    clearMessages();
+}
+
+function showSignup(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.add('hidden');
+    signupForm.classList.remove('hidden');
+    forgotPasswordForm.classList.add('hidden');
+    clearMessages();
+}
+
+function showForgotPassword(event) {
+    if(event) event.preventDefault();
+    loginForm.classList.add('hidden');
+    signupForm.classList.add('hidden');
+    forgotPasswordForm.classList.remove('hidden');
+    clearMessages();
+}
+
+function clearMessages() {
+    document.getElementById('error-message').textContent = '';
+    document.getElementById('signup-error-message').textContent = '';
+    document.getElementById('signup-success-message').textContent = '';
+    document.getElementById('forgot-error-message').textContent = '';
+    document.getElementById('forgot-success-message').textContent = '';
+}
+
+// --- AUTHENTICATION LOGIC ---
+if (!localStorage.getItem('users')) {
+    const defaultUsers = [{ email: 'abhishek@example.com', username: 'Abhishek pant', password: '987654321' }];
+    localStorage.setItem('users', JSON.stringify(defaultUsers));
+}
+
+function login() {
+  const username = document.getElementById("login-username").value;
+  const password = document.getElementById("login-password").value;
+  const errorMessage = document.getElementById("error-message");
+
+  const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = storedUsers.find(u => u.username === username && u.password === password);
+
+  if(user) {
+    localStorage.setItem("isLoggedIn","true");
+    alert(`Welcome back, ${username}!`);
+    errorMessage.textContent = "";
+  } else {
+    errorMessage.textContent = "❌ Invalid Username or Password!";
+  }
+}
+
+function signup() {
+    const email = document.getElementById("signup-email").value;
+    const username = document.getElementById("signup-username").value;
+    const password = document.getElementById("signup-password").value;
+    const errorMessage = document.getElementById("signup-error-message");
+    const successMessage = document.getElementById("signup-success-message");
+
+    if (!email || !username || !password) {
+        errorMessage.textContent = "Please fill out all fields.";
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+    if (users.some(user => user.username === username)) {
+        errorMessage.textContent = "❌ Username is already taken.";
+        successMessage.textContent = "";
+        return;
+    }
+    
+    if (users.some(user => user.email === email)) {
+        errorMessage.textContent = "❌ An account with this email already exists.";
+        successMessage.textContent = "";
+        return;
+    }
+
+    const newUser = { email, username, password };
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    successMessage.textContent = "✅ Account created successfully! You can now sign in.";
+    errorMessage.textContent = "";
+}
+
+function recoverPassword() {
+    const username = document.getElementById("forgot-username").value;
+    const email = document.getElementById("forgot-email").value;
+    const errorMessage = document.getElementById("forgot-error-message");
+    const successMessage = document.getElementById("forgot-success-message");
+    
+    if (!username || !email) {
+        errorMessage.textContent = "Please enter both username and email.";
+        successMessage.textContent = "";
+        return;
+    }
+
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = storedUsers.find(u => u.username === username && u.email === email);
+
+    if (user) {
+        successMessage.textContent = `🔑 Your password is: ${user.password}`;
+        errorMessage.textContent = "";
+    } else {
+        errorMessage.textContent = "❌ No account found with that username and email.";
+        successMessage.textContent = "";
+    }
+}
+
+// --- BUBBLE ANIMATION ---
+function createBubble(){
+  const b = document.createElement('div');
+  b.classList.add('bubble');
+  const size = 40 + Math.random()*80;
+  b.style.width = size+'px';
+  b.style.height = size+'px';
+  b.style.left = Math.random()*window.innerWidth+'px';
+  b.style.top = Math.random()*window.innerHeight+'px';
+  document.body.appendChild(b);
+
+  const driftX = (Math.random()-0.5)*300;
+  const duration = 8000 + Math.random()*4000;
+
+  b.animate([
+    { transform: 'translate(0,0)', opacity:0.8 },
+    { transform: `translate(${driftX}px,-${window.innerHeight+size}px)`, opacity:0 }
+  ], { duration:duration, easing:'linear' });
+
+  setTimeout(()=>{b.remove();},duration);
+}
+setInterval(()=>{for(let i=0;i<3;i++) createBubble();},1500);
+
+// --- INITIALIZE ---
+showLogin();
+</script>
+
+</body>
+</html>
