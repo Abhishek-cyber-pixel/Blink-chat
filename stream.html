@@ -3,25 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stream - BR Paper</title>
+<title>BCA Papers</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
 
-/* Body */
 body {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   color:#fff;
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  position:relative;
 }
 
 /* Hero Section */
 .hero {
   text-align:center;
-  padding:60px 20px 40px;
-  position:relative;
+  padding:40px 20px 20px;
 }
 .hero h1 {
   font-size:2.5rem;
@@ -29,32 +26,41 @@ body {
   color:#ffeb3b;
   text-shadow:0 3px 8px rgba(0,0,0,0.6);
 }
-.hero p { font-size:1.2rem; color:#fff; }
+.hero p { font-size:1.2rem; }
 
-/* Semester Cards */
-.sem-container {
+/* Container */
+.container {
+  padding:30px 20px;
+}
+
+/* Cards Grid */
+.grid {
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
   gap:20px;
-  padding:30px 20px;
+  justify-items:center;
 }
-.sem-card {
-  text-decoration:none;
-  color:#fff;
+
+/* Card Style */
+.card {
   background:#2a5298;
-  padding:25px 15px;
-  border-radius:12px;
-  text-align:center;
-  font-size:18px;
+  width:200px;
+  height:200px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:15px;
+  font-size:22px;
   font-weight:bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  display:block;
+  color:#fff;
+  text-decoration:none;
+  transition: all 0.3s ease;
   box-shadow:0 6px 15px rgba(0,0,0,0.25);
 }
-.sem-card:hover {
-  background: #ffeb3b;
+.card:hover {
+  background:#ffeb3b;
   color:#1e3c72;
-  transform: translateY(-5px) scale(1.05);
+  transform:scale(1.08);
   box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
@@ -62,64 +68,45 @@ body {
 footer {
   text-align:center;
   padding:18px;
+  margin-top:auto;
   background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
   color:#ffeb3b;
   font-size:1rem;
   font-weight:600;
   letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
-  position:relative;
-  z-index:5;
-}
-footer span {
-  display:inline-block;
-  transition: transform 0.3s ease, text-shadow 0.3s ease;
-}
-footer span:hover {
-  transform: scale(1.1);
-  text-shadow:0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
 }
 </style>
 </head>
 <body>
 
-<!-- Hero Section -->
 <div class="hero">
-  <h1 id="streamName">Stream</h1>
-  <p>Select Semester to explore papers and study material</p>
+  <h1>BCA - Semester 1</h1>
+  <p>Select a Year to download question papers</p>
 </div>
 
-<!-- Semester Cards -->
-<div class="sem-container">
-  <a href="#" class="sem-card">Semester 1</a>
-  <a href="#" class="sem-card">Semester 2</a>
-  <a href="#" class="sem-card">Semester 3</a>
-  <a href="#" class="sem-card">Semester 4</a>
-  <a href="#" class="sem-card">Semester 5</a>
-  <a href="#" class="sem-card">Semester 6</a>
+<div class="container">
+  <div class="grid">
+    <!-- Generate years dynamically (2012–2025) -->
+    <a href="#" class="card">2012</a>
+    <a href="#" class="card">2013</a>
+    <a href="#" class="card">2014</a>
+    <a href="#" class="card">2015</a>
+    <a href="#" class="card">2016</a>
+    <a href="#" class="card">2017</a>
+    <a href="#" class="card">2018</a>
+    <a href="#" class="card">2019</a>
+    <a href="#" class="card">2020</a>
+    <a href="#" class="card">2021</a>
+    <a href="#" class="card">2022</a>
+    <a href="#" class="card">2023</a>
+    <a href="#" class="card">2024</a>
+    <a href="#" class="card">2025</a>
+  </div>
 </div>
 
-<!-- Footer -->
 <footer>
-  <span>©2025 BR Paper</span>
+  ©2025 BR Paper
 </footer>
-
-<script>
-// Get college and stream name from URL
-const params = new URLSearchParams(window.location.search);
-const stream = params.get("stream") || "Stream";
-const college = params.get("college") || "College";
-
-document.getElementById("streamName").innerText = `${stream} - ${college}`;
-
-// Add proper href to semester links
-document.querySelectorAll('.sem-card').forEach(link => {
-  let url = new URL(link.getAttribute('href'), window.location.origin);
-  url.searchParams.set('college', college);
-  url.searchParams.set('stream', stream);
-  link.setAttribute('href', url.href);
-});
-</script>
 
 </body>
 </html>
