@@ -12,108 +12,92 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
 
     .file-upload {
       background: white;
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
       text-align: center;
-      width: 320px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
+      width: 350px;
     }
 
     .upload-btn {
       background: linear-gradient(45deg, #6a11cb, #2575fc);
       color: white;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
       transition: 0.3s;
       display: inline-block;
-      margin: 8px 0;
-      border: none;
+      margin: 5px;
     }
 
     .upload-btn:hover {
       background: linear-gradient(45deg, #2575fc, #6a11cb);
     }
 
-    #fileName {
-      display: block;
+    #fileList {
       margin-top: 15px;
       font-style: italic;
       color: #333;
-      font-size: 14px;
+      text-align: left;
     }
 
     .success {
       color: green;
       font-weight: bold;
     }
-
-    /* Back button */
-    .back-btn {
-      background: #ff4b5c;
-      margin-top: 15px;
-    }
-
-    .back-btn:hover {
-      background: #e63946;
-    }
   </style>
 </head>
 <body>
   <div class="file-upload">
-    <h2>📂 Upload Your File</h2>
+    <h2>📂 Upload Your Files</h2>
     
     <!-- Hidden file input -->
-    <input type="file" id="fileInput" hidden>
+    <input type="file" id="fileInput" hidden multiple>
 
     <!-- Styled button -->
-    <label for="fileInput" class="upload-btn">Choose File</label>
+    <label for="fileInput" class="upload-btn">Choose Files</label>
     
-    <!-- File name display -->
-    <span id="fileName">No file chosen</span>
+    <!-- File list display -->
+    <div id="fileList">No files chosen</div>
     
     <br>
     <button onclick="uploadFile()" class="upload-btn">Upload</button>
-    
-    <!-- Back button -->
-    <br>
-    <button onclick="goBack()" class="upload-btn back-btn">⬅ Back</button>
   </div>
 
   <script>
-    // Show file name when selected
-    document.getElementById("fileInput").addEventListener("change", function() {
-      let fileName = this.files[0] ? this.files[0].name : "No file chosen";
-      document.getElementById("fileName").textContent = fileName;
+    const fileInput = document.getElementById("fileInput");
+    const fileList = document.getElementById("fileList");
+
+    // Show file names when selected
+    fileInput.addEventListener("change", function() {
+      if (this.files.length === 0) {
+        fileList.textContent = "No files chosen";
+      } else {
+        let names = "";
+        for (let i = 0; i < this.files.length; i++) {
+          names += "📄 " + this.files[i].name + "<br>";
+        }
+        fileList.innerHTML = names;
+      }
     });
 
     // Upload simulation
     function uploadFile() {
-      const fileInput = document.getElementById("fileInput");
       if (fileInput.files.length === 0) {
-        alert("Please select a file first!");
+        alert("Please select at least one file!");
         return;
       }
 
-      let fileName = fileInput.files[0].name;
-      document.getElementById("fileName").innerHTML = 
-        "✅ <span class='success'>" + fileName + " uploaded successfully!</span>";
-    }
-
-    // Back button function
-    function goBack() {
-      window.location.href = "college.html";
+      let uploaded = "";
+      for (let i = 0; i < fileInput.files.length; i++) {
+        uploaded += "✅ <span class='success'>" + fileInput.files[i].name + " uploaded successfully!</span><br>";
+      }
+      fileList.innerHTML = uploaded;
     }
   </script>
 </body>
