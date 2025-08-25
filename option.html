@@ -6,103 +6,24 @@
 <title>Options - BR Paper</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color:#fff; min-height:100vh;
-  display:flex; flex-direction:column;
-}
+body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column;}
 .hero { text-align:center; padding:40px 20px 20px; }
 .hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
 .hero p { font-size:1rem; }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
-  gap:15px; padding:30px 20px;
-}
-.card {
-  text-decoration:none;
-  color:#fff;
-  background:#2a5298;
-  height:120px;
-  border-radius:12px;
-  text-align:center;
-  font-size:16px;
-  font-weight:bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  box-shadow:0 6px 15px rgba(0,0,0,0.25);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-}
-.card:hover {
-  background:#1e407c; /* thoda dark hover */
-  transform: translateY(-2px) scale(1.03);
-  box-shadow:0 8px 20px rgba(0,0,0,0.35);
-}
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:15px; padding:30px 20px; }
+.card { text-decoration:none; color:#fff; background:#2a5298; height:120px; border-radius:12px; text-align:center; font-size:16px; font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; }
+.card:hover { background:#1e407c; transform: translateY(-2px) scale(1.03); box-shadow:0 8px 20px rgba(0,0,0,0.35); }
 
-.back-btn {
-  display:inline-block;
-  margin:0 auto 15px;
-  padding:10px 20px;
-  background:#ffeb3b; color:#1e3c72;
-  border-radius:8px;
-  font-weight:bold;
-  text-decoration:none;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  transition: background 0.3s ease, transform 0.3s ease;
-}
+.back-btn { display:inline-block; margin:0 auto 15px; padding:10px 20px; background:#ffeb3b; color:#1e3c72; border-radius:8px; font-weight:bold; text-decoration:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition: background 0.3s ease, transform 0.3s ease; }
 .back-btn:hover { background:#ffd600; transform:scale(1.05); }
 
-footer {
-  text-align:center; padding:14px; margin-top:auto;
-  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
-  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
-}
+footer { text-align:center; padding:14px; margin-top:auto; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px; box-shadow:0 -2px 10px rgba(0,0,0,0.5); }
 
-/* Modal */
-.modal {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.7); display:none;
-  align-items:center; justify-content:center;
-}
-.modal-content {
-  background:#fff; color:#000; padding:20px; border-radius:10px;
-  width:90%; max-width:500px; text-align:center;
-}
-.modal button {
-  margin-top:15px; padding:8px 16px; border:none;
-  border-radius:6px; cursor:pointer; font-weight:bold;
-}
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
+.modal-content { background:#fff; color:#000; padding:20px; border-radius:10px; width:90%; max-width:500px; text-align:center; }
+.modal button { margin-top:15px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
 </style>
-<!-- Firebase SDK -->
-<script type="module">
-  // Import Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-storage.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4XUxXkjkGxTENSteGcCyQjQjcLRxEny8",
-    authDomain: "abhilearn-6672b.firebaseapp.com",
-    projectId: "abhilearn-6672b",
-    storageBucket: "abhilearn-6672b.appspot.com",
-    messagingSenderId: "419451157699",
-    appId: "1:419451157699:web:503f100bf114d815427676"
-  };
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-  
-  window.firebaseUpload = async function(file, callbackProgress, callbackDone) {
-    const storageRef = ref(storage, 'papers/' + file.name);
-    const uploadTask = uploadBytes(storageRef, file);
-
-    uploadTask.then(() => {
-      getDownloadURL(storageRef).then((url) => {
-        callbackDone(url);
-      });
-    }).catch(err => alert("Upload error: "+err));
-  }
-</script>
 </head>
 <body>
 
@@ -120,12 +41,10 @@ footer {
   <div class="card" id="seeBtn">📚 See Paper</div>
 </div>
 
-<!-- Clear Local Storage -->
 <div style="text-align:center; margin-top:10px;">
   <button id="clearStorageBtn" style="padding:8px 16px; border:none; border-radius:6px; background:#ff4d4d; color:white; font-weight:bold; cursor:pointer;">🗑️ Clear Local Storage</button>
 </div>
 
-<!-- Modal -->
 <div class="modal" id="modal">
   <div class="modal-content" id="modalContent"></div>
 </div>
@@ -141,8 +60,7 @@ const year = params.get("year");
 
 document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
 document.getElementById("pageSubtitle").innerText = "What would you like to do?";
-document.getElementById("backButton").href =
-  `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
+document.getElementById("backButton").href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
 
 const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modalContent");
@@ -152,53 +70,54 @@ document.getElementById("uploadBtn").onclick = () => {
   modal.style.display = "flex";
   modalContent.innerHTML = `
     <h2>Upload Paper</h2>
-    <input type="file" id="fileInput" accept="application/pdf"><br><br>
-    <button onclick="startUpload()">Upload</button>
+    <input type="file" id="fileInput" accept="application/pdf" style="padding:10px; border-radius:6px; border:1px solid #ccc;"><br><br>
+    <button id="startUploadBtn">Upload</button>
     <button onclick="closeModal()">Cancel</button>
     <div id="uploadStatus" style="margin-top:10px;font-weight:bold;"></div>
   `;
+  document.getElementById("startUploadBtn").onclick = () => {
+    const fileInput = document.getElementById("fileInput");
+    const statusDiv = document.getElementById("uploadStatus");
+    if(fileInput.files.length===0){ alert("Select a file first!"); return; }
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
+      localStorage.setItem(storageKey, reader.result);
+      statusDiv.innerHTML = `✅ <b>${file.name}</b> uploaded successfully!`;
+    };
+    reader.readAsDataURL(file);
+    statusDiv.innerHTML = `Uploading... <b>${fileInput.files[0].name}</b>`;
+  };
 };
 
 // See button
-document.getElementById("seeBtn").onclick = async () => {
+document.getElementById("seeBtn").onclick = () => {
   modal.style.display = "flex";
-  const fileName = `${stream}_${sem}_${subject}_${year}_paper`;
-  const fileURL = localStorage.getItem(fileName);
-  if (fileURL) {
-    modalContent.innerHTML = `<h2>📄 Uploaded Paper</h2>
+  const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
+  const fileURL = localStorage.getItem(storageKey);
+  if(fileURL){
+    modalContent.innerHTML = `
+      <h2>📄 Uploaded Paper</h2>
       <embed src="${fileURL}" type="application/pdf" width="100%" height="400px"/>
-      <button onclick="closeModal()">Close</button>`;
+      <p>File: ${storageKey}</p>
+      <button onclick="closeModal()">Close</button>
+    `;
   } else {
     modalContent.innerHTML = `<h2>❌ Your file is not uploaded yet</h2>
       <button onclick="closeModal()">Close</button>`;
   }
 };
 
-function closeModal() { modal.style.display="none"; }
-
 // Clear local storage
 document.getElementById("clearStorageBtn").onclick = () => {
-  if(confirm("Are you sure you want to delete all local files?")) {
+  if(confirm("Are you sure you want to delete all local files?")){
     localStorage.clear();
     alert("Local storage cleared!");
-    closeModal();
   }
-}
+};
 
-// Upload function
-function startUpload() {
-  const fileInput = document.getElementById("fileInput");
-  const statusDiv = document.getElementById("uploadStatus");
-  if(fileInput.files.length===0){ alert("Select a file first!"); return; }
-
-  const file = fileInput.files[0];
-  statusDiv.innerHTML = `Uploading <b>${file.name}</b> ...`;
-
-  firebaseUpload(file, null, (url)=>{
-    localStorage.setItem(`${stream}_${sem}_${subject}_${year}_paper`, url);
-    statusDiv.innerHTML = `✅ <b>${file.name}</b> uploaded successfully!`;
-  });
-}
+function closeModal(){ modal.style.display="none"; }
 </script>
 
 </body>
