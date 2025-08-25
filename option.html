@@ -1,104 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Upload Example</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options - BR Paper</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+body {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color:#fff; min-height:100vh;
+  display:flex; flex-direction:column;
+}
+.hero { text-align:center; padding:40px 20px 20px; }
+.hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
+.hero p { font-size:1rem; }
 
-    .file-upload {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 350px;
-    }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:20px; padding:30px 20px;
+}
+.card {
+  text-decoration:none;
+  color:#fff;
+  background:#2a5298;
+  height:140px;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.card:hover {
+  background:#ffeb3b; color:#1e3c72;
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
 
-    .upload-btn {
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-      display: inline-block;
-      margin: 5px;
-    }
+.back-btn {
+  display:inline-block;
+  margin:0 auto 15px;
+  padding:10px 20px;
+  background:#ffeb3b; color:#1e3c72;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover { background:#ffd600; transform:scale(1.05); }
 
-    .upload-btn:hover {
-      background: linear-gradient(45deg, #2575fc, #6a11cb);
-    }
+footer {
+  text-align:center; padding:14px; margin-top:auto;
+  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+}
 
-    #fileList {
-      margin-top: 15px;
-      font-style: italic;
-      color: #333;
-      text-align: left;
-    }
-
-    .success {
-      color: green;
-      font-weight: bold;
-    }
-  </style>
+/* Modal */
+.modal {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.7); display:none;
+  align-items:center; justify-content:center;
+}
+.modal-content {
+  background:#fff; color:#000; padding:20px; border-radius:10px;
+  width:90%; max-width:500px; text-align:center;
+}
+.modal button {
+  margin-top:15px; padding:8px 16px; border:none;
+  border-radius:6px; cursor:pointer; font-weight:bold;
+}
+</style>
 </head>
 <body>
-  <div class="file-upload">
-    <h2>📂 Upload Your Files</h2>
-    
-    <!-- Hidden file input -->
-    <input type="file" id="fileInput" hidden multiple>
 
-    <!-- Styled button -->
-    <label for="fileInput" class="upload-btn">Choose Files</label>
-    
-    <!-- File list display -->
-    <div id="fileList">No files chosen</div>
-    
-    <br>
-    <button onclick="uploadFile()" class="upload-btn">Upload</button>
-  </div>
+<div class="hero">
+  <h1 id="pageTitle">Options</h1>
+  <p id="pageSubtitle">Choose an action</p>
+</div>
 
-  <script>
-    const fileInput = document.getElementById("fileInput");
-    const fileList = document.getElementById("fileList");
+<div style="text-align:center;">
+  <a href="#" id="backButton" class="back-btn">← Back</a>
+</div>
 
-    // Show file names when selected
-    fileInput.addEventListener("change", function() {
-      if (this.files.length === 0) {
-        fileList.textContent = "No files chosen";
-      } else {
-        let names = "";
-        for (let i = 0; i < this.files.length; i++) {
-          names += "📄 " + this.files[i].name + "<br>";
-        }
-        fileList.innerHTML = names;
-      }
-    });
+<div class="grid">
+  <div class="card" id="uploadBtn">📤 Upload Paper</div>
+  <div class="card" id="seeBtn">📚 See Paper</div>
+</div>
 
-    // Upload simulation
-    function uploadFile() {
-      if (fileInput.files.length === 0) {
-        alert("Please select at least one file!");
-        return;
-      }
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
 
-      let uploaded = "";
-      for (let i = 0; i < fileInput.files.length; i++) {
-        uploaded += "✅ <span class='success'>" + fileInput.files[i].name + " uploaded successfully!</span><br>";
-      }
-      fileList.innerHTML = uploaded;
-    }
-  </script>
+<footer>©2025 BR Paper</footer>
+
+<script>
+// Params
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("stream");
+const sem = params.get("sem");
+const subject = params.get("subject");
+const year = params.get("year");
+
+document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
+document.getElementById("pageSubtitle").innerText = "What would you like to do?";
+document.getElementById("backButton").href =
+  `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
+
+// Local storage to simulate uploaded papers
+const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+
+// Upload button
+document.getElementById("uploadBtn").onclick = () => {
+  modal.style.display = "flex";
+  modalContent.innerHTML = `
+    <h2>Upload Paper</h2>
+    <input type="file" id="fileInput" accept="application/pdf"><br><br>
+    <button onclick="saveFile()">Upload</button>
+    <button onclick="closeModal()">Cancel</button>
+  `;
+};
+
+// See button
+document.getElementById("seeBtn").onclick = () => {
+  modal.style.display = "flex";
+  const fileURL = localStorage.getItem(storageKey);
+  if (fileURL) {
+    modalContent.innerHTML = `
+      <h2>📄 Uploaded Paper</h2>
+      <embed src="${fileURL}" type="application/pdf" width="100%" height="400px" />
+      <button onclick="closeModal()">Close</button>
+    `;
+  } else {
+    modalContent.innerHTML = `
+      <h2>❌ Sorry</h2>
+      <p>Paper is not available yet.</p>
+      <button onclick="closeModal()">Close</button>
+    `;
+  }
+};
+
+// Save file in localStorage
+function saveFile() {
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      localStorage.setItem(storageKey, reader.result);
+      modalContent.innerHTML = `
+        <h2>✅ Thanks for uploading paper!</h2>
+        <button onclick="closeModal()">Close</button>
+      `;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function closeModal() {
+  modal.style.display = "none";
+}
+</script>
+
 </body>
 </html>
