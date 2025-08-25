@@ -3,110 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BCA Papers</title>
+<title>BCA - BR Paper</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-
 body {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color:#fff;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  color:#fff; min-height:100vh;
+  display:flex; flex-direction:column;
 }
+/* Hero */
+.hero { text-align:center; padding:40px 20px 20px; }
+.hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
+.hero p { font-size:1rem; }
 
-/* Hero Section */
-.hero {
-  text-align:center;
-  padding:40px 20px 20px;
-}
-.hero h1 {
-  font-size:2.5rem;
-  margin-bottom:10px;
-  color:#ffeb3b;
-  text-shadow:0 3px 8px rgba(0,0,0,0.6);
-}
-.hero p { font-size:1.2rem; }
-
-/* Container */
-.container {
-  padding:30px 20px;
-}
-
-/* Cards Grid */
+/* Grid Cards */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
-  gap:20px;
-  justify-items:center;
+  grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+  gap:18px; padding:20px;
 }
-
-/* Card Style */
 .card {
-  background:#2a5298;
-  width:200px;
-  height:200px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border-radius:15px;
-  font-size:22px;
-  font-weight:bold;
-  color:#fff;
   text-decoration:none;
-  transition: all 0.3s ease;
+  color:#fff;
+  background:#2a5298;
+  height:120px; width:100%;
+  border-radius:12px;
+  text-align:center;
+  font-size:16px;
+  font-weight:bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  display:flex; align-items:center; justify-content:center;
 }
 .card:hover {
-  background:#ffeb3b;
-  color:#1e3c72;
-  transform:scale(1.08);
+  background:#ffeb3b; color:#1e3c72;
+  transform: translateY(-4px) scale(1.04);
   box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Back Button */
+.back-btn {
+  display:inline-block;
+  margin:0 auto 15px;
+  padding:10px 20px;
+  background:#ffeb3b; color:#1e3c72;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover {
+  background:#ffd600;
+  transform:scale(1.05);
 }
 
 /* Footer */
 footer {
-  text-align:center;
-  padding:18px;
-  margin-top:auto;
+  text-align:center; padding:14px; margin-top:auto;
   background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
-  color:#ffeb3b;
-  font-size:1rem;
-  font-weight:600;
-  letter-spacing:1px;
+  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
 }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>BCA - Semester 1</h1>
-  <p>Select a Year to download question papers</p>
+  <h1 id="pageTitle">BCA</h1>
+  <p id="pageSubtitle">Select a Semester</p>
 </div>
 
-<div class="container">
-  <div class="grid">
-    <!-- Generate years dynamically (2012–2025) -->
-    <a href="#" class="card">2012</a>
-    <a href="#" class="card">2013</a>
-    <a href="#" class="card">2014</a>
-    <a href="#" class="card">2015</a>
-    <a href="#" class="card">2016</a>
-    <a href="#" class="card">2017</a>
-    <a href="#" class="card">2018</a>
-    <a href="#" class="card">2019</a>
-    <a href="#" class="card">2020</a>
-    <a href="#" class="card">2021</a>
-    <a href="#" class="card">2022</a>
-    <a href="#" class="card">2023</a>
-    <a href="#" class="card">2024</a>
-    <a href="#" class="card">2025</a>
-  </div>
+<div style="text-align:center;">
+  <a href="#" id="backButton" class="back-btn" style="display:none;">← Back</a>
 </div>
 
-<footer>
-  ©2025 BR Paper
-</footer>
+<div class="grid" id="gridContainer">
+  <!-- Dynamic content loads here -->
+</div>
+
+<footer>©2025 BR Paper</footer>
+
+<script>
+// Params
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("stream") || "BCA";
+const sem = params.get("sem");
+const subject = params.get("subject");
+
+document.getElementById("pageTitle").innerText = stream;
+
+// Subjects per semester
+const subjectsData = {
+  "Sem 1": ["Maths", "C Programming", "English", "Punjabi"],
+  "Sem 2": ["C++", "DBMS", "EVS", "Business Comm"],
+  "Sem 3": ["Java", "OS", "DSA"],
+  "Sem 4": ["Python", "Computer Networks", "AI"],
+  "Sem 5": ["ASP.NET", "Software Engg", "Statistics"],
+  "Sem 6": ["Mobile Computing", "Cloud Computing", "Project Work"]
+};
+
+// Grid container
+const grid = document.getElementById("gridContainer");
+const backBtn = document.getElementById("backButton");
+
+// Step 1 → Show Semesters
+if (!sem && !subject) {
+  document.getElementById("pageSubtitle").innerText = "Select a Semester";
+  backBtn.style.display = "inline-block";
+  backBtn.href = "college.html"; // back to colleges
+  for (let i = 1; i <= 6; i++) {
+    let a = document.createElement("a");
+    a.className = "card";
+    a.innerText = "Semester " + i;
+    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${i}`;
+    grid.appendChild(a);
+  }
+}
+// Step 2 → Show Subjects
+else if (sem && !subject) {
+  document.getElementById("pageSubtitle").innerText = `Semester ${sem} - Select a Subject`;
+  backBtn.style.display = "inline-block";
+  backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}`;
+  const subs = subjectsData["Sem " + sem] || [];
+  subs.forEach(sub => {
+    let a = document.createElement("a");
+    a.className = "card";
+    a.innerText = sub;
+    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(sub)}`;
+    grid.appendChild(a);
+  });
+}
+// Step 3 → Show Years
+else if (sem && subject) {
+  document.getElementById("pageSubtitle").innerText = `${subject} (Semester ${sem}) - Select a Year`;
+  backBtn.style.display = "inline-block";
+  backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}`;
+  for (let year = 2012; year <= 2025; year++) {
+    let a = document.createElement("a");
+    a.className = "card";
+    a.innerText = year;
+    a.href = `#`; // TODO: PDF/Link add karo
+    grid.appendChild(a);
+  }
+}
+</script>
 
 </body>
 </html>
