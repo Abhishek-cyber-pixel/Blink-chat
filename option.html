@@ -3,210 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Options - BR Paper</title>
+<title>BR Paper Upload</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color:#fff; min-height:100vh;
-  display:flex; flex-direction:column;
-}
-.hero { text-align:center; padding:40px 20px 20px; }
+body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; }
+.hero { text-align:center; padding:30px 20px 20px; }
 .hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
 .hero p { font-size:1rem; }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
-  gap:20px; padding:30px 20px;
-}
-.card {
-  text-decoration:none;
-  color:#fff;
-  background:#2a5298;
-  height:120px;
-  border-radius:12px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  box-shadow:0 6px 15px rgba(0,0,0,0.25);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-}
-.card:hover {
-  background:#1a4170; /* thoda dark on hover */
-  transform: translateY(-2px) scale(1.03);
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
-}
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:20px; padding:30px 20px; }
+.card { text-decoration:none; color:#fff; background:#2a5298; height:120px; border-radius:12px; text-align:center; font-size:16px; font-weight:bold; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.card:hover { background:#1a4074; transform: translateY(-3px) scale(1.03); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
 
-.back-btn {
-  display:inline-block;
-  margin:0 auto 15px;
-  padding:10px 20px;
-  background:#ffeb3b; color:#1e3c72;
-  border-radius:8px;
-  font-weight:bold;
-  text-decoration:none;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  transition: background 0.3s ease, transform 0.3s ease;
-}
+.back-btn { display:inline-block; margin:0 auto 15px; padding:10px 20px; background:#ffeb3b; color:#1e3c72; border-radius:8px; font-weight:bold; text-decoration:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition: background 0.3s ease, transform 0.3s ease; }
 .back-btn:hover { background:#ffd600; transform:scale(1.05); }
 
-footer {
-  text-align:center; padding:14px; margin-top:auto;
-  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
-  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
-}
+footer { text-align:center; padding:14px; margin-top:auto; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px; box-shadow:0 -2px 10px rgba(0,0,0,0.5); }
 
-/* Modal */
-.modal {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.7); display:none;
-  align-items:center; justify-content:center;
-  padding:20px;
-}
-.modal-content {
-  background:#fff; color:#000; padding:30px; border-radius:12px;
-  width:100%; max-width:500px; text-align:center;
-  position:relative;
-}
-.modal-content h2 { margin-bottom:20px; }
-.modal-content button { margin-top:15px; padding:10px 20px; font-size:1rem; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
-.modal-content #customFile { display:inline-block; padding:12px 25px; background:linear-gradient(45deg,#6a11cb,#2575fc); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; margin-bottom:10px; }
-.modal-content #uploadProgress { margin-top:15px; font-weight:bold; font-size:1rem; display:none; }
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
+.modal-content { background:#fff; color:#000; padding:20px; border-radius:10px; width:90%; max-width:500px; text-align:center; }
+.modal button { margin-top:15px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+.progress-bar { width:100%; background:#ddd; border-radius:6px; overflow:hidden; margin-top:10px; }
+.progress { height:15px; width:0%; background: linear-gradient(90deg, #6a11cb, #2575fc); text-align:center; color:#fff; line-height:15px; font-size:12px; }
+.file-name { margin-top:10px; font-style:italic; }
 </style>
-</head>
-<body>
-
-<div class="hero">
-  <h1 id="pageTitle">Options</h1>
-  <p id="pageSubtitle">Choose an action</p>
-</div>
-
-<div style="text-align:center;">
-  <a href="#" id="backButton" class="back-btn">← Back</a>
-</div>
-
-<div class="grid">
-  <div class="card" id="uploadBtn">📤 Upload Paper</div>
-  <div class="card" id="seeBtn">📚 See Paper</div>
-</div>
-
-<!-- Modal -->
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent"></div>
-</div>
-
-<footer>©2025 BR Paper</footer>
-
+<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-import { getStorage, ref, uploadBytesResumable, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-storage.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-storage.js";
 
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyA4XUxXkjkGxTENSteGcCyQjQjcLRxEny8",
   authDomain: "abhilearn-6672b.firebaseapp.com",
   projectId: "abhilearn-6672b",
   storageBucket: "abhilearn-6672b.appspot.com",
   messagingSenderId: "419451157699",
-  appId: "1:419451157699:web:503f100bf114d815427676"
+  appId: "1:419451157699:web:503f100bf114d815427676",
+  measurementId: "G-3MF32LBHZL"
 };
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-const params = new URLSearchParams(window.location.search);
-const stream = params.get("stream");
-const sem = params.get("sem");
-const subject = params.get("subject");
-const year = params.get("year");
+// Functions
+window.uploadFileToFirebase = function(fileInputId, progressBarId, fileNameId, storagePath){
+  const file = document.getElementById(fileInputId).files[0];
+  if(!file){ alert("Please select a file!"); return; }
 
-document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
-document.getElementById("pageSubtitle").innerText = "What would you like to do?";
-document.getElementById("backButton").href =
-  `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
+  const storageRef = ref(storage, storagePath + "/" + file.name);
+  const uploadTask = uploadBytesResumable(storageRef, file);
 
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modalContent");
+  const progressBar = document.getElementById(progressBarId);
+  const fileNameEl = document.getElementById(fileNameId);
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
 
-document.getElementById("uploadBtn").onclick = () => {
-  modal.style.display = "flex";
-  modalContent.innerHTML = `
-    <h2>Upload Paper</h2>
-    <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
-    <button id="customFile">+ Choose & Upload File</button>
-    <div id="fileName" style="margin-top:10px;"></div>
-    <div id="uploadProgress"></div>
-    <br>
-    <button onclick="closeModal()">Cancel</button>
-  `;
-
-  const fileInput = document.getElementById("fileInput");
-  const customBtn = document.getElementById("customFile");
-  const fileName = document.getElementById("fileName");
-  const uploadProgress = document.getElementById("uploadProgress");
-
-  customBtn.onclick = () => {
-    if(!fileInput.files.length) fileInput.click();
-    else uploadFileFirebase(fileInput.files[0]);
-  };
-
-  fileInput.onchange = () => {
-    if(fileInput.files.length) {
-      fileName.innerText = fileInput.files[0].name;
-      uploadFileFirebase(fileInput.files[0]);
-    }
-  };
-
-  function uploadFileFirebase(file){
-    const storageRef = ref(storage, `${stream}/${sem}/${subject}/${year}/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadProgress.style.display = "block";
-    uploadProgress.innerText = "Uploading... 0%";
-
-    uploadTask.on('state_changed', (snapshot) => {
-      const progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-      uploadProgress.innerText = `Uploading... ${progress}%`;
-    }, (error) => { alert("Upload failed!"); },
+  uploadTask.on('state_changed', 
+    (snapshot) => {
+      const percent = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+    }, 
+    (error) => { alert("Error uploading: " + error); },
     () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
-        uploadProgress.innerText = "✅ File uploaded successfully!";
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        fileNameEl.textContent = file.name + " uploaded!";
+        fileNameEl.dataset.url = downloadURL;
+        alert("File uploaded successfully!");
       });
-    });
+    }
+  );
+};
+
+window.getFileFromFirebase = async function(storagePath, displayElId){
+  const listRef = ref(storage, storagePath);
+  const displayEl = document.getElementById(displayElId);
+  displayEl.innerHTML = "";
+
+  try{
+    const res = await listAll(listRef);
+    if(res.items.length === 0){
+      displayEl.innerHTML = "❌ Your file is not uploaded yet!";
+      return;
+    }
+    for(const itemRef of res.items){
+      const url = await getDownloadURL(itemRef);
+      const fileName = itemRef.name;
+      displayEl.innerHTML += `<div><a href="${url}" target="_blank">${fileName}</a></div>`;
+    }
+  } catch(err){
+    displayEl.innerHTML = "Error fetching files.";
   }
 };
+</script>
+</head>
+<body>
 
-document.getElementById("seeBtn").onclick = () => {
+<div class="hero">
+  <h1 id="pageTitle">BR Paper Upload</h1>
+  <p id="pageSubtitle">Choose an action</p>
+</div>
+
+<div style="text-align:center;">
+  <a href="#" class="back-btn">← Back</a>
+</div>
+
+<div class="grid">
+  <div class="card" onclick="openUploadModal()">📤 Upload Paper</div>
+  <div class="card" onclick="showFiles()">📚 See Paper</div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<footer>©2025 BR Paper</footer>
+
+<script>
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+const storagePath = "papers"; // folder in Firebase Storage
+
+function openUploadModal(){
   modal.style.display = "flex";
-  const folderRef = ref(storage, `${stream}/${sem}/${subject}/${year}/`);
-  listAll(folderRef).then(res=>{
-    if(res.items.length>0){
-      const firstFile = res.items[0];
-      getDownloadURL(firstFile).then(url=>{
-        modalContent.innerHTML = `
-          <h2>📄 Uploaded Paper</h2>
-          <p style="font-weight:bold;">File: ${firstFile.name}</p>
-          <embed src="${url}" type="application/pdf" width="100%" height="400px" />
-          <br><br>
-          <button onclick="closeModal()">Close</button>
-        `;
-      });
-    } else {
-      modalContent.innerHTML = `
-        <h2>❌ Your file is not uploaded yet</h2>
-        <button onclick="closeModal()">Close</button>
-      `;
-    }
-  }).catch(()=>{
-    modalContent.innerHTML = `
-      <h2>❌ Your file is not uploaded yet</h2>
-      <button onclick="closeModal()">Close</button>
-    `;
-  });
-};
+  modalContent.innerHTML = `
+    <h2>Upload Your Paper</h2>
+    <input type="file" id="fileInput"><br>
+    <div class="progress-bar"><div class="progress" id="progressBar">0%</div></div>
+    <div class="file-name" id="fileName">No file chosen</div>
+    <button onclick="uploadFileToFirebase('fileInput','progressBar','fileName', storagePath)">Upload</button>
+    <button onclick="modal.style.display='none'">Cancel</button>
+  `;
 
-function closeModal(){ modal.style.display="none"; }
+  document.getElementById("fileInput").addEventListener("change", function(){
+    document.getElementById("fileName").textContent = this.files[0].name;
+  });
+}
+
+function showFiles(){
+  modal.style.display = "flex";
+  modalContent.innerHTML = `<h2>Uploaded Papers</h2><div id="fileList">Loading...</div><button onclick="modal.style.display='none'">Close</button>`;
+  getFileFromFirebase(storagePath, "fileList");
+}
 </script>
 
 </body>
