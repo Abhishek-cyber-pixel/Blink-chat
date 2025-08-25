@@ -4,87 +4,78 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Options - BR Paper</title>
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-storage.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4XUxXkjkGxTENSteGcCyQjQjcLRxEny8",
-    authDomain: "abhilearn-6672b.firebaseapp.com",
-    projectId: "abhilearn-6672b",
-    storageBucket: "abhilearn-6672b.appspot.com",
-    messagingSenderId: "419451157699",
-    appId: "1:419451157699:web:503f100bf114d815427676"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-
-  window.uploadFileFirebase = function(stream, sem, subject, year) {
-    const fileInput = document.getElementById("fileInput");
-    const file = fileInput.files[0];
-    if (!file) { alert("Please select a file!"); return; }
-
-    const fileName = file.name;
-    const storageRef = ref(storage, `${stream}/${sem}/${subject}/${year}/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    const progressText = document.getElementById("uploadProgress");
-    progressText.style.display = "block";
-
-    uploadTask.on('state_changed', 
-      (snapshot) => {
-        const progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        progressText.innerText = `Uploading... ${progress}%`;
-      },
-      (error) => { alert("Upload failed!"); },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          localStorage.setItem("lastFileURL", downloadURL);
-          progressText.innerText = "✅ File uploaded successfully!";
-        });
-      }
-    );
-  };
-
-  window.seeFileFirebase = function(stream, sem, subject, year) {
-    const modalContent = document.getElementById("modalContent");
-    const lastURL = localStorage.getItem("lastFileURL");
-    if (lastURL) {
-      modalContent.innerHTML = `
-        <h2>📄 Uploaded Paper</h2>
-        <embed src="${lastURL}" type="application/pdf" width="100%" height="400px" />
-        <br><br>
-        <button onclick="closeModal()">Close</button>
-      `;
-    } else {
-      modalContent.innerHTML = `
-        <h2>❌ Your file is not uploaded yet</h2>
-        <button onclick="closeModal()">Close</button>
-      `;
-    }
-  };
-</script>
-
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; }
+body {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color:#fff; min-height:100vh;
+  display:flex; flex-direction:column;
+}
 .hero { text-align:center; padding:40px 20px 20px; }
 .hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
 .hero p { font-size:1rem; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:20px; padding:30px 20px; }
-.card { text-decoration:none; color:#fff; background:#2a5298; height:120px; border-radius:12px; text-align:center; font-size:18px; font-weight:bold; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; box-shadow:0 6px 15px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; cursor:pointer; }
-.card:hover { background:#1b2f5a; transform: scale(1.05); box-shadow:0 10px 25px rgba(0,0,0,0.35); }
-.back-btn { display:inline-block; margin:0 auto 15px; padding:10px 20px; background:#ffeb3b; color:#1e3c72; border-radius:8px; font-weight:bold; text-decoration:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition: background 0.3s ease, transform 0.3s ease; }
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+  gap:20px; padding:30px 20px;
+}
+.card {
+  text-decoration:none;
+  color:#fff;
+  background:#2a5298;
+  height:120px;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.card:hover {
+  background:#1a4170; /* thoda dark on hover */
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+.back-btn {
+  display:inline-block;
+  margin:0 auto 15px;
+  padding:10px 20px;
+  background:#ffeb3b; color:#1e3c72;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
 .back-btn:hover { background:#ffd600; transform:scale(1.05); }
-footer { text-align:center; padding:14px; margin-top:auto; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px; box-shadow:0 -2px 10px rgba(0,0,0,0.5); }
+
+footer {
+  text-align:center; padding:14px; margin-top:auto;
+  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+}
+
 /* Modal */
-.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
-.modal-content { background:#fff; color:#000; padding:20px; border-radius:10px; width:90%; max-width:500px; text-align:center; }
-.modal button { margin-top:15px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-#customFile { padding:10px 20px; background:linear-gradient(45deg,#6a11cb,#2575fc); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
-#uploadProgress { margin-top:10px; font-weight:bold; display:none; }
+.modal {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.7); display:none;
+  align-items:center; justify-content:center;
+  padding:20px;
+}
+.modal-content {
+  background:#fff; color:#000; padding:30px; border-radius:12px;
+  width:100%; max-width:500px; text-align:center;
+  position:relative;
+}
+.modal-content h2 { margin-bottom:20px; }
+.modal-content button { margin-top:15px; padding:10px 20px; font-size:1rem; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
+.modal-content #customFile { display:inline-block; padding:12px 25px; background:linear-gradient(45deg,#6a11cb,#2575fc); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; margin-bottom:10px; }
+.modal-content #uploadProgress { margin-top:15px; font-weight:bold; font-size:1rem; display:none; }
 </style>
 </head>
 <body>
@@ -110,12 +101,27 @@ footer { text-align:center; padding:14px; margin-top:auto; background:linear-gra
 
 <footer>©2025 BR Paper</footer>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+import { getStorage, ref, uploadBytesResumable, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA4XUxXkjkGxTENSteGcCyQjQjcLRxEny8",
+  authDomain: "abhilearn-6672b.firebaseapp.com",
+  projectId: "abhilearn-6672b",
+  storageBucket: "abhilearn-6672b.appspot.com",
+  messagingSenderId: "419451157699",
+  appId: "1:419451157699:web:503f100bf114d815427676"
+};
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
 const params = new URLSearchParams(window.location.search);
 const stream = params.get("stream");
 const sem = params.get("sem");
 const subject = params.get("subject");
 const year = params.get("year");
+
 document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
 document.getElementById("pageSubtitle").innerText = "What would you like to do?";
 document.getElementById("backButton").href =
@@ -129,20 +135,78 @@ document.getElementById("uploadBtn").onclick = () => {
   modalContent.innerHTML = `
     <h2>Upload Paper</h2>
     <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
-    <label for="fileInput" id="customFile">📁 Choose Your File</label>
+    <button id="customFile">+ Choose & Upload File</button>
+    <div id="fileName" style="margin-top:10px;"></div>
     <div id="uploadProgress"></div>
-    <br><br>
-    <button onclick="uploadFileFirebase('${stream}','${sem}','${subject}','${year}')">Upload</button>
+    <br>
     <button onclick="closeModal()">Cancel</button>
   `;
+
+  const fileInput = document.getElementById("fileInput");
+  const customBtn = document.getElementById("customFile");
+  const fileName = document.getElementById("fileName");
+  const uploadProgress = document.getElementById("uploadProgress");
+
+  customBtn.onclick = () => {
+    if(!fileInput.files.length) fileInput.click();
+    else uploadFileFirebase(fileInput.files[0]);
+  };
+
+  fileInput.onchange = () => {
+    if(fileInput.files.length) {
+      fileName.innerText = fileInput.files[0].name;
+      uploadFileFirebase(fileInput.files[0]);
+    }
+  };
+
+  function uploadFileFirebase(file){
+    const storageRef = ref(storage, `${stream}/${sem}/${subject}/${year}/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadProgress.style.display = "block";
+    uploadProgress.innerText = "Uploading... 0%";
+
+    uploadTask.on('state_changed', (snapshot) => {
+      const progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      uploadProgress.innerText = `Uploading... ${progress}%`;
+    }, (error) => { alert("Upload failed!"); },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
+        uploadProgress.innerText = "✅ File uploaded successfully!";
+      });
+    });
+  }
 };
 
 document.getElementById("seeBtn").onclick = () => {
   modal.style.display = "flex";
-  window.seeFileFirebase(stream, sem, subject, year);
+  const folderRef = ref(storage, `${stream}/${sem}/${subject}/${year}/`);
+  listAll(folderRef).then(res=>{
+    if(res.items.length>0){
+      const firstFile = res.items[0];
+      getDownloadURL(firstFile).then(url=>{
+        modalContent.innerHTML = `
+          <h2>📄 Uploaded Paper</h2>
+          <p style="font-weight:bold;">File: ${firstFile.name}</p>
+          <embed src="${url}" type="application/pdf" width="100%" height="400px" />
+          <br><br>
+          <button onclick="closeModal()">Close</button>
+        `;
+      });
+    } else {
+      modalContent.innerHTML = `
+        <h2>❌ Your file is not uploaded yet</h2>
+        <button onclick="closeModal()">Close</button>
+      `;
+    }
+  }).catch(()=>{
+    modalContent.innerHTML = `
+      <h2>❌ Your file is not uploaded yet</h2>
+      <button onclick="closeModal()">Close</button>
+    `;
+  });
 };
 
-function closeModal() { modal.style.display = "none"; }
+function closeModal(){ modal.style.display="none"; }
 </script>
 
 </body>
