@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options - BR Paper</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+body {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color:#fff; min-height:100vh;
+  display:flex; flex-direction:column;
+}
+/* Hero */
+.hero { text-align:center; padding:40px 20px 20px; }
+.hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
+.hero p { font-size:1rem; }
+
+/* Grid Buttons */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:20px; padding:30px 20px;
+}
+.card {
+  text-decoration:none;
+  color:#fff;
+  background:#2a5298;
+  height:140px;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  display:flex; align-items:center; justify-content:center;
+}
+.card:hover {
+  background:#ffeb3b; color:#1e3c72;
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Back Button */
+.back-btn {
+  display:inline-block;
+  margin:0 auto 15px;
+  padding:10px 20px;
+  background:#ffeb3b; color:#1e3c72;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover {
+  background:#ffd600;
+  transform:scale(1.05);
+}
+
+/* Footer */
+footer {
+  text-align:center; padding:14px; margin-top:auto;
+  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1 id="pageTitle">Options</h1>
+  <p id="pageSubtitle">Choose an action</p>
+</div>
+
+<div style="text-align:center;">
+  <a href="#" id="backButton" class="back-btn">← Back</a>
+</div>
+
+<div class="grid">
+  <a href="#" class="card">📤 Upload Paper</a>
+  <a href="#" class="card">📚 See Papers</a>
+</div>
+
+<footer>©2025 BR Paper</footer>
+
+<script>
+// Params (to maintain context)
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("stream");
+const sem = params.get("sem");
+const subject = params.get("subject");
+const year = params.get("year");
+
+document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
+document.getElementById("pageSubtitle").innerText = "What would you like to do?";
+
+// Back button
+document.getElementById("backButton").href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
+</script>
+
+</body>
+</html>
