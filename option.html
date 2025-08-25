@@ -1,112 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Paper</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options - BR Paper</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+body {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color:#fff; min-height:100vh;
+  display:flex; flex-direction:column;
+}
+.hero { text-align:center; padding:40px 20px 20px; }
+.hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
+.hero p { font-size:1rem; }
 
-    .upload-box {
-      width: 320px;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient */
-      color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:20px; padding:30px 20px;
+}
+.card {
+  text-decoration:none;
+  color:#fff;
+  background:#2a5298;
+  height:140px;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.card:hover {
+  background:#ffeb3b; color:#1e3c72;
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
 
-    .upload-box h2 {
-      margin-bottom: 15px;
-    }
+.back-btn {
+  display:inline-block;
+  margin:0 auto 15px;
+  padding:10px 20px;
+  background:#ffeb3b; color:#1e3c72;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover { background:#ffd600; transform:scale(1.05); }
 
-    input[type="file"] {
-      display: none;
-    }
+footer {
+  text-align:center; padding:14px; margin-top:auto;
+  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+}
 
-    label {
-      display: inline-block;
-      padding: 10px 20px;
-      background: rgba(255,255,255,0.2);
-      border: 2px solid #fff;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    label:hover {
-      background: rgba(255,255,255,0.4);
-    }
-
-    #fileName {
-      margin-top: 12px;
-      font-style: italic;
-      color: #ffeb3b;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .upload-btn {
-      background: #ffeb3b;
-      color: #333;
-    }
-
-    .upload-btn:hover {
-      background: #fdd835;
-    }
-
-    .cancel-btn {
-      background: #ccc;
-      margin-left: 8px;
-    }
-
-    .cancel-btn:hover {
-      background: #bbb;
-    }
-  </style>
+/* Modal */
+.modal {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.7); display:none;
+  align-items:center; justify-content:center;
+}
+.modal-content {
+  background:#fff; color:#000; padding:20px; border-radius:10px;
+  width:90%; max-width:500px; text-align:center;
+}
+.modal button {
+  margin-top:15px; padding:8px 16px; border:none;
+  border-radius:6px; cursor:pointer; font-weight:bold;
+}
+</style>
 </head>
 <body>
-  <div class="upload-box">
+
+<div class="hero">
+  <h1 id="pageTitle">Options</h1>
+  <p id="pageSubtitle">Choose an action</p>
+</div>
+
+<div style="text-align:center;">
+  <a href="#" id="backButton" class="back-btn">← Back</a>
+</div>
+
+<div class="grid">
+  <div class="card" id="uploadBtn">📤 Upload Paper</div>
+  <div class="card" id="seeBtn">📚 See Paper</div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<footer>©2025 BR Paper</footer>
+
+<script>
+// Params
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("stream");
+const sem = params.get("sem");
+const subject = params.get("subject");
+const year = params.get("year");
+
+document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
+document.getElementById("pageSubtitle").innerText = "What would you like to do?";
+document.getElementById("backButton").href =
+  `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
+
+// Local storage to simulate uploaded papers
+const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+
+// Upload button
+document.getElementById("uploadBtn").onclick = () => {
+  modal.style.display = "flex";
+  modalContent.innerHTML = `
     <h2>Upload Paper</h2>
-    <input type="file" id="fileInput" accept="application/pdf">
-    <label for="fileInput">📂 Choose File</label>
-    <div id="fileName">No file chosen</div>
-    <br>
-    <button class="upload-btn" onclick="saveFile()">Upload File</button>
-    <button class="cancel-btn" onclick="cancelUpload()">Cancel</button>
-  </div>
+    <input type="file" id="fileInput" accept="application/pdf"><br><br>
+    <button onclick="saveFile()">Upload</button>
+    <button onclick="closeModal()">Cancel</button>
+  `;
+};
 
-  <script>
-    document.getElementById("fileInput").addEventListener("change", function() {
-      const fileName = this.files.length > 0 ? this.files[0].name : "No file chosen";
-      document.getElementById("fileName").textContent = fileName;
-    });
+// See button
+document.getElementById("seeBtn").onclick = () => {
+  modal.style.display = "flex";
+  const fileURL = localStorage.getItem(storageKey);
+  if (fileURL) {
+    modalContent.innerHTML = `
+      <h2>📄 Uploaded Paper</h2>
+      <embed src="${fileURL}" type="application/pdf" width="100%" height="400px" />
+      <button onclick="closeModal()">Close</button>
+    `;
+  } else {
+    modalContent.innerHTML = `
+      <h2>❌ Sorry</h2>
+      <p>Paper is not available yet.</p>
+      <button onclick="closeModal()">Close</button>
+    `;
+  }
+};
 
-    function saveFile() {
-      alert("File uploaded successfully!");
-    }
+// Save file in localStorage
+function saveFile() {
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      localStorage.setItem(storageKey, reader.result);
+      modalContent.innerHTML = `
+        <h2>✅ Thanks for uploading paper!</h2>
+        <button onclick="closeModal()">Close</button>
+      `;
+    };
+    reader.readAsDataURL(file);
+  }
+}
 
-    function cancelUpload() {
-      document.getElementById("fileInput").value = "";
-      document.getElementById("fileName").textContent = "No file chosen";
-    }
-  </script>
+function closeModal() {
+  modal.style.display = "none";
+}
+</script>
+
 </body>
 </html>
