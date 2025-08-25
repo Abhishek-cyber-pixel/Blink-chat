@@ -17,17 +17,17 @@ body {
 
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
-  gap:20px; padding:30px 20px;
+  grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+  gap:15px; padding:30px 20px;
 }
 .card {
   text-decoration:none;
   color:#fff;
   background:#2a5298;
-  height:140px;
+  height:120px;
   border-radius:12px;
   text-align:center;
-  font-size:18px;
+  font-size:16px;
   font-weight:bold;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   box-shadow:0 6px 15px rgba(0,0,0,0.25);
@@ -35,9 +35,9 @@ body {
   cursor:pointer;
 }
 .card:hover {
-  background:#ffeb3b; color:#1e3c72;
-  transform: translateY(-4px) scale(1.04);
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  background:#1e407c; /* thoda dark hover */
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:0 8px 20px rgba(0,0,0,0.35);
 }
 
 .back-btn {
@@ -75,6 +75,34 @@ footer {
   border-radius:6px; cursor:pointer; font-weight:bold;
 }
 </style>
+<!-- Firebase SDK -->
+<script type="module">
+  // Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4XUxXkjkGxTENSteGcCyQjQjcLRxEny8",
+    authDomain: "abhilearn-6672b.firebaseapp.com",
+    projectId: "abhilearn-6672b",
+    storageBucket: "abhilearn-6672b.appspot.com",
+    messagingSenderId: "419451157699",
+    appId: "1:419451157699:web:503f100bf114d815427676"
+  };
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  
+  window.firebaseUpload = async function(file, callbackProgress, callbackDone) {
+    const storageRef = ref(storage, 'papers/' + file.name);
+    const uploadTask = uploadBytes(storageRef, file);
+
+    uploadTask.then(() => {
+      getDownloadURL(storageRef).then((url) => {
+        callbackDone(url);
+      });
+    }).catch(err => alert("Upload error: "+err));
+  }
+</script>
 </head>
 <body>
 
@@ -92,6 +120,11 @@ footer {
   <div class="card" id="seeBtn">📚 See Paper</div>
 </div>
 
+<!-- Clear Local Storage -->
+<div style="text-align:center; margin-top:10px;">
+  <button id="clearStorageBtn" style="padding:8px 16px; border:none; border-radius:6px; background:#ff4d4d; color:white; font-weight:bold; cursor:pointer;">🗑️ Clear Local Storage</button>
+</div>
+
 <!-- Modal -->
 <div class="modal" id="modal">
   <div class="modal-content" id="modalContent"></div>
@@ -100,7 +133,6 @@ footer {
 <footer>©2025 BR Paper</footer>
 
 <script>
-// Params
 const params = new URLSearchParams(window.location.search);
 const stream = params.get("stream");
 const sem = params.get("sem");
@@ -112,8 +144,6 @@ document.getElementById("pageSubtitle").innerText = "What would you like to do?"
 document.getElementById("backButton").href =
   `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
 
-// Local storage to simulate uploaded papers
-const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
 const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modalContent");
 
@@ -123,49 +153,51 @@ document.getElementById("uploadBtn").onclick = () => {
   modalContent.innerHTML = `
     <h2>Upload Paper</h2>
     <input type="file" id="fileInput" accept="application/pdf"><br><br>
-    <button onclick="saveFile()">Upload</button>
+    <button onclick="startUpload()">Upload</button>
     <button onclick="closeModal()">Cancel</button>
+    <div id="uploadStatus" style="margin-top:10px;font-weight:bold;"></div>
   `;
 };
 
 // See button
-document.getElementById("seeBtn").onclick = () => {
+document.getElementById("seeBtn").onclick = async () => {
   modal.style.display = "flex";
-  const fileURL = localStorage.getItem(storageKey);
+  const fileName = `${stream}_${sem}_${subject}_${year}_paper`;
+  const fileURL = localStorage.getItem(fileName);
   if (fileURL) {
-    modalContent.innerHTML = `
-      <h2>📄 Uploaded Paper</h2>
-      <embed src="${fileURL}" type="application/pdf" width="100%" height="400px" />
-      <button onclick="closeModal()">Close</button>
-    `;
+    modalContent.innerHTML = `<h2>📄 Uploaded Paper</h2>
+      <embed src="${fileURL}" type="application/pdf" width="100%" height="400px"/>
+      <button onclick="closeModal()">Close</button>`;
   } else {
-    modalContent.innerHTML = `
-      <h2>❌ Sorry</h2>
-      <p>Paper is not available yet.</p>
-      <button onclick="closeModal()">Close</button>
-    `;
+    modalContent.innerHTML = `<h2>❌ Your file is not uploaded yet</h2>
+      <button onclick="closeModal()">Close</button>`;
   }
 };
 
-// Save file in localStorage
-function saveFile() {
-  const fileInput = document.getElementById("fileInput");
-  if (fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      localStorage.setItem(storageKey, reader.result);
-      modalContent.innerHTML = `
-        <h2>✅ Thanks for uploading paper!</h2>
-        <button onclick="closeModal()">Close</button>
-      `;
-    };
-    reader.readAsDataURL(file);
+function closeModal() { modal.style.display="none"; }
+
+// Clear local storage
+document.getElementById("clearStorageBtn").onclick = () => {
+  if(confirm("Are you sure you want to delete all local files?")) {
+    localStorage.clear();
+    alert("Local storage cleared!");
+    closeModal();
   }
 }
 
-function closeModal() {
-  modal.style.display = "none";
+// Upload function
+function startUpload() {
+  const fileInput = document.getElementById("fileInput");
+  const statusDiv = document.getElementById("uploadStatus");
+  if(fileInput.files.length===0){ alert("Select a file first!"); return; }
+
+  const file = fileInput.files[0];
+  statusDiv.innerHTML = `Uploading <b>${file.name}</b> ...`;
+
+  firebaseUpload(file, null, (url)=>{
+    localStorage.setItem(`${stream}_${sem}_${subject}_${year}_paper`, url);
+    statusDiv.innerHTML = `✅ <b>${file.name}</b> uploaded successfully!`;
+  });
 }
 </script>
 
