@@ -143,10 +143,13 @@ else if (sem && subject) {
     let a = document.createElement("a");
     a.className = "card";
     a.innerText = year;
-    a.href = `#`; // TODO: PDF/Link add karo
+    // ✅ Options page par bhejna
+    a.href = `options.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}&year=${year}`;
     grid.appendChild(a);
   }
 }
+
+  
 </script>
 
 </body>
