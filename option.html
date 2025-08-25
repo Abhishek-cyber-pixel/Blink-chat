@@ -1,90 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Upload Example</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Options - BR Paper</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
 
-    .file-upload {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+  body {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color:#fff; min-height:100vh;
+    display:flex; flex-direction:column;
+  }
 
-    .upload-btn {
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-      display: inline-block;
-    }
+  /* Hero */
+  .hero { text-align:center; padding:40px 20px 20px; }
+  .hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6); }
+  .hero p { font-size:1rem; opacity:.95; }
+  .subtle { opacity:.85; font-size:.95rem; margin-top:6px; }
 
-    .upload-btn:hover {
-      background: linear-gradient(45deg, #2575fc, #6a11cb);
-    }
+  /* Back Button */
+  .back-wrap { text-align:center; }
+  .back-btn {
+    display:inline-block;
+    margin:0 auto 15px;
+    padding:10px 20px;
+    background:#ffeb3b; color:#1e3c72;
+    border-radius:8px;
+    font-weight:bold;
+    text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    transition: background .3s ease, transform .3s ease;
+  }
+  .back-btn:hover { background:#ffd600; transform:scale(1.05); }
 
-    #fileName {
-      display: block;
-      margin-top: 15px;
-      font-style: italic;
-      color: #333;
-    }
+  /* Grid */
+  .grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:18px; padding:20px;
+  }
+  .card {
+    text-decoration:none;
+    color:#fff;
+    background:#2a5298;
+    height:120px; width:100%;
+    border-radius:12px;
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card:hover {
+    background:#ffeb3b; color:#1e3c72;
+    transform: translateY(-4px) scale(1.04);
+    box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  }
 
-    .success {
-      color: green;
-      font-weight: bold;
-    }
-  </style>
+  /* Upload area (styled, consistent with theme) */
+  .upload-wrap {
+    max-width:520px; width:92%;
+    margin: 0 auto 18px;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
+
+  .file-input { display:none; }
+
+  .fake-input {
+    background:#2a5298;
+    border-radius:10px;
+    padding:10px 14px;
+    min-width:180px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:700;
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+    transition:transform .25s, background .25s, box-shadow .25s;
+  }
+  .fake-input:hover { background:#1e3c72; transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,0.35); }
+
+  .pill-btn {
+    background:#ffeb3b; color:#1e3c72;
+    border-radius:999px;
+    padding:10px 16px;
+    font-weight:700;
+    cursor:pointer; border:none;
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+    transition:transform .25s, background .25s, box-shadow .25s;
+  }
+  .pill-btn:hover { background:#ffd600; transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,0.35); }
+
+  .file-name { font-size:.95rem; opacity:.95; margin-top:8px; text-align:center; }
+
+  /* Notice/Toast */
+  .notice {
+    margin:10px auto 0;
+    text-align:center;
+    max-width:520px; width:92%;
+    background: rgba(255, 235, 59, 0.15);
+    border:1px solid rgba(255, 235, 59, 0.35);
+    color:#ffeb3b; padding:10px 14px; border-radius:10px;
+    display:none; font-weight:600;
+  }
+  .notice.ok {
+    background: rgba(46, 204, 113, 0.18);
+    border-color: rgba(46, 204, 113, 0.45);
+    color:#2ecc71;
+  }
+  .notice.err {
+    background: rgba(231, 76, 60, 0.18);
+    border-color: rgba(231, 76, 60, 0.45);
+    color:#e74c3c;
+  }
+
+  /* Footer */
+  footer {
+    text-align:center; padding:14px; margin-top:auto;
+    background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+    color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+  }
+</style>
 </head>
 <body>
-  <div class="file-upload">
-    <h2>📂 Upload Your File</h2>
-    
-    <!-- Hidden file input -->
-    <input type="file" id="fileInput" hidden>
 
-    <!-- Styled button -->
-    <label for="fileInput" class="upload-btn">Choose File</label>
-    
-    <!-- File name display -->
-    <span id="fileName">No file chosen</span>
-    
-    <br><br>
-    <button onclick="uploadFile()" class="upload-btn">Upload</button>
+<!-- Hero -->
+<div class="hero">
+  <h1 id="pageTitle">Options</h1>
+  <p id="pageSubtitle">Choose an action</p>
+  <div class="subtle" id="ctx"></div>
+</div>
+
+<!-- Back -->
+<div class="back-wrap">
+  <a href="#" id="backButton" class="back-btn">← Back</a>
+</div>
+
+<!-- Upload area -->
+<div class="upload-wrap">
+  <div class="row">
+    <label for="fileInput" class="fake-input">📂 Choose PDF</label>
+    <input type="file" id="fileInput" class="file-input" accept="application/pdf" />
+    <button id="uploadBtn" class="pill-btn">📤 Upload Paper</button>
   </div>
+  <div id="fileName" class="file-name">No file selected</div>
+</div>
 
-  <script>
-    // Show file name when selected
-    document.getElementById("fileInput").addEventListener("change", function() {
-      let fileName = this.files[0] ? this.files[0].name : "No file chosen";
-      document.getElementById("fileName").textContent = fileName;
-    });
+<!-- Cards -->
+<div class="grid">
+  <a href="#" id="seeBtn" class="card">📚 See Paper</a>
+</div>
 
-    // Upload simulation
-    function uploadFile() {
-      const fileInput = document.getElementById("fileInput");
-      if (fileInput.files.length === 0) {
-        alert("Please select a file first!");
+<div id="notice" class="notice"></div>
+
+<footer>©2025 BR Paper</footer>
+
+<script>
+  // ===== Context from URL =====
+  const params  = new URLSearchParams(window.location.search);
+  const stream  = params.get("stream")  || "BCA";
+  const sem     = params.get("sem")     || "";
+  const subject = params.get("subject") || "";
+  const year    = params.get("year")    || "";
+
+  const titleEl = document.getElementById("pageTitle");
+  const subEl   = document.getElementById("pageSubtitle");
+  const ctxEl   = document.getElementById("ctx");
+  const backEl  = document.getElementById("backButton");
+  const fileIn  = document.getElementById("fileInput");
+  const fileNm  = document.getElementById("fileName");
+  const upload  = document.getElementById("uploadBtn");
+  const seeBtn  = document.getElementById("seeBtn");
+  const notice  = document.getElementById("notice");
+
+  titleEl.textContent = `${subject || "Options"} ${year ? "- " + year : ""}`;
+  subEl.textContent   = "What would you like to do?";
+  ctxEl.textContent   = `${stream}${sem ? " • Sem " + sem : ""}${subject ? " • " + subject : ""}${year ? " • " + year : ""}`;
+
+  // Back to Year list
+  backEl.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${encodeURIComponent(sem)}&subject=${encodeURIComponent(subject)}`;
+
+  // Build a unique key for this (stream, sem, subject, year)
+  const storageKey = `BRPAPER:${stream}|${sem}|${subject}|${year}`;
+
+  // Show chosen filename
+  fileIn.addEventListener("change", () => {
+    fileNm.textContent = fileIn.files[0] ? fileIn.files[0].name : "No file selected";
+    hideNotice();
+  });
+
+  function showNotice(msg, type="ok"){
+    notice.textContent = msg;
+    notice.className = "notice " + (type === "ok" ? "ok" : "err");
+    notice.style.display = "block";
+  }
+  function hideNotice(){ notice.style.display = "none"; }
+
+  // Upload -> Save PDF into localStorage as DataURL (demo only)
+  upload.addEventListener("click", async (e) => {
+    e.preventDefault();
+    hideNotice();
+
+    if(!fileIn.files[0]){
+      showNotice("Please select a PDF first.", "err");
+      return;
+    }
+    const file = fileIn.files[0];
+    if(file.type !== "application/pdf"){
+      showNotice("Only PDF files are allowed.", "err");
+      return;
+    }
+
+    try {
+      const dataUrl = await toDataURL(file);
+      // store in localStorage
+      localStorage.setItem(storageKey, JSON.stringify({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        dataUrl
+      }));
+      showNotice("✅ Thanks for uploading the paper!", "ok");
+      fileNm.textContent = `✅ ${file.name} uploaded successfully!`;
+    } catch(err){
+      console.error(err);
+      showNotice("Upload failed. Please try again.", "err");
+    }
+  });
+
+  // See Paper -> open or show "not available"
+  seeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    hideNotice();
+
+    const raw = localStorage.getItem(storageKey);
+    if(!raw){
+      showNotice("Sorry, paper is not available yet.", "err");
+      return;
+    }
+    try{
+      const obj = JSON.parse(raw);
+      if(!obj.dataUrl){
+        showNotice("Sorry, paper is not available yet.", "err");
         return;
       }
-
-      let fileName = fileInput.files[0].name;
-      document.getElementById("fileName").innerHTML = "✅ <span class='success'>" + fileName + " uploaded successfully!</span>";
+      // Open in a new tab
+      const w = window.open();
+      if(w){
+        w.document.write(
+          `<iframe src="${obj.dataUrl}" style="border:0;position:fixed;inset:0;width:100%;height:100%"></iframe>`
+        );
+      } else {
+        showNotice("Popup blocked. Please allow popups to view the paper.", "err");
+      }
+    }catch(err){
+      console.error(err);
+      showNotice("Sorry, paper is not available yet.", "err");
     }
-  </script>
+  });
+
+  // Helper: File -> DataURL
+  function toDataURL(file){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload  = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+
 </body>
 </html>
+
