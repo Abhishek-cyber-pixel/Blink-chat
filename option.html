@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Options - BR Paper</title>
 
-<!-- Firebase SDKs -->
+<!-- Firebase Compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 
@@ -143,22 +143,20 @@ const firebaseConfig = {
   messagingSenderId: "419451157699",
   appId: "1:419451157699:web:503f100bf114d815427676"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 
-// Params
+// URL params
 const params = new URLSearchParams(window.location.search);
 const stream = params.get("stream");
 const sem = params.get("sem");
 const subject = params.get("subject");
 const year = params.get("year");
 
-document.getElementById("pageTitle").innerText = ${subject} - ${year};
+document.getElementById("pageTitle").innerText = `${subject} - ${year}`;
 document.getElementById("pageSubtitle").innerText = "What would you like to do?";
 document.getElementById("backButton").href =
-  stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)};
+  `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}`;
 
 const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modalContent");
@@ -177,7 +175,7 @@ document.getElementById("uploadBtn").onclick = () => {
 // See button
 document.getElementById("seeBtn").onclick = () => {
   modal.style.display = "flex";
-  const ref = storage.ref(papers/${stream}_${sem}_${subject}_${year});
+  const ref = storage.ref(`papers/${stream}_${sem}_${subject}_${year}`);
   ref.getDownloadURL().then(url => {
     modalContent.innerHTML = `
       <h2>📄 Uploaded Paper</h2>
@@ -197,9 +195,8 @@ document.getElementById("seeBtn").onclick = () => {
 function startUpload() {
   const fileInput = document.getElementById("fileInput");
   if(fileInput.files.length == 0) return alert("Please select a file!");
-
   const file = fileInput.files[0];
-  const ref = storage.ref(papers/${stream}_${sem}_${subject}_${year});
+  const ref = storage.ref(`papers/${stream}_${sem}_${subject}_${year}`);
   const uploadTask = ref.put(file);
 
   // Show loader
@@ -211,11 +208,11 @@ function startUpload() {
   `;
 
   uploadTask.on('state_changed', snapshot => {
-    // Optional: progress tracking in console
+    // progress optional
     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
     console.log("Upload Progress:", progress.toFixed(0) + "%");
   }, error => {
-    modalContent.innerHTML = <h2>❌ Upload Failed</h2><p>${error.message}</p><button onclick="closeModal()">Close</button>;
+    modalContent.innerHTML = `<h2>❌ Upload Failed</h2><p>${error.message}</p><button onclick="closeModal()">Close</button>`;
   }, () => {
     uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
       modalContent.innerHTML = `
