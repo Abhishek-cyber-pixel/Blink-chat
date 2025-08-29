@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AbhiLearn</title>
+<title>AbhiLearn - Books & Study Materials</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
@@ -43,14 +44,28 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   cursor:pointer;
   gap:5px;
   z-index:1100;
+  padding: 5px;
 }
 
 .hamburger div {
   width:30px;
   height:4px;
   background:#fff; 
-  transition:0.3s;
+  transition:all 0.3s ease;
   border-radius:2px;
+}
+
+/* Hamburger animation */
+.hamburger.active div:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active div:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Nav links */
@@ -58,6 +73,15 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   display:flex;
   list-style:none;
   gap:25px;
+  transition: transform 0.4s ease-out, opacity 0.3s ease;
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.nav-links.show {
+  transform: scaleY(1);
+  opacity: 1;
 }
 
 .nav-links li a {
@@ -152,27 +176,372 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   color:#1e3c72;
 }
 
-/* Footer */
-footer {
-  text-align:center;
-  padding:18px;
-  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
-  color:#00ffcc;
-  font-size:1rem;
-  font-weight:600;
-  letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
-  margin-top:auto;
+/* Books Marketplace Section */
+.books-section {
+  padding: 80px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 40px 20px;
+  border-radius: 20px;
+  text-align: center;
 }
 
-footer span {
-  display:inline-block;
-  transition:0.3s;
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-footer span:hover {
+.section-header h2 {
+  color: #00ffcc;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.section-header p {
+  color: #ccc;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.books-actions {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 18px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.sell-btn {
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+}
+
+.browse-btn {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 2px solid #00ffcc;
+  backdrop-filter: blur(10px);
+}
+
+.action-btn:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Book Images Scroll Section */
+.book-images-scroll {
+  margin-top: 50px;
+  padding: 20px 0;
+}
+
+.book-images-scroll h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #ffeb3b;
+  font-size: 2rem;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 25px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #00ffcc #1e3c72;
+  scroll-behavior: smooth;
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: #1e3c72;
+  border-radius: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #00ffcc;
+  border-radius: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #00b3b3;
+}
+
+.book-image-item {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: all 0.4s ease;
+}
+
+.book-image-item:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.book-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-image-item:hover img {
   transform: scale(1.1);
-  text-shadow:0 0 10px #00ffcc,0 0 20px #00ffcc;
+}
+
+.book-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 20px 15px 15px;
+  color: white;
+  transform: translateY(5px);
+  transition: transform 0.3s ease;
+}
+
+.book-image-item:hover .book-image-overlay {
+  transform: translateY(0);
+}
+
+.book-image-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.book-image-price {
+  color: #00ffcc;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.book-image-price::before {
+  content: '₹';
+  font-size: 1rem;
+}
+
+.scroll-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.scroll-nav-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.scroll-nav-btn:hover {
+  background: #00ffcc;
+  color: #1e3c72;
+  transform: scale(1.1);
+}
+
+/* New Professional Footer */
+.footer {
+  background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
+  padding: 60px 0 20px;
+  margin-top: auto;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  gap: 40px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-heading {
+  color: #00ffcc;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #00ffcc, #009e7a);
+  border-radius: 3px;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 15px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: #00ffcc;
+  transform: translateX(5px);
+}
+
+.footer-links i {
+  color: #00ffcc;
+  font-size: 1.1rem;
+  width: 25px;
+}
+
+.contact-info {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-item i {
+  color: #00ffcc;
+  font-size: 1.2rem;
+  width: 25px;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #00ffcc;
+  color: #1e3c72;
+  transform: translateY(-5px);
+}
+
+.newsletter p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.newsletter-input::placeholder {
+  color: #ccc;
+}
+
+.newsletter-btn {
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+  border: none;
+  padding: 0 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background: linear-gradient(to right, #00e6b8, #009999);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 25px 0 10px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-bottom p {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.footer-bottom span {
+  color: #00ffcc;
+  font-weight: 600;
 }
 
 /* Responsive */
@@ -191,14 +560,10 @@ footer span:hover {
     background: rgba(0,0,0,0.95);
     flex-direction:column;
     width:220px;
-    display:none; /* hide initially */
     padding:20px;
     border-radius:0 0 10px 10px;
     gap:15px;
     box-shadow:0 10px 25px rgba(0,0,0,0.5);
-  }
-  .nav-links.show {
-    display:flex; /* show when toggled */
   }
   .nav-links li a {
     padding:12px 15px; /* bigger touch area */
@@ -207,6 +572,76 @@ footer span:hover {
   .hero h1 { font-size:2.2rem; }
   .hero p { font-size:1rem; }
   .college-card { font-size:1.1rem; padding:30px; }
+  
+  /* Books Section Responsive */
+  .books-section {
+    padding: 50px 20px;
+    margin: 30px 15px;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .books-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .action-btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .book-image-item {
+    width: 180px;
+    height: 250px;
+  }
+  
+  /* Footer Responsive */
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .newsletter-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+      font-size: 1.8rem;
+  }
+  
+  .college-card {
+      padding: 20px 15px;
+      font-size: 1rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .book-images-scroll h3 {
+    font-size: 1.6rem;
+  }
+  
+  .action-btn {
+    padding: 15px 25px;
+    font-size: 1rem;
+  }
+  
+  .book-image-item {
+    width: 160px;
+    height: 230px;
+  }
 }
 </style>
 </head>
@@ -218,7 +653,9 @@ footer span:hover {
     <span class="logo-icon">🎓</span> AbhiLearn
   </div>
   <ul class="nav-links">
-    <li><a href="index2.html" class="nav-link active"><span>🏠</span> Home</a></li>
+    <li><a href="index.html" class="nav-link"><span>🏠</span> Home</a></li>
+    <li><a href="books.html" class="nav-link"><span>📚</span> Books</a></li>
+    <li><a href="papers.html" class="nav-link"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link"><span>📞</span> Contact</a></li>
     <li><a href="signin.html"><span>🔓</span> Sign Out</a></li>
   </ul>
@@ -232,7 +669,7 @@ footer span:hover {
 <!-- Hero Section -->
 <div class="hero">
   <h1>Welcome to AbhiLearn</h1>
-  <p>Your trusted platform for previous year papers, study materials, and exam preparation resources. Explore colleges and streams easily!</p>
+  <p>Your trusted platform for previous year papers, study materials, second-hand books and exam preparation resources. Explore colleges and streams easily!</p>
 </div>
 
 <!-- Colleges Section -->
@@ -249,31 +686,204 @@ footer span:hover {
   <a href="college.html?college=SD College Chandigarh" class="college-card">SD College Chandigarh</a>
 </section>
 
-<!-- Footer -->
-<footer>
-  <span>©2025 AbhiLearn</span>
+<!-- Books Marketplace Section -->
+<section class="books-section">
+  <div class="section-header">
+    <h2>Second Hand Books Marketplace</h2>
+    <p>Buy and sell used books at affordable prices. Find the best deals on academic books.</p>
+  </div>
+  
+  <div class="books-actions">
+    <a href="sell-book.html" class="action-btn sell-btn">
+      <i class="fas fa-plus-circle"></i> Sell a Book
+    </a>
+    <a href="books.html" class="action-btn browse-btn">
+      <i class="fas fa-shopping-cart"></i> Buy Books
+    </a>
+  </div>
+  
+  <!-- Book Images Scroll Section -->
+  <div class="book-images-scroll">
+    <h3>Popular Books</h3>
+    <div class="scroll-container" id="bookScroll">
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Engineering Mathematics Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Engineering Mathematics</div>
+          <div class="book-image-price">300</div>
+        </div>
+      </div>
+      
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Physics for Engineers Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Physics for Engineers</div>
+          <div class="book-image-price">250</div>
+        </div>
+      </div>
+      
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Computer Programming Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Computer Programming</div>
+          <div class="book-image-price">350</div>
+        </div>
+      </div>
+      
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Chemistry Fundamentals Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Chemistry Fundamentals</div>
+          <div class="book-image-price">275</div>
+        </div>
+      </div>
+      
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Electrical Engineering Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Electrical Engineering</div>
+          <div class="book-image-price">400</div>
+        </div>
+      </div>
+      
+      <div class="book-image-item">
+        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Mechanical Engineering Book">
+        <div class="book-image-overlay">
+          <div class="book-image-title">Mechanical Engineering</div>
+          <div class="book-image-price">380</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="scroll-nav">
+      <button class="scroll-nav-btn" onclick="scrollBooks(-300)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="scroll-nav-btn" onclick="scrollBooks(300)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- New Professional Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3 class="footer-heading">About AbhiLearn</h3>
+      <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+        AbhiLearn is your premier destination for exam preparation resources, providing previous year papers, study materials, second-hand books and comprehensive guides for various colleges and universities.
+      </p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="books.html"><i class="fas fa-book"></i> Buy/Sell Books</a></li>
+        <li><a href="papers.html"><i class="fas fa-file-alt"></i> Question Papers</a></li>
+        <li><a href="materials.html"><i class="fas fa-book-open"></i> Study Materials</a></li>
+        <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Contact Info</h3>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Government College Road, Ropar</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>62395-47147</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>info@abhilearn.netlify.app</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-clock"></i>
+          <span>24x7 Available</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Newsletter</h3>
+      <p style="color: #ccc; margin-bottom: 20px;">
+        Subscribe to our newsletter for updates on new books, study materials and exam resources.
+      </p>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 <span>AbhiLearn</span>. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: #ff3366;"></i></p>
+  </div>
 </footer>
 
 <script>
-// Highlight current nav link
+// Better current page detection
 let currentPage = window.location.pathname.split("/").pop();
+if (currentPage === "" || currentPage === "index.html") {
+    currentPage = "index.html";
+}
+
 document.querySelectorAll(".nav-link").forEach(link => {
-  if(link.getAttribute("href") === currentPage) link.classList.add("active");
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+        link.classList.add("active");
+    } else {
+        link.classList.remove("active");
+    }
 });
 
-// Toggle mobile menu
+// Toggle mobile menu with animation
 function toggleMenu() {
-  document.querySelector('.nav-links').classList.toggle('show');
+  const navLinks = document.querySelector('.nav-links');
+  const hamburger = document.querySelector('.hamburger');
+  
+  navLinks.classList.toggle('show');
+  hamburger.classList.toggle('active');
 }
 
 // Close menu when clicking outside
 document.addEventListener('click', function(event) {
   const nav = document.querySelector('.nav-links');
   const hamburger = document.querySelector('.hamburger');
+  
   if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
     nav.classList.remove('show');
+    hamburger.classList.remove('active');
   }
 });
+
+// Smooth close when clicking on nav links (mobile)
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.remove('show');
+    document.querySelector('.hamburger').classList.remove('active');
+  });
+});
+
+// Book scroll functionality
+function scrollBooks(distance) {
+  const scrollContainer = document.getElementById('bookScroll');
+  scrollContainer.scrollBy({
+    left: distance,
+    behavior: 'smooth'
+  });
+}
 </script>
 
 </body>
