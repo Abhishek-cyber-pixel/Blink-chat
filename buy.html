@@ -10,113 +10,34 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
 
-        /* Navbar */
-        .navbar {
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          padding:15px 40px;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(10px);
-          position:sticky;
-          top:0;
-          z-index:1000;
-          border-bottom:1px solid rgba(255,255,255,0.1);
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0,0,0,0.6);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
         }
-
-        .navbar .logo {
-          font-size:1.8rem;
-          font-weight:700;
-          color:#ffeb3b; 
-          display:flex;
-          align-items:center;
-          gap:8px;
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: rgba(0,255,204,0.2);
         }
-
-        .logo-icon {
-          font-size:2rem;
-        }
-
-        /* Hamburger menu */
-        .hamburger {
-          display:none;
-          flex-direction:column;
-          cursor:pointer;
-          gap:5px;
-          z-index:1100;
-          padding: 5px;
-        }
-
-        .hamburger div {
-          width:30px;
-          height:4px;
-          background:#fff; 
-          transition:all 0.3s ease;
-          border-radius:2px;
-        }
-
-        /* Hamburger animation */
-        .hamburger.active div:nth-child(1) {
-          transform: rotate(45deg) translate(6px, 6px);
-        }
-
-        .hamburger.active div:nth-child(2) {
-          opacity: 0;
-        }
-
-        .hamburger.active div:nth-child(3) {
-          transform: rotate(-45deg) translate(6px, -6px);
-        }
-
-        /* Nav links */
-        .nav-links {
-          display:flex;
-          list-style:none;
-          gap:25px;
-          transition: transform 0.4s ease-out, opacity 0.3s ease;
-          transform-origin: top center;
-          transform: scaleY(0);
-          opacity: 0;
-        }
-
-        .nav-links.show {
-          transform: scaleY(1);
-          opacity: 1;
-        }
-
-        .nav-links li a {
-            font-weight:500;
-            position:relative;
-            transition:0.3s;
-            padding:10px 15px;
-            color:#fff;
-            text-decoration:none;
-            display:flex;
-            align-items:center;
-            gap:8px;
-            border-radius:8px;
-        }
-
-        .nav-links li a:hover,
-        .nav-links li a.active {
-          color:#00ffcc;
-          background: rgba(0,255,204,0.1);
-        }
-
-        .nav-links li a::after {
-          content:"";
-          position:absolute;
-          left:0;
-          bottom:-4px;
-          height:2px;
-          width:0;
-          background:#00ffcc;
-          transition:width 0.3s;
-        }
-
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-          width:100%;
+        
+        .back-button i {
+            font-size: 1.5rem;
+            color: #00ffcc;
         }
 
         /* Page Header */
@@ -298,6 +219,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
         }
 
         .sort-select select {
@@ -338,6 +260,7 @@
             backdrop-filter: blur(5px);
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .book-card:hover {
@@ -560,6 +483,7 @@
             border-radius: 12px;
             overflow: hidden;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .book-scroll-item:hover {
@@ -774,6 +698,127 @@
           font-weight: 600;
         }
 
+        /* Buy Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #00ffcc;
+            transform: rotate(90deg);
+        }
+
+        .modal-book-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-book-image img {
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .modal-book-title {
+            font-size: 1.5rem;
+            color: #00ffcc;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .modal-book-author {
+            color: #ccc;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-book-price {
+            font-size: 1.8rem;
+            color: #ffeb3b;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .buy-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #00ffcc;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #00ffcc;
+            box-shadow: 0 0 0 2px rgba(0,255,204,0.3);
+        }
+
+        .confirm-buy-btn {
+            background: linear-gradient(to right, #00ffcc, #00b3b3);
+            color: #1e3c72;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .confirm-buy-btn:hover {
+            background: linear-gradient(to right, #00e6b8, #009999);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
         /* Responsive */
         @media(max-width:1024px){
           .main-container {
@@ -787,30 +832,6 @@
         }
 
         @media(max-width:768px){
-          .navbar {
-            justify-content: space-between;
-            padding: 15px 20px;
-          }
-          .hamburger {
-            display:flex;
-          }
-          .nav-links {
-            position:absolute;
-            top:60px;
-            right:10px;
-            background: rgba(0,0,0,0.95);
-            flex-direction:column;
-            width:220px;
-            padding:20px;
-            border-radius:0 0 10px 10px;
-            gap:15px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.5);
-          }
-          .nav-links li a {
-            padding:12px 15px;
-            font-size:1.1rem;
-          }
-          
           .page-header h1 {
             font-size: 2.2rem;
           }
@@ -838,29 +859,22 @@
           .filters-sidebar {
             padding: 20px;
           }
+          
+          .back-button {
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+          }
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
-  <div class="logo">
-    <span class="logo-icon">🎓</span> AbhiLearn
-  </div>
-  <ul class="nav-links">
-    <li><a href="index.html"><span>🏠</span> Home</a></li>
-    <li><a href="books.html" class="active"><span>📚</span> Books</a></li>
-    <li><a href="papers.html"><span>📝</span> Question Papers</a></li>
-    <li><a href="contact.html"><span>📞</span> Contact</a></li>
-    <li><a href="signin.html"><span>🔓</span> Sign Out</a></li>
-  </ul>
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-</nav>
+<!-- Back Button -->
+<a href="index2.html" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+</a>
 
 <!-- Page Header -->
 <div class="page-header">
@@ -960,12 +974,12 @@
         <div class="tools-bar">
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search for books, authors, or categories...">
+                <input type="text" id="searchInput" placeholder="Search for books, authors, or categories...">
             </div>
             
             <div class="sort-select">
                 <span>Sort by:</span>
-                <select>
+                <select id="sortSelect">
                     <option value="popularity">Popularity</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
@@ -976,129 +990,8 @@
         </div>
         
         <!-- Books Grid -->
-        <div class="books-grid">
-            <!-- Book 1 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Engineering Mathematics Book">
-                    <div class="book-badge">Bestseller</div>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Engineering Mathematics</h3>
-                    <p class="book-author">By H.K. Dass</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹299</div>
-                        <div class="book-condition">Like New</div>
-                    </div>
-                    <p class="book-description">Advanced Engineering Mathematics for semester 4. Includes all chapters with minimal highlighting on only 15 pages.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('Engineering Mathematics')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('Engineering Mathematics')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Book 2 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Physics for Engineers Book">
-                    <div class="book-badge">Popular</div>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Physics for Engineers</h3>
-                    <p class="book-author">By R.K. Gaur</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹250</div>
-                        <div class="book-condition">Good</div>
-                    </div>
-                    <p class="book-description">Comprehensive physics textbook for engineering students. Some pencil notes but overall in good condition.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('Physics for Engineers')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('Physics for Engineers')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Book 3 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Computer Programming Book">
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">C++ Programming</h3>
-                    <p class="book-author">By E. Balagurusamy</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹350</div>
-                        <div class="book-condition">Excellent</div>
-                    </div>
-                    <p class="book-description">Introduction to C++ programming. Almost new condition with no markings or highlights.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('C++ Programming')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('C++ Programming')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Book 4 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Chemistry Fundamentals Book">
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Chemistry Fundamentals</h3>
-                    <p class="book-author">By P.C. Jain</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹275</div>
-                        <div class="book-condition">Fair</div>
-                    </div>
-                    <p class="book-description">Basic chemistry concepts for first year students. Some pages have highlighting but all content is readable.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('Chemistry Fundamentals')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('Chemistry Fundamentals')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Book 5 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Electrical Engineering Book">
-                    <div class="book-badge">Just Added</div>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Electrical Engineering</h3>
-                    <p class="book-author">By B.L. Theraja</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹400</div>
-                        <div class="book-condition">Like New</div>
-                    </div>
-                    <p class="book-description">Comprehensive guide to electrical engineering concepts. Minimal usage with no writing inside.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('Electrical Engineering')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('Electrical Engineering')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Book 6 -->
-            <div class="book-card">
-                <div class="book-image">
-                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Mechanical Engineering Book">
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Mechanical Engineering</h3>
-                    <p class="book-author">By R.S. Khurmi</p>
-                    <div class="book-meta">
-                        <div class="book-price">₹380</div>
-                        <div class="book-condition">Good</div>
-                    </div>
-                    <p class="book-description">Standard textbook for mechanical engineering students. Some notes in pencil but in good condition overall.</p>
-                    <div class="book-actions">
-                        <button class="action-btn buy-btn" onclick="buyNow('Mechanical Engineering')"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                        <button class="action-btn cart-btn" onclick="addToCart('Mechanical Engineering')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
+        <div class="books-grid" id="booksGrid">
+            <!-- Books will be dynamically added here -->
         </div>
         
         <!-- Pagination -->
@@ -1114,58 +1007,55 @@
         <!-- Recently Viewed -->
         <div class="recently-viewed">
             <h3 class="section-title">Recommended For You</h3>
-            <div class="books-scroll">
-                <div class="book-scroll-item">
-                    <div class="book-scroll-image">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" alt="Engineering Mathematics">
-                    </div>
-                    <div class="book-scroll-details">
-                        <div class="book-scroll-title">Engineering Mathematics</div>
-                        <div class="book-scroll-price">₹299</div>
-                    </div>
-                </div>
-                
-                <div class="book-scroll-item">
-                    <div class="book-scroll-image">
-                        <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" alt="C++ Programming">
-                    </div>
-                    <div class="book-scroll-details">
-                        <div class="book-scroll-title">C++ Programming</div>
-                        <div class="book-scroll-price">₹350</div>
-                    </div>
-                </div>
-                
-                <div class="book-scroll-item">
-                    <div class="book-scroll-image">
-                        <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" alt="Chemistry Fundamentals">
-                    </div>
-                    <div class="book-scroll-details">
-                        <div class="book-scroll-title">Chemistry Fundamentals</div>
-                        <div class="book-scroll-price">₹275</div>
-                    </div>
-                </div>
-                
-                <div class="book-scroll-item">
-                    <div class="book-scroll-image">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" alt="Mechanical Engineering">
-                    </div>
-                    <div class="book-scroll-details">
-                        <div class="book-scroll-title">Mechanical Engineering</div>
-                        <div class="book-scroll-price">₹380</div>
-                    </div>
-                </div>
-                
-                <div class="book-scroll-item">
-                    <div class="book-scroll-image">
-                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" alt="Physics for Engineers">
-                    </div>
-                    <div class="book-scroll-details">
-                        <div class="book-scroll-title">Physics for Engineers</div>
-                        <div class="book-scroll-price">₹250</div>
-                    </div>
-                </div>
+            <div class="books-scroll" id="recommendedBooks">
+                <!-- Recommended books will be dynamically added here -->
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Buy Modal -->
+<div class="modal" id="buyModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="modal-book-image">
+            <img id="modalBookImage" src="" alt="Book Image">
+        </div>
+        <h3 class="modal-book-title" id="modalBookTitle"></h3>
+        <p class="modal-book-author" id="modalBookAuthor"></p>
+        <div class="modal-book-price" id="modalBookPrice"></div>
+        
+        <form class="buy-form" id="buyForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required placeholder="Enter your phone number">
+            </div>
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <input type="text" id="address" required placeholder="Enter your complete address">
+            </div>
+            <div class="form-group">
+                <label for="payment">Payment Method</label>
+                <select id="payment" required>
+                    <option value="">Select payment method</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="debit-card">Debit Card</option>
+                    <option value="upi">UPI</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+            </div>
+            <button type="submit" class="confirm-buy-btn">
+                <i class="fas fa-check-circle"></i> Confirm Purchase
+            </button>
+        </form>
     </div>
 </div>
 
@@ -1231,83 +1121,300 @@
   </div>
   
   <div class="footer-bottom">
-    <p>&copy; 2025 <span>AbhiLearn</span>.</p>
+    <p>&copy; 2025 <span>AbhiLearn</span>. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: #ff3366;"></i></p>
   </div>
 </footer>
 
 <script>
-// Better current page detection
-let currentPage = window.location.pathname.split("/").pop();
-if (currentPage === "" || currentPage === "index.html") {
-    currentPage = "index.html";
-}
-
-document.querySelectorAll(".nav-link").forEach(link => {
-    const linkPage = link.getAttribute("href");
-    if (linkPage === currentPage) {
-        link.classList.add("active");
-    } else {
-        link.classList.remove("active");
+// Book data with unique images
+const books = [
+    {
+        id: 1,
+        title: "Engineering Mathematics",
+        author: "By H.K. Dass",
+        price: 299,
+        condition: "Like New",
+        description: "Advanced Engineering Mathematics for semester 4. Includes all chapters with minimal highlighting on only 15 pages.",
+        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Bestseller",
+        category: "Engineering"
+    },
+    {
+        id: 2,
+        title: "Physics for Engineers",
+        author: "By R.K. Gaur",
+        price: 250,
+        condition: "Good",
+        description: "Comprehensive physics textbook for engineering students. Some pencil notes but overall in good condition.",
+        image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Popular",
+        category: "Engineering"
+    },
+    {
+        id: 3,
+        title: "C++ Programming",
+        author: "By E. Balagurusamy",
+        price: 350,
+        condition: "Excellent",
+        description: "Introduction to C++ programming. Almost new condition with no markings or highlights.",
+        image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Engineering"
+    },
+    {
+        id: 4,
+        title: "Chemistry Fundamentals",
+        author: "By P.C. Jain",
+        price: 275,
+        condition: "Fair",
+        description: "Basic chemistry concepts for first year students. Some pages have highlighting but all content is readable.",
+        image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Engineering"
+    },
+    {
+        id: 5,
+        title: "Electrical Engineering",
+        author: "By B.L. Theraja",
+        price: 400,
+        condition: "Like New",
+        description: "Comprehensive guide to electrical engineering concepts. Minimal usage with no writing inside.",
+        image: "https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Just Added",
+        category: "Engineering"
+    },
+    {
+        id: 6,
+        title: "Mechanical Engineering",
+        author: "By R.S. Khurmi",
+        price: 380,
+        condition: "Good",
+        description: "Standard textbook for mechanical engineering students. Some notes in pencil but in good condition overall.",
+        image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Engineering"
+    },
+    {
+        id: 7,
+        title: "Human Anatomy",
+        author: "By Dr. Alice Roberts",
+        price: 450,
+        condition: "Excellent",
+        description: "Detailed human anatomy textbook with color illustrations. Minimal highlighting.",
+        image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Popular",
+        category: "Medical"
+    },
+    {
+        id: 8,
+        title: "Organic Chemistry",
+        author: "By Jonathan Clayden",
+        price: 320,
+        condition: "Good",
+        description: "Comprehensive organic chemistry textbook with practice problems. Some notes in margins.",
+        image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Medical"
+    },
+    {
+        id: 9,
+        title: "Financial Accounting",
+        author: "By Robert Libby",
+        price: 280,
+        condition: "Like New",
+        description: "Introduction to financial accounting principles. Almost new with no markings.",
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Bestseller",
+        category: "Commerce"
+    },
+    {
+        id: 10,
+        title: "Business Studies",
+        author: "By Malcolm Goodman",
+        price: 260,
+        condition: "Excellent",
+        description: "Comprehensive business studies textbook with case studies. Minimal highlighting.",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Commerce"
+    },
+    {
+        id: 11,
+        title: "World History",
+        author: "By John Smith",
+        price: 310,
+        condition: "Good",
+        description: "Survey of world history from ancient times to modern era. Some underlining.",
+        image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Arts"
+    },
+    {
+        id: 12,
+        title: "Sociology Essentials",
+        author: "By Anthony Giddens",
+        price: 290,
+        condition: "Excellent",
+        description: "Introduction to sociological concepts and theories. Minimal usage.",
+        image: "https://images.unsplash.com/photo-1589652717521-10c0d092dea9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Just Added",
+        category: "Arts"
+    },
+    {
+        id: 13,
+        title: "UPSC Preparation Guide",
+        author: "By M. Laxmikanth",
+        price: 500,
+        condition: "Like New",
+        description: "Comprehensive guide for UPSC civil services examination. Latest edition with minimal markings.",
+        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Bestseller",
+        category: "Competitive"
+    },
+    {
+        id: 14,
+        title: "GRE Complete Guide",
+        author: "By Kaplan Test Prep",
+        price: 350,
+        condition: "Good",
+        description: "Complete preparation guide for GRE examination. Includes practice tests and strategies.",
+        image: "https://images.unsplash.com/photo-1560785496-3c9d27877182?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "",
+        category: "Competitive"
+    },
+    {
+        id: 15,
+        title: "CAT Quantitative Aptitude",
+        author: "By Arun Sharma",
+        price: 420,
+        condition: "Excellent",
+        description: "Comprehensive guide for CAT quantitative aptitude section. Includes practice problems and solutions.",
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        badge: "Popular",
+        category: "Competitive"
     }
-});
+];
 
-// Toggle mobile menu with animation
-function toggleMenu() {
-  const navLinks = document.querySelector('.nav-links');
-  const hamburger = document.querySelector('.hamburger');
-  
-  navLinks.classList.toggle('show');
-  hamburger.classList.toggle('active');
+// Function to render books
+function renderBooks(booksToRender, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    booksToRender.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.className = 'book-card';
+        bookCard.innerHTML = `
+            <div class="book-image">
+                <img src="${book.image}" alt="${book.title}">
+                ${book.badge ? `<div class="book-badge">${book.badge}</div>` : ''}
+            </div>
+            <div class="book-details">
+                <h3 class="book-title">${book.title}</h3>
+                <p class="book-author">${book.author}</p>
+                <div class="book-meta">
+                    <div class="book-price">₹${book.price}</div>
+                    <div class="book-condition">${book.condition}</div>
+                </div>
+                <p class="book-description">${book.description}</p>
+                <div class="book-actions">
+                    <button class="action-btn buy-btn" onclick="openBuyModal(${book.id})"><i class="fas fa-shopping-bag"></i> Buy Now</button>
+                    <button class="action-btn cart-btn" onclick="addToCart(${book.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(bookCard);
+    });
 }
 
-// Close menu when clicking outside
-document.addEventListener('click', function(event) {
-  const nav = document.querySelector('.nav-links');
-  const hamburger = document.querySelector('.hamburger');
-  
-  if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-    nav.classList.remove('show');
-    hamburger.classList.remove('active');
-  }
-});
-
-// Smooth close when clicking on nav links (mobile)
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.remove('show');
-    document.querySelector('.hamburger').classList.remove('active');
-  });
-});
-
-// Buy Now functionality
-function buyNow(bookTitle) {
-    alert(`Redirecting to checkout for: ${bookTitle}`);
-    // In a real application, this would redirect to a checkout page
+// Function to open buy modal
+function openBuyModal(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (book) {
+        document.getElementById('modalBookImage').src = book.image;
+        document.getElementById('modalBookTitle').textContent = book.title;
+        document.getElementById('modalBookAuthor').textContent = book.author;
+        document.getElementById('modalBookPrice').textContent = `₹${book.price}`;
+        document.getElementById('buyModal').style.display = 'flex';
+    }
 }
 
-// Add to Cart functionality
-function addToCart(bookTitle) {
-    alert(`Added to cart: ${bookTitle}`);
-    // In a real application, this would add the item to a shopping cart
+// Function to close modal
+function closeModal() {
+    document.getElementById('buyModal').style.display = 'none';
 }
 
-// Search functionality
-const searchInput = document.querySelector('.search-box input');
-searchInput.addEventListener('keyup', function(e) {
-    if (e.key === 'Enter') {
-        const searchTerm = searchInput.value.trim();
-        if (searchTerm) {
-            alert(`Searching for: ${searchTerm}`);
-            // In a real application, this would filter the books
+// Function to add to cart
+function addToCart(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (book) {
+        alert(`Added to cart: ${book.title}`);
+        // In a real application, this would add the item to a shopping cart
+    }
+}
+
+// Function to handle search
+function handleSearch() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const filteredBooks = books.filter(book => 
+        book.title.toLowerCase().includes(searchTerm) || 
+        book.author.toLowerCase().includes(searchTerm) ||
+        book.category.toLowerCase().includes(searchTerm)
+    );
+    renderBooks(filteredBooks, 'booksGrid');
+}
+
+// Function to handle sort
+function handleSort() {
+    const sortValue = document.getElementById('sortSelect').value;
+    let sortedBooks = [...books];
+    
+    switch(sortValue) {
+        case 'price-low':
+            sortedBooks.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-high':
+            sortedBooks.sort((a, b) => b.price - a.price);
+            break;
+        case 'newest':
+            // For demonstration, we'll sort by ID in descending order
+            sortedBooks.sort((a, b) => b.id - a.id);
+            break;
+        case 'rating':
+            // For demonstration, we'll sort by price (no rating data available)
+            sortedBooks.sort((a, b) => b.price - a.price);
+            break;
+        default:
+            // Default is popularity, we'll keep original order
+            break;
+    }
+    
+    renderBooks(sortedBooks, 'booksGrid');
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Render all books initially
+    renderBooks(books, 'booksGrid');
+    
+    // Set up recommended books (just first 5 for demonstration)
+    const recommendedBooks = books.slice(0, 5);
+    renderBooks(recommendedBooks, 'recommendedBooks');
+    
+    // Set up event listeners
+    document.getElementById('searchInput').addEventListener('input', handleSearch);
+    document.getElementById('sortSelect').addEventListener('change', handleSort);
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('buyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Purchase confirmed! You will receive a confirmation email shortly.');
+        closeModal();
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target === document.getElementById('buyModal')) {
+            closeModal();
         }
-    }
-});
-
-// Filter functionality
-document.querySelectorAll('.filter-option input').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        // In a real application, this would update the filtered results
-        console.log('Filter updated');
     });
 });
 </script>
