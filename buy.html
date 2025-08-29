@@ -1,1126 +1,773 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Books - AbhiLearn</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
-
-        /* Back Button */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: rgba(0,0,0,0.6);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            background: rgba(0,255,204,0.2);
-        }
-        
-        .back-button i {
-            font-size: 1.5rem;
-            color: #00ffcc;
-        }
-
-        /* Page Header */
-        .page-header {
-            text-align: center;
-            padding: 80px 20px 40px;
-            background: linear-gradient(135deg,#1e3c72,#2a5298);
-            position:relative;
-            z-index:1;
-            box-shadow: inset 0 0 200px rgba(0,0,0,0.3);
-        }
-
-        .page-header h1 {
-            font-size:2.5rem;
-            color:#00ffcc;
-            margin-bottom:15px;
-            text-shadow:0 3px 15px rgba(0,0,0,0.5);
-        }
-
-        .page-header p {
-            font-size:1.1rem;
-            max-width:750px;
-            margin:0 auto;
-            line-height:1.6;
-            color:#fff;
-        }
-
-        /* Main Content Layout */
-        .main-container {
-            display: flex;
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-            gap: 25px;
-        }
-
-        /* Filters Sidebar */
-        .filters-sidebar {
-            flex: 0 0 280px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-
-        .filter-group {
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 20px;
-        }
-
-        .filter-group:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .filter-title {
-            font-size: 1.2rem;
-            color: #00ffcc;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .filter-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-option input {
-            width: 18px;
-            height: 18px;
-            accent-color: #00ffcc;
-        }
-
-        .filter-option label {
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .price-range {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .price-inputs {
-            display: flex;
-            gap: 10px;
-        }
-
-        .price-inputs input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        .price-slider {
-            width: 100%;
-            height: 5px;
-            -webkit-appearance: none;
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .price-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #00ffcc;
-            cursor: pointer;
-        }
-
-        /* Books Content Area */
-        .books-content {
-            flex: 1;
-        }
-
-        /* Search and Sort Bar */
-        .tools-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255,255,255,0.1);
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .search-box {
-            flex: 1;
-            position: relative;
-            max-width: 500px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px 12px 50px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 0 2px #00ffcc;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #00ffcc;
-        }
-
-        .sort-select {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-        }
-
-        .sort-select select {
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            font-size: 1rem;
-            appearance: none;
-            padding-right: 40px;
-            cursor: pointer;
-        }
-
-        .sort-select::after {
-            content: "\f078";
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
-            position: absolute;
-            right: 35px;
-            color: #00ffcc;
-            pointer-events: none;
-        }
-
-        /* Books Grid */
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .book-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .book-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .book-image {
-            height: 250px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.2);
-            position: relative;
-        }
-
-        .book-image img {
-            max-height: 220px;
-            max-width: 80%;
-            width: auto;
-            object-fit: contain;
-            transition: transform 0.5s ease;
-        }
-
-        .book-card:hover .book-image img {
-            transform: scale(1.1);
-        }
-
-        .book-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #00ffcc;
-            color: #1e3c72;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .book-details {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .book-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #00ffcc;
-        }
-
-        .book-author {
-            color: #ccc;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-
-        .book-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .book-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ffeb3b;
-        }
-
-        .book-condition {
-            background: linear-gradient(to right, #00ffcc, #00b3b3);
-            color: #1e3c72;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .book-description {
-            color: #ccc;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
-        .book-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .buy-btn {
-            background: linear-gradient(to right, #00ffcc, #00b3b3);
-            color: #1e3c72;
-        }
-
-        .buy-btn:hover {
-            background: linear-gradient(to right, #00e6b8, #009999);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .cart-btn {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 2px solid #00ffcc;
-        }
-
-        .cart-btn:hover {
-            background: rgba(0,255,204,0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 40px 0;
-            padding: 0 30px;
-        }
-
-        .pagination-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 2px solid #00ffcc;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .pagination-btn.active {
-            background: #00ffcc;
-            color: #1e3c72;
-        }
-
-        .pagination-btn:hover:not(.active) {
-            background: rgba(0,255,204,0.2);
-            transform: translateY(-3px);
-        }
-
-        /* Recently Viewed */
-        .recently-viewed {
-            margin-top: 50px;
-            padding: 30px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: #00ffcc;
-            margin-bottom: 25px;
-            font-weight: 600;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .books-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 20px 10px;
-            scrollbar-width: thin;
-            scrollbar-color: #00ffcc #1e3c72;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .books-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .books-scroll::-webkit-scrollbar-track {
-            background: #1e3c72;
-            border-radius: 10px;
-        }
-
-        .books-scroll::-webkit-scrollbar-thumb {
-            background: #00ffcc;
-            border-radius: 10px;
-        }
-
-        .books-scroll::-webkit-scrollbar-thumb:hover {
-            background: #00b3b3;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #00ffcc;
-            font-size: 1.5rem;
-            display: none;
-        }
-
-        .book-scroll-item {
-            flex: 0 0 200px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .book-scroll-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .book-scroll-image {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.2);
-        }
-
-        .book-scroll-image img {
-            max-height: 130px;
-            max-width: 80%;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .book-scroll-details {
-            padding: 15px;
-        }
-
-        .book-scroll-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #00ffcc;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .book-scroll-price {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ffeb3b;
-        }
-
-        /* Footer */
-        .footer {
-          background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
-          padding: 60px 0 20px;
-          margin-top: auto;
-          box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
-        }
-
-        .footer-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 30px;
-          gap: 40px;
-        }
-
-        .footer-section {
-          flex: 1;
-          min-width: 250px;
-        }
-
-        .footer-heading {
-          color: #00ffcc;
-          font-size: 1.4rem;
-          margin-bottom: 25px;
-          position: relative;
-          padding-bottom: 10px;
-          font-weight: 700;
-        }
-
-        .footer-heading::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 50px;
-          height: 3px;
-          background: linear-gradient(to right, #00ffcc, #009e7a);
-          border-radius: 3px;
-        }
-
-        .footer-links {
-          list-style: none;
-        }
-
-        .footer-links li {
-          margin-bottom: 15px;
-        }
-
-        .footer-links a {
-          color: #fff;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          transition: all 0.3s ease;
-          font-weight: 500;
-        }
-
-        .footer-links a:hover {
-          color: #00ffcc;
-          transform: translateX(5px);
-        }
-
-        .footer-links i {
-          color: #00ffcc;
-          font-size: 1.1rem;
-          width: 25px;
-        }
-
-        .contact-info {
-          color: #fff;
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .contact-item {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-        }
-
-        .contact-item i {
-          color: #00ffcc;
-          font-size: 1.2rem;
-          width: 25px;
-        }
-
-        .social-links {
-          display: flex;
-          gap: 15px;
-          margin-top: 20px;
-        }
-
-        .social-links a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          background: rgba(255,255,255,0.1);
-          border-radius: 50%;
-          color: #fff;
-          font-size: 1.2rem;
-          transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-          background: #00ffcc;
-          color: #1e3c72;
-          transform: translateY(-5px);
-        }
-
-        .newsletter p {
-          margin-bottom: 20px;
-          line-height: 1.6;
-        }
-
-        .newsletter-form {
-          display: flex;
-          gap: 10px;
-        }
-
-        .newsletter-input {
-          flex: 1;
-          padding: 12px 15px;
-          border: none;
-          border-radius: 5px;
-          background: rgba(255,255,255,0.1);
-          color: #fff;
-          font-family: 'Poppins', sans-serif;
-        }
-
-        .newsletter-input::placeholder {
-          color: #ccc;
-        }
-
-        .newsletter-btn {
-          background: linear-gradient(to right, #00ffcc, #00b3b3);
-          color: #1e3c72;
-          border: none;
-          padding: 0 20px;
-          border-radius: 5px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .newsletter-btn:hover {
-          background: linear-gradient(to right, #00e6b8, #009999);
-          transform: translateY(-2px);
-        }
-
-        .footer-bottom {
-          text-align: center;
-          padding: 25px 0 10px;
-          margin-top: 40px;
-          border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .footer-bottom p {
-          color: #ccc;
-          font-size: 0.9rem;
-        }
-
-        .footer-bottom span {
-          color: #00ffcc;
-          font-weight: 600;
-        }
-
-        /* Buy Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 15px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .close-modal:hover {
-            color: #00ffcc;
-            transform: rotate(90deg);
-        }
-
-        .modal-book-image {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-book-image img {
-            max-height: 200px;
-            max-width: 100%;
-            width: auto;
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-
-        .modal-book-title {
-            font-size: 1.5rem;
-            color: #00ffcc;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .modal-book-author {
-            color: #ccc;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-book-price {
-            font-size: 1.8rem;
-            color: #ffeb3b;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .buy-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: #00ffcc;
-        }
-
-        .form-group input, .form-group select {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #00ffcc;
-            box-shadow: 0 0 0 2px rgba(0,255,204,0.3);
-        }
-
-        .confirm-buy-btn {
-            background: linear-gradient(to right, #00ffcc, #00b3b3);
-            color: #1e3c72;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .confirm-buy-btn:hover {
-            background: linear-gradient(to right, #00e6b8, #009999);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Responsive */
-        @media(max-width:1024px){
-          .main-container {
-            flex-direction: column;
-          }
-          
-          .filters-sidebar {
-            position: static;
-            margin-bottom: 30px;
-          }
-        }
-
-        @media(max-width:768px){
-          .page-header {
-            padding: 70px 15px 30px;
-          }
-          
-          .page-header h1 {
-            font-size: 2rem;
-          }
-          
-          .tools-bar {
-            flex-direction: column;
-            gap: 15px;
-            align-items: stretch;
-          }
-          
-          .books-grid {
-            grid-template-columns: 1fr;
-          }
-          
-          .book-actions {
-            flex-direction: column;
-          }
-          
-          .book-image {
-            height: 200px;
-          }
-          
-          .book-image img {
-            max-height: 180px;
-          }
-          
-          .scroll-indicator {
-            display: block;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .page-header {
-            padding: 60px 10px 20px;
-          }
-          
-          .page-header h1 {
-              font-size: 1.8rem;
-          }
-          
-          .page-header p {
-            font-size: 1rem;
-          }
-          
-          .filters-sidebar {
-            padding: 20px;
-          }
-          
-          .back-button {
-            top: 10px;
-            left: 10px;
-            width: 40px;
-            height: 40px;
-          }
-          
-          .book-details {
-            padding: 20px;
-          }
-          
-          .book-title {
-            font-size: 1.2rem;
-          }
-          
-          .book-price {
-            font-size: 1.3rem;
-          }
-          
-          .modal-content {
-            padding: 20px;
-          }
-          
-          .modal-book-title {
-            font-size: 1.3rem;
-          }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Books - AbhiLearn</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
+
+/* Navbar */
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.navbar .logo {
+  font-size:1.8rem;
+  font-weight:700;
+  color:#ffeb3b; 
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.logo-icon {
+  font-size:2rem;
+}
+
+/* Back Button */
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateX(-5px);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00ffcc;
+  font-size: 2.5rem;
+  text-shadow: 0 3px 15px rgba(0,0,0,0.5);
+}
+
+/* Search and Filters */
+.search-filters {
+  background: rgba(255,255,255,0.1);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.search-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 20px 15px 50px;
+  border-radius: 50px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #00ffcc;
+  box-shadow: 0 0 15px rgba(0,255,204,0.3);
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ccc;
+}
+
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #00ffcc;
+}
+
+.filter-select, .filter-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.filter-select:focus, .filter-input:focus {
+  outline: none;
+  border-color: #00ffcc;
+}
+
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.price-value {
+  min-width: 60px;
+  text-align: center;
+  font-weight: 600;
+  color: #00ffcc;
+}
+
+/* Books Grid */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.book-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  backdrop-filter: blur(5px);
+}
+
+.book-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.15);
+}
+
+.book-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.book-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .book-image img {
+  transform: scale(1.1);
+}
+
+.book-details {
+  padding: 20px;
+}
+
+.book-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.book-author {
+  color: #ccc;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.book-price {
+  color: #00ffcc;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.book-price::before {
+  content: '₹';
+  font-size: 1rem;
+}
+
+.book-condition {
+  display: inline-block;
+  background: rgba(0,255,204,0.2);
+  color: #00ffcc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+}
+
+.buy-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.buy-btn:hover {
+  background: linear-gradient(to right, #00e6b8, #009999);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.pagination-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover, .pagination-btn.active {
+  background: #00ffcc;
+  color: #1e3c72;
+}
+
+/* Purchase Form Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 1.8rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #00ffcc;
+}
+
+.modal-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #00ffcc;
+  font-size: 2rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #00ffcc;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: #00ffcc;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(to right, #00e6b8, #009999);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Footer */
+.footer {
+  background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
+  padding: 60px 0 20px;
+  margin-top: auto;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  gap: 40px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-heading {
+  color: #00ffcc;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #00ffcc, #009e7a);
+  border-radius: 3px;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 15px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: #00ffcc;
+  transform: translateX(5px);
+}
+
+.footer-links i {
+  color: #00ffcc;
+  font-size: 1.1rem;
+  width: 25px;
+}
+
+.contact-info {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-item i {
+  color: #00ffcc;
+  font-size: 1.2rem;
+  width: 25px;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #00ffcc;
+  color: #1e3c72;
+  transform: translateY(-5px);
+}
+
+.newsletter p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.newsletter-input::placeholder {
+  color: #ccc;
+}
+
+.newsletter-btn {
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+  border: none;
+  padding: 0 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background: linear-gradient(to right, #00e6b8, #009999);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 25px 0 10px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-bottom p {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.footer-bottom span {
+  color: #00ffcc;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
+  
+  .filters-container {
+    flex-direction: column;
+  }
+  
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .search-filters {
+    padding: 20px;
+  }
+  
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .newsletter-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .back-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    padding: 20px;
+  }
+}
+</style>
 </head>
 <body>
 
-<!-- Back Button -->
-<a href="index2.html" class="back-button">
-    <i class="fas fa-arrow-left"></i>
-</a>
-
-<!-- Page Header -->
-<div class="page-header">
-    <h1>Buy Second Hand Books</h1>
-    <p>Find the best deals on used academic books. Save money and help the environment by buying second-hand.</p>
-</div>
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index2.html" class="logo">
+    <span class="logo-icon">🎓</span> AbhiLearn
+  </a>
+  <button class="back-btn" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i> Back
+  </button>
+</nav>
 
 <!-- Main Content -->
-<div class="main-container">
-    <!-- Filters Sidebar -->
-    <aside class="filters-sidebar">
-        <div class="filter-group">
-            <h3 class="filter-title">Categories</h3>
-            <div class="filter-options">
-                <div class="filter-option">
-                    <input type="checkbox" id="engineering" checked>
-                    <label for="engineering">Engineering</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="medical">
-                    <label for="medical">Medical</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="commerce">
-                    <label for="commerce">Commerce</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="arts">
-                    <label for="arts">Arts</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="competitive">
-                    <label for="competitive">Competitive Exams</label>
-                </div>
-            </div>
-        </div>
-        
-        <div class="filter-group">
-            <h3 class="filter-title">Price Range</h3>
-            <div class="price-range">
-                <div class="price-inputs">
-                    <input type="number" placeholder="Min" value="100">
-                    <input type="number" placeholder="Max" value="1000">
-                </div>
-                <input type="range" class="price-slider" min="0" max="2000" value="1000">
-            </div>
-        </div>
-        
-        <div class="filter-group">
-            <h3 class="filter-title">Condition</h3>
-            <div class="filter-options">
-                <div class="filter-option">
-                    <input type="checkbox" id="new" checked>
-                    <label for="new">Like New</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="excellent" checked>
-                    <label for="excellent">Excellent</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="good" checked>
-                    <label for="good">Good</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="fair">
-                    <label for="fair">Fair</label>
-                </div>
-            </div>
-        </div>
-        
-        <div class="filter-group">
-            <h3 class="filter-title">Seller Type</h3>
-            <div class="filter-options">
-                <div class="filter-option">
-                    <input type="checkbox" id="verified" checked>
-                    <label for="verified">Verified Sellers</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="students" checked>
-                    <label for="students">Students</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="institutions">
-                    <label for="institutions">Institutions</label>
-                </div>
-            </div>
-        </div>
-        
-        <button class="action-btn buy-btn" style="width: 100%; margin-top: 20px;">
-            <i class="fas fa-filter"></i> Apply Filters
-        </button>
-    </aside>
+<main class="main-content">
+  <h1 class="page-title">Buy Books</h1>
+  
+  <!-- Search and Filters -->
+  <section class="search-filters">
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search for books, authors, or subjects..." id="searchInput">
+    </div>
     
-    <!-- Books Content Area -->
-    <div class="books-content">
-        <!-- Tools Bar -->
-        <div class="tools-bar">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search for books, authors, or categories...">
-            </div>
-            
-            <div class="sort-select">
-                <span>Sort by:</span>
-                <select id="sortSelect">
-                    <option value="popularity">Popularity</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="newest">Newest First</option>
-                    <option value="rating">Customer Ratings</option>
-                </select>
-            </div>
+    <div class="filters-container">
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <select class="filter-select" id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="engineering">Engineering</option>
+          <option value="programming">Programming</option>
+          <option value="science">Science</option>
+          <option value="mathematics">Mathematics</option>
+          <option value="business">Business</option>
+          <option value="fiction">Fiction</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Condition</label>
+        <select class="filter-select" id="conditionFilter">
+          <option value="">Any Condition</option>
+          <option value="new">New</option>
+          <option value="like-new">Like New</option>
+          <option value="good">Good</option>
+          <option value="fair">Fair</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Price Range</label>
+        <input type="range" min="0" max="1000" value="500" class="filter-input" id="priceRange">
+        <div class="price-range">
+          <span>₹0</span>
+          <span class="price-value" id="priceValue">₹500</span>
+          <span>₹1000+</span>
         </div>
-        
-        <!-- Books Grid -->
-        <div class="books-grid" id="booksGrid">
-            <!-- Books will be dynamically added here -->
-        </div>
-        
-        <!-- Pagination -->
-        <div class="pagination">
-            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-            <button class="pagination-btn">4</button>
-            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        
-        <!-- Recently Viewed -->
-        <div class="recently-viewed">
-            <h3 class="section-title">Recommended For You</h3>
-            <div class="books-scroll" id="recommendedBooks">
-                <!-- Recommended books will be dynamically added here -->
-            </div>
-            <div class="scroll-indicator">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Sort By</label>
+        <select class="filter-select" id="sortFilter">
+          <option value="newest">Newest First</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="popularity">Popularity</option>
+        </select>
+      </div>
     </div>
-</div>
+  </section>
+  
+  <!-- Books Grid -->
+  <section class="books-grid" id="booksGrid">
+    <!-- Books will be dynamically loaded here -->
+  </section>
+  
+  <!-- Pagination -->
+  <div class="pagination" id="pagination">
+    <button class="pagination-btn active">1</button>
+    <button class="pagination-btn">2</button>
+    <button class="pagination-btn">3</button>
+    <button class="pagination-btn">></button>
+  </div>
+</main>
 
-<!-- Buy Modal -->
-<div class="modal" id="buyModal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeModal">&times;</span>
-        <div class="modal-book-image">
-            <img id="modalBookImage" src="" alt="Book Image">
-        </div>
-        <h3 class="modal-book-title" id="modalBookTitle"></h3>
-        <p class="modal-book-author" id="modalBookAuthor"></p>
-        <div class="modal-book-price" id="modalBookPrice"></div>
-        
-        <form class="buy-form" id="buyForm">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" required placeholder="Enter your full name">
-            </div>
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" required placeholder="Enter your phone number">
-            </div>
-            <div class="form-group">
-                <label for="address">Shipping Address</label>
-                <input type="text" id="address" required placeholder="Enter your complete address">
-            </div>
-            <div class="form-group">
-                <label for="payment">Payment Method</label>
-                <select id="payment" required>
-                    <option value="">Select payment method</option>
-                    <option value="credit-card">Credit Card</option>
-                    <option value="debit-card">Debit Card</option>
-                    <option value="upi">UPI</option>
-                    <option value="cod">Cash on Delivery</option>
-                </select>
-            </div>
-            <button type="submit" class="confirm-buy-btn">
-                <i class="fas fa-check-circle"></i> Confirm Purchase
-            </button>
-        </form>
-    </div>
+<!-- Purchase Form Modal -->
+<div class="modal" id="purchaseModal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <h2 class="modal-title">Purchase Book</h2>
+    
+    <form id="purchaseForm">
+      <div class="form-group">
+        <label class="form-label">Book Title</label>
+        <input type="text" class="form-input" id="modalBookTitle" readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Price</label>
+        <input type="text" class="form-input" id="modalBookPrice" readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Enter your full name" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="tel" class="form-input" placeholder="Enter your phone number" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Delivery Address</label>
+        <textarea class="form-textarea" placeholder="Enter your complete address" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select class="form-select" required>
+          <option value="">Select payment method</option>
+          <option value="cash">Cash on Delivery</option>
+          <option value="upi">UPI Payment</option>
+          <option value="card">Credit/Debit Card</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="submit-btn">Confirm Purchase</button>
+    </form>
+  </div>
 </div>
 
 <!-- Footer -->
@@ -1134,7 +781,7 @@
       <div class="social-links">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.instagram.com/user_not_found1234567890123456?igsh=MTNpdWs2ZDU1aXI1cQ=="><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-linkedin-in"></i></a>
       </div>
     </div>
@@ -1190,299 +837,226 @@
 </footer>
 
 <script>
-// Book data with unique images
+// Sample book data
 const books = [
-    {
-        id: 1,
-        title: "Engineering Mathematics",
-        author: "By H.K. Dass",
-        price: 299,
-        condition: "Like New",
-        description: "Advanced Engineering Mathematics for semester 4. Includes all chapters with minimal highlighting on only 15 pages.",
-        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Bestseller",
-        category: "Engineering"
-    },
-    {
-        id: 2,
-        title: "Physics for Engineers",
-        author: "By R.K. Gaur",
-        price: 250,
-        condition: "Good",
-        description: "Comprehensive physics textbook for engineering students. Some pencil notes but overall in good condition.",
-        image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Popular",
-        category: "Engineering"
-    },
-    {
-        id: 3,
-        title: "C++ Programming",
-        author: "By E. Balagurusamy",
-        price: 350,
-        condition: "Excellent",
-        description: "Introduction to C++ programming. Almost new condition with no markings or highlights.",
-        image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Engineering"
-    },
-    {
-        id: 4,
-        title: "Chemistry Fundamentals",
-        author: "By P.C. Jain",
-        price: 275,
-        condition: "Fair",
-        description: "Basic chemistry concepts for first year students. Some pages have highlighting but all content is readable.",
-        image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Engineering"
-    },
-    {
-        id: 5,
-        title: "Electrical Engineering",
-        author: "By B.L. Theraja",
-        price: 400,
-        condition: "Like New",
-        description: "Comprehensive guide to electrical engineering concepts. Minimal usage with no writing inside.",
-        image: "https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Just Added",
-        category: "Engineering"
-    },
-    {
-        id: 6,
-        title: "Mechanical Engineering",
-        author: "By R.S. Khurmi",
-        price: 380,
-        condition: "Good",
-        description: "Standard textbook for mechanical engineering students. Some notes in pencil but in good condition overall.",
-        image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Engineering"
-    },
-    {
-        id: 7,
-        title: "Human Anatomy",
-        author: "By Dr. Alice Roberts",
-        price: 450,
-        condition: "Excellent",
-        description: "Detailed human anatomy textbook with color illustrations. Minimal highlighting.",
-        image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Popular",
-        category: "Medical"
-    },
-    {
-        id: 8,
-        title: "Organic Chemistry",
-        author: "By Jonathan Clayden",
-        price: 320,
-        condition: "Good",
-        description: "Comprehensive organic chemistry textbook with practice problems. Some notes in margins.",
-        image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Medical"
-    },
-    {
-        id: 9,
-        title: "Financial Accounting",
-        author: "By Robert Libby",
-        price: 280,
-        condition: "Like New",
-        description: "Introduction to financial accounting principles. Almost new with no markings.",
-        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Bestseller",
-        category: "Commerce"
-    },
-    {
-        id: 10,
-        title: "Business Studies",
-        author: "By Malcolm Goodman",
-        price: 260,
-        condition: "Excellent",
-        description: "Comprehensive business studies textbook with case studies. Minimal highlighting.",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Commerce"
-    },
-    {
-        id: 11,
-        title: "World History",
-        author: "By John Smith",
-        price: 310,
-        condition: "Good",
-        description: "Survey of world history from ancient times to modern era. Some underlining.",
-        image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Arts"
-    },
-    {
-        id: 12,
-        title: "Sociology Essentials",
-        author: "By Anthony Giddens",
-        price: 290,
-        condition: "Excellent",
-        description: "Introduction to sociological concepts and theories. Minimal usage.",
-        image: "https://images.unsplash.com/photo-1589652717521-10c0d092dea9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Just Added",
-        category: "Arts"
-    },
-    {
-        id: 13,
-        title: "UPSC Preparation Guide",
-        author: "By M. Laxmikanth",
-        price: 500,
-        condition: "Like New",
-        description: "Comprehensive guide for UPSC civil services examination. Latest edition with minimal markings.",
-        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Bestseller",
-        category: "Competitive"
-    },
-    {
-        id: 14,
-        title: "GRE Complete Guide",
-        author: "By Kaplan Test Prep",
-        price: 350,
-        condition: "Good",
-        description: "Complete preparation guide for GRE examination. Includes practice tests and strategies.",
-        image: "https://images.unsplash.com/photo-1560785496-3c9d27877182?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "",
-        category: "Competitive"
-    },
-    {
-        id: 15,
-        title: "CAT Quantitative Aptitude",
-        author: "By Arun Sharma",
-        price: 420,
-        condition: "Excellent",
-        description: "Comprehensive guide for CAT quantitative aptitude section. Includes practice problems and solutions.",
-        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-        badge: "Popular",
-        category: "Competitive"
-    }
+  {
+    id: 1,
+    title: "C++ Programming Language",
+    author: "Bjarne Stroustrup",
+    price: 450,
+    condition: "Like New",
+    category: "programming",
+    image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "The classic C++ programming guide by the creator of C++."
+  },
+  {
+    id: 2,
+    title: "Database System Concepts",
+    author: "Abraham Silberschatz",
+    price: 550,
+    condition: "Good",
+    category: "programming",
+    image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Comprehensive textbook on database systems concepts."
+  },
+  {
+    id: 3,
+    title: "Engineering Mathematics",
+    author: "K.A. Stroud",
+    price: 350,
+    condition: "Fair",
+    category: "mathematics",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Essential mathematics for engineering students."
+  },
+  {
+    id: 4,
+    title: "Data Structures and Algorithms",
+    author: "Thomas H. Cormen",
+    price: 600,
+    condition: "New",
+    category: "programming",
+    image: "https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Comprehensive guide to data structures and algorithms."
+  },
+  {
+    id: 5,
+    title: "Electrical Engineering Fundamentals",
+    author: "Vincent Del Toro",
+    price: 480,
+    condition: "Good",
+    category: "engineering",
+    image: "https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Fundamental concepts of electrical engineering."
+  },
+  {
+    id: 6,
+    title: "Mechanical Engineering Principles",
+    author: "John Bird",
+    price: 520,
+    condition: "Like New",
+    category: "engineering",
+    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Principles and applications of mechanical engineering."
+  },
+  {
+    id: 7,
+    title: "Physics for Scientists and Engineers",
+    author: "Raymond A. Serway",
+    price: 650,
+    condition: "New",
+    category: "science",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Comprehensive physics textbook for science and engineering students."
+  },
+  {
+    id: 8,
+    title: "Business Analytics",
+    author: "James Evans",
+    price: 580,
+    condition: "Good",
+    category: "business",
+    image: "https://images.unsplash.com/photo-1553484771-11998c592b9c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    description: "Data analysis and decision making for business."
+  }
 ];
 
-// Function to render books
-function renderBooks(booksToRender, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-    
-    booksToRender.forEach(book => {
-        const bookCard = document.createElement('div');
-        bookCard.className = 'book-card';
-        bookCard.innerHTML = `
-            <div class="book-image">
-                <img src="${book.image}" alt="${book.title}">
-                ${book.badge ? `<div class="book-badge">${book.badge}</div>` : ''}
-            </div>
-            <div class="book-details">
-                <h3 class="book-title">${book.title}</h3>
-                <p class="book-author">${book.author}</p>
-                <div class="book-meta">
-                    <div class="book-price">₹${book.price}</div>
-                    <div class="book-condition">${book.condition}</div>
-                </div>
-                <p class="book-description">${book.description}</p>
-                <div class="book-actions">
-                    <button class="action-btn buy-btn" onclick="openBuyModal(${book.id})"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-                    <button class="action-btn cart-btn" onclick="addToCart(${book.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                </div>
-            </div>
-        `;
-        container.appendChild(bookCard);
+// DOM Elements
+const booksGrid = document.getElementById('booksGrid');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const conditionFilter = document.getElementById('conditionFilter');
+const priceRange = document.getElementById('priceRange');
+const priceValue = document.getElementById('priceValue');
+const sortFilter = document.getElementById('sortFilter');
+const purchaseModal = document.getElementById('purchaseModal');
+const closeModal = document.getElementById('closeModal');
+const purchaseForm = document.getElementById('purchaseForm');
+const modalBookTitle = document.getElementById('modalBookTitle');
+const modalBookPrice = document.getElementById('modalBookPrice');
+
+// Display books
+function displayBooks(booksToDisplay) {
+  booksGrid.innerHTML = '';
+  
+  if (booksToDisplay.length === 0) {
+    booksGrid.innerHTML = '<p class="no-books">No books found matching your criteria.</p>';
+    return;
+  }
+  
+  booksToDisplay.forEach(book => {
+    const bookCard = document.createElement('div');
+    bookCard.className = 'book-card';
+    bookCard.innerHTML = `
+      <div class="book-image">
+        <img src="${book.image}" alt="${book.title}">
+      </div>
+      <div class="book-details">
+        <h3 class="book-title">${book.title}</h3>
+        <p class="book-author">by ${book.author}</p>
+        <div class="book-condition">${book.condition}</div>
+        <div class="book-price">${book.price}</div>
+        <button class="buy-btn" data-id="${book.id}">
+          <i class="fas fa-shopping-cart"></i> Buy Now
+        </button>
+      </div>
+    `;
+    booksGrid.appendChild(bookCard);
+  });
+  
+  // Add event listeners to buy buttons
+  document.querySelectorAll('.buy-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const bookId = parseInt(e.target.closest('.buy-btn').dataset.id);
+      openPurchaseModal(bookId);
     });
+  });
 }
 
-// Function to open buy modal
-function openBuyModal(bookId) {
-    const book = books.find(b => b.id === bookId);
-    if (book) {
-        document.getElementById('modalBookImage').src = book.image;
-        document.getElementById('modalBookTitle').textContent = book.title;
-        document.getElementById('modalBookAuthor').textContent = book.author;
-        document.getElementById('modalBookPrice').textContent = `₹${book.price}`;
-        document.getElementById('buyModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    }
-}
-
-// Function to close modal
-function closeModal() {
-    document.getElementById('buyModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
-}
-
-// Function to add to cart
-function addToCart(bookId) {
-    const book = books.find(b => b.id === bookId);
-    if (book) {
-        alert(`Added to cart: ${book.title}`);
-        // In a real application, this would add the item to a shopping cart
-    }
-}
-
-// Function to handle search
-function handleSearch() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const filteredBooks = books.filter(book => 
-        book.title.toLowerCase().includes(searchTerm) || 
-        book.author.toLowerCase().includes(searchTerm) ||
-        book.category.toLowerCase().includes(searchTerm)
-    );
-    renderBooks(filteredBooks, 'booksGrid');
-}
-
-// Function to handle sort
-function handleSort() {
-    const sortValue = document.getElementById('sortSelect').value;
-    let sortedBooks = [...books];
+// Filter books based on criteria
+function filterBooks() {
+  const searchText = searchInput.value.toLowerCase();
+  const category = categoryFilter.value;
+  const condition = conditionFilter.value;
+  const maxPrice = parseInt(priceRange.value);
+  const sortBy = sortFilter.value;
+  
+  let filteredBooks = books.filter(book => {
+    const matchesSearch = book.title.toLowerCase().includes(searchText) || 
+                          book.author.toLowerCase().includes(searchText) ||
+                          book.description.toLowerCase().includes(searchText);
+    const matchesCategory = category === '' || book.category === category;
+    const matchesCondition = condition === '' || book.condition.toLowerCase() === condition.toLowerCase();
+    const matchesPrice = book.price <= maxPrice;
     
-    switch(sortValue) {
-        case 'price-low':
-            sortedBooks.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-high':
-            sortedBooks.sort((a, b) => b.price - a.price);
-            break;
-        case 'newest':
-            // For demonstration, we'll sort by ID in descending order
-            sortedBooks.sort((a, b) => b.id - a.id);
-            break;
-        case 'rating':
-            // For demonstration, we'll sort by price (no rating data available)
-            sortedBooks.sort((a, b) => b.price - a.price);
-            break;
-        default:
-            // Default is popularity, we'll keep original order
-            break;
-    }
-    
-    renderBooks(sortedBooks, 'booksGrid');
+    return matchesSearch && matchesCategory && matchesCondition && matchesPrice;
+  });
+  
+  // Sort books
+  switch(sortBy) {
+    case 'price-low':
+      filteredBooks.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-high':
+      filteredBooks.sort((a, b) => b.price - a.price);
+      break;
+    case 'newest':
+    default:
+      // Already sorted by ID (which simulates newest first)
+      break;
+  }
+  
+  displayBooks(filteredBooks);
 }
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
-    // Render all books initially
-    renderBooks(books, 'booksGrid');
-    
-    // Set up recommended books (just first 5 for demonstration)
-    const recommendedBooks = books.slice(0, 5);
-    renderBooks(recommendedBooks, 'recommendedBooks');
-    
-    // Set up event listeners
-    document.getElementById('searchInput').addEventListener('input', handleSearch);
-    document.getElementById('sortSelect').addEventListener('change', handleSort);
-    document.getElementById('closeModal').addEventListener('click', closeModal);
-    document.getElementById('buyForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Purchase confirmed! You will receive a confirmation email shortly.');
-        closeModal();
-    });
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-        if (e.target === document.getElementById('buyModal')) {
-            closeModal();
-        }
-    });
+// Open purchase modal
+function openPurchaseModal(bookId) {
+  const book = books.find(b => b.id === bookId);
+  if (book) {
+    modalBookTitle.value = book.title;
+    modalBookPrice.value = `₹${book.price}`;
+    purchaseModal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+}
+
+// Close purchase modal
+function closePurchaseModal() {
+  purchaseModal.style.display = 'none';
+  document.body.style.overflow = 'auto'; // Enable scrolling
+}
+
+// Go back to previous page
+function goBack() {
+  window.history.back();
+}
+
+// Event Listeners
+searchInput.addEventListener('input', filterBooks);
+categoryFilter.addEventListener('change', filterBooks);
+conditionFilter.addEventListener('change', filterBooks);
+priceRange.addEventListener('input', () => {
+  priceValue.textContent = `₹${priceRange.value}`;
+  filterBooks();
 });
+sortFilter.addEventListener('change', filterBooks);
+closeModal.addEventListener('click', closePurchaseModal);
+purchaseForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Purchase successful! You will receive a confirmation email shortly.');
+  closePurchaseModal();
+});
+
+// Close modal if clicked outside
+window.addEventListener('click', (e) => {
+  if (e.target === purchaseModal) {
+    closePurchaseModal();
+  }
+});
+
+// Initialize page
+displayBooks(books);
+priceValue.textContent = `₹${priceRange.value}`;
 </script>
 
 </body>
