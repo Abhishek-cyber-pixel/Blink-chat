@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact - AbhiLearn</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; }
@@ -26,7 +27,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 .navbar .logo {
   font-size:1.8rem;
   font-weight:700;
-  color:#ffeb3b; /* yellow logo */
+  color:#ffeb3b;
   display:flex;
   align-items:center;
   gap:8px;
@@ -41,6 +42,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   cursor:pointer;
   gap:5px;
   z-index:1100;
+  padding: 5px;
 }
 
 .hamburger div {
@@ -48,6 +50,20 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   height:4px;
   background:#fff;
   border-radius:2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation */
+.hamburger.active div:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active div:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Nav links */
@@ -55,6 +71,15 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   display:flex;
   list-style:none;
   gap:25px;
+  transition: transform 0.4s ease-out, opacity 0.3s ease;
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.nav-links.show {
+  transform: scaleY(1);
+  opacity: 1;
 }
 
 .nav-links li a {
@@ -71,7 +96,10 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 }
 
 .nav-links li a:hover,
-.nav-links li a.active { color:#00ffcc; }
+.nav-links li a.active {
+  color:#00ffcc;
+  background: rgba(0,255,204,0.1);
+}
 
 .nav-links li a::after {
   content:"";
@@ -88,44 +116,376 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 .nav-links li a.active::after { width:100%; }
 
 /* Page Content */
-.content { flex:1; padding:100px 20px 60px; max-width:600px; margin:0 auto; text-align:center; }
-.content h1 { font-size:2.8rem; margin-bottom:20px; color:#00ffcc; text-shadow:0 3px 15px rgba(0,0,0,0.5); }
-.content p { font-size:1.2rem; margin-bottom:30px; line-height:1.6; color:#fff; }
+.content {
+  flex:1;
+  padding:80px 20px 60px;
+  max-width:800px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.content h1 {
+  font-size:2.8rem;
+  margin-bottom:20px;
+  color:#00ffcc;
+  text-shadow:0 3px 15px rgba(0,0,0,0.5);
+}
+
+.content p {
+  font-size:1.2rem;
+  margin-bottom:40px;
+  line-height:1.6;
+  color:#fff;
+}
+
+/* Contact Container */
+.contact-container {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(255,255,255,0.1);
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  text-align: left;
+}
+
+.contact-info h2 {
+  color: #00ffcc;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.contact-info h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #00ffcc, #009e7a);
+  border-radius: 3px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-item i {
+  color: #00ffcc;
+  font-size: 1.3rem;
+  width: 30px;
+}
+
+.contact-item span {
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #00ffcc;
+  color: #1e3c72;
+  transform: translateY(-5px);
+}
 
 /* Contact Box */
-.contact-box { background:#fff; color:#333; padding:25px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.3); text-align:left; }
-.contact-box h2 { text-align:center; margin-bottom:15px; color:#000; } /* heading in black */
-.contact-box label { display:block; margin-top:12px; font-weight:500; }
-.contact-box input, .contact-box textarea { width:100%; margin-top:5px; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; }
+.contact-box {
+  flex: 1;
+  min-width: 300px;
+  background:#fff;
+  color:#333;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  text-align:left;
+}
+
+.contact-box h2 {
+  text-align:center;
+  margin-bottom:20px;
+  color:#1e3c72;
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.contact-box h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  border-radius: 3px;
+}
+
+.contact-box label {
+  display:block;
+  margin-top:15px;
+  font-weight:500;
+  color: #1e3c72;
+}
+
+.contact-box input,
+.contact-box textarea {
+  width:100%;
+  margin-top:8px;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.contact-box input:focus,
+.contact-box textarea:focus {
+  outline: none;
+  border-color: #00ffcc;
+  box-shadow: 0 0 0 2px rgba(0,255,204,0.2);
+}
 
 /* Send Message Button */
 .contact-box button {
-  margin-top:18px;
+  margin-top:20px;
   width:100%;
-  padding:12px;
+  padding:15px;
   border:none;
-  border-radius:6px;
-  background: linear-gradient(90deg,#ffeb3b,#ffc107); /* golden button */
-  color:#000; /* black text */
-  font-size:1rem;
+  border-radius:8px;
+  background: linear-gradient(90deg,#ffeb3b,#ffc107);
+  color:#000;
+  font-size:1.1rem;
   font-weight:bold;
   cursor:pointer;
-  transition:0.2s;
-}
-.contact-box button:hover {
-  transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  transition:0.3s;
 }
 
-/* Footer */
-footer { text-align:center; padding:18px; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); color:#00ffcc; font-size:1rem; font-weight:600; letter-spacing:1px; box-shadow:0 -2px 10px rgba(0,0,0,0.5); margin-top:auto; }
-footer span { display:inline-block; transition:0.3s; }
-footer span:hover { transform: scale(1.1); text-shadow:0 0 10px #00ffcc,0 0 20px #00ffcc; }
+.contact-box button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* New Professional Footer */
+.footer {
+  background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
+  padding: 60px 0 20px;
+  margin-top: auto;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  gap: 40px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-heading {
+  color: #00ffcc;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #00ffcc, #009e7a);
+  border-radius: 3px;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 15px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: #00ffcc;
+  transform: translateX(5px);
+}
+
+.footer-links i {
+  color: #00ffcc;
+  font-size: 1.1rem;
+  width: 25px;
+}
+
+.contact-info-footer {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-item-footer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-item-footer i {
+  color: #00ffcc;
+  font-size: 1.2rem;
+  width: 25px;
+}
+
+.social-links-footer {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-links-footer a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.social-links-footer a:hover {
+  background: #00ffcc;
+  color: #1e3c72;
+  transform: translateY(-5px);
+}
+
+.newsletter p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.newsletter-input::placeholder {
+  color: #ccc;
+}
+
+.newsletter-btn {
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
+  border: none;
+  padding: 0 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background: linear-gradient(to right, #00e6b8, #009999);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 25px 0 10px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-bottom p {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.footer-bottom span {
+  color: #00ffcc;
+  font-weight: 600;
+}
 
 /* Responsive */
 @media(max-width:768px){
-  .navbar { justify-content: space-between; padding: 15px 20px; }
-  .hamburger { display:flex; }
+  .navbar {
+    justify-content: space-between;
+    padding: 15px 20px;
+  }
+  .hamburger {
+    display:flex;
+  }
   .nav-links {
     position:absolute;
     top:60px;
@@ -133,16 +493,52 @@ footer span:hover { transform: scale(1.1); text-shadow:0 0 10px #00ffcc,0 0 20px
     background: rgba(0,0,0,0.95);
     flex-direction:column;
     width:220px;
-    display:none;
     padding:20px;
     border-radius:0 0 10px 10px;
     gap:15px;
     box-shadow:0 10px 25px rgba(0,0,0,0.5);
   }
-  .nav-links.show { display:flex; }
-  .nav-links li a { padding:12px 15px; font-size:1.1rem; }
-  .content h1 { font-size:2.2rem; }
-  .content p { font-size:1rem; }
+  .nav-links li a {
+    padding:12px 15px;
+    font-size:1.1rem;
+  }
+  .content {
+    padding: 70px 20px 40px;
+  }
+  .content h1 {
+    font-size:2.2rem;
+  }
+  .content p {
+    font-size:1rem;
+  }
+  .contact-container {
+    flex-direction: column;
+  }
+  
+  /* Footer Responsive */
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .newsletter-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content h1 {
+    font-size: 2rem;
+  }
+  
+  .contact-info, .contact-box {
+    min-width: 100%;
+  }
 }
 </style>
 </head>
@@ -154,7 +550,9 @@ footer span:hover { transform: scale(1.1); text-shadow:0 0 10px #00ffcc,0 0 20px
     <span class="logo-icon">🎓</span> AbhiLearn
   </div>
   <ul class="nav-links">
-    <li><a href="index2.html" class="nav-link"><span>🏠</span> Home</a></li>
+    <li><a href="index.html" class="nav-link"><span>🏠</span> Home</a></li>
+    <li><a href="books.html" class="nav-link"><span>📚</span> Books</a></li>
+    <li><a href="papers.html" class="nav-link"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link active"><span>📞</span> Contact</a></li>
     <li><a href="signin.html"><span>🔓</span> Sign Out</a></li>
   </ul>
@@ -168,46 +566,165 @@ footer span:hover { transform: scale(1.1); text-shadow:0 0 10px #00ffcc,0 0 20px
 <!-- Page Content -->
 <div class="content">
   <h1>Contact Us</h1>
-  <p>Fill in the form below to get in touch with the AbhiLearn team.</p>
+  <p>Have questions or need assistance? Reach out to the AbhiLearn team. We're here to help you with your educational journey.</p>
 
-  <div class="contact-box">
-    <h2>Send a Message</h2> <!-- heading now black -->
-    <form>
-      <label for="name">Your Name</label>
-      <input type="text" id="name" placeholder="Enter your name">
-      <label for="email">Your Email</label>
-      <input type="email" id="email" placeholder="Enter your email">
-      <label for="message">Your Message</label>
-      <textarea id="message" rows="5" placeholder="Type your message"></textarea>
-      <button type="submit">Send Message</button> <!-- button text black -->
-    </form>
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>Get In Touch</h2>
+      <div class="contact-details">
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Government College Road, Ropar</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>62395-47147</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>info@abhilearn.netlify.app</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-clock"></i>
+          <span>24x7 Available</span>
+        </div>
+      </div>
+      
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="contact-box">
+      <h2>Send a Message</h2>
+      <form>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        
+        <label for="email">Your Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" placeholder="Enter subject">
+        
+        <label for="message">Your Message</label>
+        <textarea id="message" rows="5" placeholder="Type your message" required></textarea>
+        
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
   </div>
 </div>
 
-<!-- Footer -->
-<footer>
-  <span>©2025 AbhiLearn</span>
+<!-- New Professional Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3 class="footer-heading">About AbhiLearn</h3>
+      <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+        AbhiLearn is your premier destination for exam preparation resources, providing previous year papers, study materials, second-hand books and comprehensive guides for various colleges and universities.
+      </p>
+      <div class="social-links-footer">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="books.html"><i class="fas fa-book"></i> Buy/Sell Books</a></li>
+        <li><a href="papers.html"><i class="fas fa-file-alt"></i> Question Papers</a></li>
+        <li><a href="materials.html"><i class="fas fa-book-open"></i> Study Materials</a></li>
+        <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Contact Info</h3>
+      <div class="contact-info-footer">
+        <div class="contact-item-footer">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Government College Road, Ropar</span>
+        </div>
+        <div class="contact-item-footer">
+          <i class="fas fa-phone"></i>
+          <span>62395-47147</span>
+        </div>
+        <div class="contact-item-footer">
+          <i class="fas fa-envelope"></i>
+          <span>info@abhilearn.netlify.app</span>
+        </div>
+        <div class="contact-item-footer">
+          <i class="fas fa-clock"></i>
+          <span>24x7 Available</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3 class="footer-heading">Newsletter</h3>
+      <p>Subscribe to our newsletter for updates on new books, study materials and exam resources.</p>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 <span>AbhiLearn</span>. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: #ff3366;"></i></p>
+  </div>
 </footer>
 
 <script>
-// Highlight current nav link
-const currentPage = window.location.pathname.split("/").pop();
+// Better current page detection
+let currentPage = window.location.pathname.split("/").pop();
+if (currentPage === "" || currentPage === "index.html") {
+    currentPage = "index.html";
+}
+
 document.querySelectorAll(".nav-link").forEach(link => {
-  if(link.getAttribute("href") === currentPage) link.classList.add("active");
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+        link.classList.add("active");
+    } else {
+        link.classList.remove("active");
+    }
 });
 
-// Toggle mobile menu
+// Toggle mobile menu with animation
 function toggleMenu() {
-  document.querySelector('.nav-links').classList.toggle('show');
+  const navLinks = document.querySelector('.nav-links');
+  const hamburger = document.querySelector('.hamburger');
+  
+  navLinks.classList.toggle('show');
+  hamburger.classList.toggle('active');
 }
 
 // Close menu when clicking outside
 document.addEventListener('click', function(event) {
   const nav = document.querySelector('.nav-links');
   const hamburger = document.querySelector('.hamburger');
+  
   if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
     nav.classList.remove('show');
+    hamburger.classList.remove('active');
   }
+});
+
+// Smooth close when clicking on nav links (mobile)
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.remove('show');
+    document.querySelector('.hamburger').classList.remove('active');
+  });
 });
 </script>
 
