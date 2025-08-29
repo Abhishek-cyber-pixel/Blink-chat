@@ -8,7 +8,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; }
+body { 
+  font-family: 'Poppins', sans-serif; 
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+  color:#fff; 
+  min-height:100vh; 
+  display:flex; 
+  flex-direction:column; 
+  overflow-x: hidden; /* Added to prevent horizontal scroll */
+}
 
 /* Navbar */
 .navbar {
@@ -22,6 +30,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   top:0;
   z-index:1000;
   border-bottom:1px solid rgba(255,255,255,0.1);
+  width: 100%; /* Ensure full width */
 }
 
 .navbar .logo {
@@ -119,9 +128,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 .content {
   flex:1;
   padding:80px 20px 60px;
-  max-width:800px;
+  max-width:1200px; /* Increased max-width for better layout */
   margin:0 auto;
   text-align:center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .content h1 {
@@ -136,6 +147,9 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   margin-bottom:40px;
   line-height:1.6;
   color:#fff;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Contact Container */
@@ -144,16 +158,19 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   gap: 40px;
   margin-top: 30px;
   flex-wrap: wrap;
+  justify-content: center; /* Center the container */
+  width: 100%;
 }
 
 .contact-info {
   flex: 1;
   min-width: 300px;
+  max-width: 400px;
   background: rgba(255,255,255,0.1);
   padding: 30px;
   border-radius: 15px;
   backdrop-filter: blur(5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
   text-align: left;
 }
 
@@ -228,6 +245,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 .contact-box {
   flex: 1;
   min-width: 300px;
+  max-width: 400px;
   background:#fff;
   color:#333;
   padding:30px;
@@ -274,6 +292,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   font-size:1rem;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .contact-box input:focus,
@@ -309,6 +328,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   padding: 60px 0 20px;
   margin-top: auto;
   box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+  width: 100%;
 }
 
 .footer-container {
@@ -513,6 +533,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   }
   .contact-container {
     flex-direction: column;
+    align-items: center;
   }
   
   /* Footer Responsive */
@@ -538,6 +559,15 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   
   .contact-info, .contact-box {
     min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .navbar {
+    padding: 15px;
+  }
+  
+  .content {
+    padding: 60px 15px 30px;
   }
 }
 </style>
