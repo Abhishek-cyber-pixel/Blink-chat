@@ -43,7 +43,7 @@
         /* Page Header */
         .page-header {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 80px 20px 40px;
             background: linear-gradient(135deg,#1e3c72,#2a5298);
             position:relative;
             z-index:1;
@@ -51,14 +51,14 @@
         }
 
         .page-header h1 {
-            font-size:2.8rem;
+            font-size:2.5rem;
             color:#00ffcc;
             margin-bottom:15px;
             text-shadow:0 3px 15px rgba(0,0,0,0.5);
         }
 
         .page-header p {
-            font-size:1.2rem;
+            font-size:1.1rem;
             max-width:750px;
             margin:0 auto;
             line-height:1.6;
@@ -282,6 +282,7 @@
         .book-image img {
             max-height: 220px;
             max-width: 80%;
+            width: auto;
             object-fit: contain;
             transition: transform 0.5s ease;
         }
@@ -439,6 +440,7 @@
             border-radius: 15px;
             backdrop-filter: blur(5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            position: relative;
         }
 
         .section-title {
@@ -454,9 +456,10 @@
             display: flex;
             overflow-x: auto;
             gap: 20px;
-            padding: 10px 5px;
+            padding: 20px 10px;
             scrollbar-width: thin;
             scrollbar-color: #00ffcc #1e3c72;
+            -webkit-overflow-scrolling: touch;
         }
 
         .books-scroll::-webkit-scrollbar {
@@ -475,6 +478,16 @@
 
         .books-scroll::-webkit-scrollbar-thumb:hover {
             background: #00b3b3;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00ffcc;
+            font-size: 1.5rem;
+            display: none;
         }
 
         .book-scroll-item {
@@ -502,6 +515,7 @@
         .book-scroll-image img {
             max-height: 130px;
             max-width: 80%;
+            width: auto;
             object-fit: contain;
         }
 
@@ -711,13 +725,14 @@
             backdrop-filter: blur(5px);
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .modal-content {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             border-radius: 15px;
             padding: 30px;
-            width: 90%;
+            width: 100%;
             max-width: 500px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             position: relative;
@@ -745,6 +760,8 @@
 
         .modal-book-image img {
             max-height: 200px;
+            max-width: 100%;
+            width: auto;
             border-radius: 8px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
@@ -832,8 +849,12 @@
         }
 
         @media(max-width:768px){
+          .page-header {
+            padding: 70px 15px 30px;
+          }
+          
           .page-header h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
           }
           
           .tools-bar {
@@ -849,11 +870,31 @@
           .book-actions {
             flex-direction: column;
           }
+          
+          .book-image {
+            height: 200px;
+          }
+          
+          .book-image img {
+            max-height: 180px;
+          }
+          
+          .scroll-indicator {
+            display: block;
+          }
         }
 
         @media (max-width: 480px) {
+          .page-header {
+            padding: 60px 10px 20px;
+          }
+          
           .page-header h1 {
               font-size: 1.8rem;
+          }
+          
+          .page-header p {
+            font-size: 1rem;
           }
           
           .filters-sidebar {
@@ -865,6 +906,26 @@
             left: 10px;
             width: 40px;
             height: 40px;
+          }
+          
+          .book-details {
+            padding: 20px;
+          }
+          
+          .book-title {
+            font-size: 1.2rem;
+          }
+          
+          .book-price {
+            font-size: 1.3rem;
+          }
+          
+          .modal-content {
+            padding: 20px;
+          }
+          
+          .modal-book-title {
+            font-size: 1.3rem;
           }
         }
     </style>
@@ -1009,6 +1070,9 @@
             <h3 class="section-title">Recommended For You</h3>
             <div class="books-scroll" id="recommendedBooks">
                 <!-- Recommended books will be dynamically added here -->
+            </div>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-right"></i>
             </div>
         </div>
     </div>
@@ -1335,12 +1399,14 @@ function openBuyModal(bookId) {
         document.getElementById('modalBookAuthor').textContent = book.author;
         document.getElementById('modalBookPrice').textContent = `₹${book.price}`;
         document.getElementById('buyModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
 }
 
 // Function to close modal
 function closeModal() {
     document.getElementById('buyModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
 }
 
 // Function to add to cart
