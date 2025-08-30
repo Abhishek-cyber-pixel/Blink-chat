@@ -66,20 +66,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     transform: rotate(-45deg) translate(6px, -6px); 
 }
 
-/* Nav links */ 
+/* Nav links - FIXED FOR LAPTOP/DESKTOP */ 
 .nav-links{ 
     display:flex; 
     list-style:none; 
     gap:25px; 
-    transition: transform 0.4s ease-out, opacity 0.3s ease; 
-    transform-origin: top center; 
-    transform: scaleY(0); 
-    opacity: 0; 
-}
-
-.nav-links.show { 
-    transform: scaleY(1); 
-    opacity: 1; 
 }
 
 .nav-links li a { 
@@ -544,6 +535,16 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 }
 
 /* Responsive */ 
+@media(max-width:1024px){ 
+    .nav-links { 
+        gap: 15px; 
+    }
+    .nav-links li a { 
+        padding: 8px 12px; 
+        font-size: 0.9rem; 
+    }
+}
+
 @media(max-width:768px){ 
     .navbar { 
         justify-content: space-between; 
@@ -563,7 +564,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
         border-radius:0 0 10px 10px; 
         gap:15px; 
         box-shadow:0 10px 25px rgba(0,0,0,0.5); 
+        display: none;
     } 
+    .nav-links.show {
+        display: flex;
+    }
     .nav-links li a { 
         padding:12px 15px; 
         font-size:1.1rem; 
@@ -794,15 +799,15 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
       <div class="contact-info">
         <div class="contact-item">
           <i class="fas fa-map-marker-alt"></i>
-          <span>Chandigarh, India</span>
+          <span>Government College Road ,Ropar</span>
         </div>
         <div class="contact-item">
           <i class="fas fa-phone"></i>
-          <span>+91 9876543210</span>
+          <span>+91 62395-47147</span>
         </div>
         <div class="contact-item">
           <i class="fas fa-envelope"></i>
-          <span>info@abhilearn.com</span>
+          <span>info@abhilearn.netlify.app</span>
         </div>
       </div>
     </div>
@@ -852,7 +857,7 @@ document.addEventListener('click', function(event) {
   const nav = document.querySelector('.nav-links');
   const hamburger = document.querySelector('.hamburger');
   
-  if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+  if (!nav.contains(event.target) && !hamburger.contains(event.target) && window.innerWidth <= 768) {
     nav.classList.remove('show');
     hamburger.classList.remove('active');
   }
@@ -861,8 +866,10 @@ document.addEventListener('click', function(event) {
 // Smooth close when clicking on nav links (mobile)
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.remove('show');
-    document.querySelector('.hamburger').classList.remove('active');
+    if (window.innerWidth <= 768) {
+      document.querySelector('.nav-links').classList.remove('show');
+      document.querySelector('.hamburger').classList.remove('active');
+    }
   });
 });
 
