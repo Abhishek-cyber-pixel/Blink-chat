@@ -1115,6 +1115,11 @@ window.addEventListener('click', (e) => {
 // Initialize page
 displayBooks(books);
 priceValue.textContent = `₹${priceRange.value}`;
+
+    // Go back to previous page
+function goBack() {
+  window.history.back();
+}
 </script>
 
 </body>
