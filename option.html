@@ -2,69 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paper Upload</title>
+  <title>Papers Upload</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
+    .container { margin-top: 50px; }
+    button { padding: 10px 20px; margin: 10px; border: none; background: #4CAF50; color: white; cursor: pointer; }
+    button:hover { background: #45a049; }
+    #papersList { margin-top: 20px; }
+    a { display: block; margin: 5px 0; color: blue; text-decoration: none; }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+<body>
+  <div class="container">
+    <h1>My Website</h1>
+    <input type="file" id="fileInput" style="display:none;" />
+    <button onclick="document.getElementById('fileInput').click()">Upload Paper</button>
+    <button onclick="loadPapers()">See Papers</button>
 
-  <h2>Upload Your Paper</h2>
-  
-  <!-- File Upload -->
-  <input type="file" id="paperFile" />
-  <button onclick="uploadPaper()">Upload</button>
-  
-  <p id="status"></p>
-  <div id="fileLink"></div>
+    <div id="papersList"></div>
+  </div>
 
   <!-- Firebase SDK -->
-  <script type="module">
-    // Import Firebase SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-storage.js"></script>
 
-    // Your Firebase config
+  <script>
+    // 🔹 Firebase Config
     const firebaseConfig = {
       projectId: "new-prototype-llvhl",
       appId: "1:294603651419:web:e9b6cc61a5f3de80a6027e",
-      storageBucket: "new-prototype-llvhl.appspot.com",
+      storageBucket: "new-prototype-llvhl.appspot.com", // storageBucket fix kiya
       apiKey: "AIzaSyARYU6-dTVfjQph4qvnzQq3H53sGwS48mg",
       authDomain: "new-prototype-llvhl.firebaseapp.com",
-      measurementId: "",
       messagingSenderId: "294603651419"
     };
 
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
+    // 🔹 Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
 
-    // Upload Paper
-    async function uploadPaper() {
-      const fileInput = document.getElementById("paperFile");
-      const status = document.getElementById("status");
-      const fileLink = document.getElementById("fileLink");
+    // 🔹 Upload Paper
+    document.getElementById("fileInput").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const storageRef = storage.ref("papers/" + file.name);
+      storageRef.put(file).then(() => {
+        alert("Paper uploaded successfully!");
+      }).catch(err => {
+        console.error(err);
+        alert("Upload failed!");
+      });
+    });
 
-      if (fileInput.files.length === 0) {
-        alert("Please select a file first!");
-        return;
-      }
+    // 🔹 Load Papers
+    function loadPapers() {
+      const listRef = storage.ref("papers/");
+      document.getElementById("papersList").innerHTML = "<p>Loading...</p>";
 
-      const file = fileInput.files[0];
-      const storageRef = ref(storage, "papers/" + file.name);
-
-      status.innerText = "Uploading...";
-
-      try {
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-
-        status.innerText = "Upload successful!";
-        fileLink.innerHTML = `<a href="${url}" target="_blank">📄 See Paper</a>`;
-      } catch (error) {
-        console.error(error);
-        status.innerText = "Upload failed!";
-      }
+      listRef.listAll().then(res => {
+        let html = "<h3>Uploaded Papers:</h3>";
+        res.items.forEach(itemRef => {
+          itemRef.getDownloadURL().then(url => {
+            html += `<a href="${url}" target="_blank">${itemRef.name}</a>`;
+            document.getElementById("papersList").innerHTML = html;
+          });
+        });
+      }).catch(err => {
+        console.error(err);
+        document.getElementById("papersList").innerHTML = "<p>Error loading papers</p>";
+      });
     }
   </script>
-
 </body>
 </html>
