@@ -41,17 +41,35 @@ footer { text-align:center; padding:14px; margin-top:auto; background:linear-gra
   <div class="card" id="seeBtn">📚 See Paper</div>
 </div>
 
-<div style="text-align:center; margin-top:10px;">
-  <button id="clearStorageBtn" style="padding:8px 16px; border:none; border-radius:6px; background:#ff4d4d; color:white; font-weight:bold; cursor:pointer;">🗑️ Clear Local Storage</button>
-</div>
-
 <div class="modal" id="modal">
   <div class="modal-content" id="modalContent"></div>
 </div>
 
 <footer>©2025 BR Paper</footer>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
 <script>
+// Firebase Config
+const firebaseConfig = {
+  projectId: "new-prototype-llvhl",
+  appId: "1:294603651419:web:e9b6cc61a5f3de80a6027e",
+  storageBucket: "new-prototype-llvhl.firebasestorage.app",
+  apiKey: "AIzaSyARYU6-dTVfjQph4qvnzQq3H53sGwS48mg",
+  authDomain: "new-prototype-llvhl.firebaseapp.com",
+  measurementId: "",
+  messagingSenderId: "294603651419"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
+const db = firebase.firestore();
+
+// Get query params
 const params = new URLSearchParams(window.location.search);
 const stream = params.get("stream");
 const sem = params.get("sem");
@@ -75,45 +93,53 @@ document.getElementById("uploadBtn").onclick = () => {
     <button onclick="closeModal()">Cancel</button>
     <div id="uploadStatus" style="margin-top:10px;font-weight:bold;"></div>
   `;
+
   document.getElementById("startUploadBtn").onclick = () => {
     const fileInput = document.getElementById("fileInput");
     const statusDiv = document.getElementById("uploadStatus");
     if(fileInput.files.length===0){ alert("Select a file first!"); return; }
     const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
-      localStorage.setItem(storageKey, reader.result);
+    const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
+    const storageRef = storage.ref().child(`papers/${storageKey}.pdf`);
+
+    statusDiv.innerHTML = `Uploading... <b>${file.name}</b>`;
+
+    storageRef.put(file).then(async (snapshot) => {
+      const downloadURL = await snapshot.ref.getDownloadURL();
+      await db.collection("papers").doc(storageKey).set({
+        url: downloadURL,
+        uploadedAt: new Date(),
+        subject: subject,
+        year: year,
+        sem: sem,
+        stream: stream
+      });
       statusDiv.innerHTML = `✅ <b>${file.name}</b> uploaded successfully!`;
-    };
-    reader.readAsDataURL(file);
-    statusDiv.innerHTML = `Uploading... <b>${fileInput.files[0].name}</b>`;
+    }).catch((error) => {
+      console.error("Upload failed:", error);
+      statusDiv.innerHTML = `❌ Upload failed!`;
+    });
   };
 };
 
 // See button
-document.getElementById("seeBtn").onclick = () => {
+document.getElementById("seeBtn").onclick = async () => {
   modal.style.display = "flex";
   const storageKey = `${stream}_${sem}_${subject}_${year}_paper`;
-  const fileURL = localStorage.getItem(storageKey);
-  if(fileURL){
+  const docRef = db.collection("papers").doc(storageKey);
+  const docSnap = await docRef.get();
+
+  if (docSnap.exists) {
+    const data = docSnap.data();
     modalContent.innerHTML = `
       <h2>📄 Uploaded Paper</h2>
-      <embed src="${fileURL}" type="application/pdf" width="100%" height="400px"/>
+      <embed src="${data.url}" type="application/pdf" width="100%" height="400px"/>
       <p>File: ${storageKey}</p>
       <button onclick="closeModal()">Close</button>
     `;
   } else {
     modalContent.innerHTML = `<h2>❌ Your file is not uploaded yet</h2>
       <button onclick="closeModal()">Close</button>`;
-  }
-};
-
-// Clear local storage
-document.getElementById("clearStorageBtn").onclick = () => {
-  if(confirm("Are you sure you want to delete all local files?")){
-    localStorage.clear();
-    alert("Local storage cleared!");
   }
 };
 
