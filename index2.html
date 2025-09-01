@@ -885,6 +885,27 @@ function scrollBooks(distance) {
     behavior: 'smooth'
   });
 }
+
+<script>
+    // Navbar active link
+    document.querySelectorAll(".nav-link").forEach(link => {
+        const linkPage = link.getAttribute("href");
+        if (linkPage === window.location.pathname.split("/").pop()) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+
+    // Book scroll function
+    function scrollBooks(amount) {
+        document.getElementById("bookScroll").scrollBy({
+            left: amount,
+            behavior: "smooth"
+        });
+    }
+</script>
+
 </script>
 
 </body>
