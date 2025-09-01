@@ -4,14 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AbhiLearn - Books & Study Materials</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+    color:#fff; 
+    min-height:100vh; 
+    display:flex; 
+    flex-direction:column; 
+    position:relative; 
+    line-height: 1.6;
+}
 
-/* Navbar */ 
-.navbar{ 
+/* Enhanced Navbar */ 
+.navbar { 
     display:flex; 
     justify-content:space-between; 
     align-items:center; 
@@ -22,6 +31,12 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     top:0; 
     z-index:1000; 
     border-bottom:1px solid rgba(255,255,255,0.1); 
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    padding: 10px 40px;
+    background: rgba(0,0,0,0.8);
 }
 
 .navbar .logo { 
@@ -31,18 +46,37 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     display:flex; 
     align-items:center; 
     gap:8px; 
+    transition: transform 0.3s ease;
 }
 
-.logo-icon { font-size:2rem; }
+.navbar .logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-icon { 
+    font-size:2rem; 
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
 
 /* Hamburger menu */ 
-.hamburger{ 
+.hamburger { 
     display:none; 
     flex-direction:column; 
     cursor:pointer; 
     gap:5px; 
     z-index:1100; 
     padding: 5px; 
+    transition: transform 0.3s ease;
+}
+
+.hamburger:hover {
+    transform: scale(1.1);
 }
 
 .hamburger div { 
@@ -66,8 +100,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     transform: rotate(-45deg) translate(6px, -6px); 
 }
 
-/* Nav links - FIXED FOR LAPTOP/DESKTOP */ 
-.nav-links{ 
+/* Nav links */ 
+.nav-links { 
     display:flex; 
     list-style:none; 
     gap:25px; 
@@ -86,9 +120,10 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     border-radius:8px; 
 }
 
-.nav-links li a:hover, .nav-links li a.active{ 
+.nav-links li a:hover, .nav-links li a.active { 
     color:#00ffcc; 
     background: rgba(0,255,204,0.1); 
+    transform: translateY(-2px);
 }
 
 .nav-links li a::after { 
@@ -102,14 +137,14 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     transition:width 0.3s; 
 }
 
-.nav-links li a:hover::after, .nav-links li a.active::after{ 
+.nav-links li a:hover::after, .nav-links li a.active::after { 
     width:100%; 
 }
 
-/* Hero Section with Curved Bottom */
-.hero{ 
+/* Enhanced Hero Section */
+.hero { 
     text-align:center; 
-    padding:100px 20px 80px; 
+    padding:120px 20px 100px; 
     background: 
         linear-gradient(135deg, rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.85)),
         url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80') center/cover;
@@ -118,29 +153,57 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     overflow: hidden;
     border-radius: 0 0 50% 50% / 0 0 30px 30px;
     margin-bottom: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hero h1 { 
-    font-size:3rem; 
+    font-size:3.5rem; 
     color:#00ffcc; 
     margin-bottom:20px; 
     text-shadow:0 3px 15px rgba(0,0,0,0.5); 
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 .hero p { 
-    font-size:1.2rem; 
+    font-size:1.3rem; 
     max-width:750px; 
-    margin:0 auto; 
+    margin:0 auto 30px; 
     line-height:1.6; 
     color:#fff; 
+    font-weight: 300;
 }
 
-/* Colleges Section */ 
-.colleges{ 
+.cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background: linear-gradient(to right, #00ffcc, #00b3b3);
+    color: #1e3c72;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Enhanced Colleges Section */ 
+.colleges { 
     display:grid; 
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); 
     gap:35px; 
-    padding:60px 30px; 
+    padding:80px 30px; 
     z-index:1; 
 }
 
@@ -157,6 +220,20 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     backdrop-filter: blur(5px); 
     color:#fff; 
     text-decoration:none; 
+    position: relative;
+    overflow: hidden;
+}
+
+.college-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,255,204,0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .college-card:hover { 
@@ -166,13 +243,29 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     color:#1e3c72; 
 }
 
-/* Books Marketplace Section */ 
-.books-section{ 
-    padding: 80px 30px; 
+.college-card:hover::before {
+    opacity: 1;
+}
+
+/* Enhanced Books Marketplace Section */ 
+.books-section { 
+    padding: 100px 30px; 
     background: rgba(0, 0, 0, 0.3); 
     margin: 40px 20px; 
     border-radius: 20px; 
     text-align: center; 
+    position: relative;
+}
+
+.books-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, #00ffcc, #1e3c72);
+    border-radius: 10px 10px 0 0;
 }
 
 .section-header { 
@@ -182,9 +275,23 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 
 .section-header h2 { 
     color: #00ffcc; 
-    font-size: 2.5rem; 
+    font-size: 2.8rem; 
     margin-bottom: 15px; 
     text-shadow: 0 2px 10px rgba(0,0,0,0.3); 
+    position: relative;
+    display: inline-block;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #00ffcc, #1e3c72);
+    border-radius: 2px;
 }
 
 .section-header p { 
@@ -192,6 +299,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     font-size: 1.2rem; 
     max-width: 600px; 
     margin: 0 auto; 
+    font-weight: 300;
 }
 
 .books-actions { 
@@ -213,6 +321,23 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     transition: all 0.3s ease; 
     font-size: 1.1rem; 
     box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.action-btn:hover::before {
+    left: 100%;
 }
 
 .sell-btn { 
@@ -232,8 +357,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     box-shadow: 0 12px 25px rgba(0,0,0,0.3); 
 }
 
-/* Book Images Scroll Section */ 
-.book-images-scroll{ 
+/* Enhanced Book Images Scroll Section */ 
+.book-images-scroll { 
     margin-top: 50px; 
     padding: 20px 0; 
 }
@@ -242,7 +367,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     text-align: center; 
     margin-bottom: 30px; 
     color: #ffeb3b; 
-    font-size: 2rem; 
+    font-size: 2.2rem; 
+    font-weight: 700;
 }
 
 .scroll-container { 
@@ -275,8 +401,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 
 .book-image-item { 
     flex: 0 0 auto; 
-    width: 200px; 
-    height: 280px; 
+    width: 220px; 
+    height: 300px; 
     border-radius: 12px; 
     overflow: hidden; 
     position: relative; 
@@ -361,12 +487,23 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     transform: scale(1.1); 
 }
 
-/* New Professional Footer */ 
-.footer{ 
+/* Enhanced Footer */
+.footer { 
     background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72); 
     padding: 60px 0 20px; 
     margin-top: auto; 
     box-shadow: 0 -5px 20px rgba(0,0,0,0.3); 
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, #00ffcc, #1e3c72);
 }
 
 .footer-container { 
@@ -444,6 +581,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     display: flex; 
     align-items: center; 
     gap: 15px; 
+    transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(5px);
 }
 
 .contact-item i { 
@@ -480,6 +622,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 .newsletter p { 
     margin-bottom: 20px; 
     line-height: 1.6; 
+    color: #ccc;
 }
 
 .newsletter-form { 
@@ -495,6 +638,13 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     background: rgba(255,255,255,0.1); 
     color: #fff; 
     font-family: 'Poppins', sans-serif; 
+    transition: all 0.3s ease;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 2px #00ffcc;
 }
 
 .newsletter-input::placeholder { 
@@ -534,6 +684,38 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     font-weight: 600; 
 }
 
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to right, #00ffcc, #00b3b3);
+    color: #1e3c72;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
 /* Responsive */ 
 @media(max-width:1024px){ 
     .nav-links { 
@@ -542,6 +724,9 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     .nav-links li a { 
         padding: 8px 12px; 
         font-size: 0.9rem; 
+    }
+    .hero h1 {
+        font-size: 3rem;
     }
 }
 
@@ -573,11 +758,14 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
         padding:12px 15px; 
         font-size:1.1rem; 
     } 
+    .hero { 
+        padding: 100px 20px 80px;
+    }
     .hero h1 { 
-        font-size:2.2rem; 
+        font-size:2.5rem; 
     } 
     .hero p { 
-        font-size:1rem; 
+        font-size:1.1rem; 
     } 
     .college-card { 
         font-size:1.1rem; 
@@ -591,7 +779,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     }
 
     .section-header h2 { 
-        font-size: 2rem; 
+        font-size: 2.2rem; 
     }
 
     .books-actions { 
@@ -606,8 +794,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     }
 
     .book-image-item { 
-        width: 180px; 
-        height: 250px; 
+        width: 200px; 
+        height: 270px; 
     }
 
     /* Footer Responsive */ 
@@ -627,35 +815,41 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 }
 
 @media (max-width: 480px) { 
-    .hero h1 { 
-        font-size: 1.8rem; 
+    .hero { 
+        padding: 80px 15px 60px;
     }
-
+    .hero h1 { 
+        font-size: 2rem; 
+    }
+    .hero p {
+        font-size: 1rem;
+    }
     .college-card { 
         padding: 20px 15px; 
         font-size: 1rem; 
     }
-
     .section-header h2 { 
         font-size: 1.8rem; 
     }
-
     .book-images-scroll h3 { 
         font-size: 1.6rem; 
     }
-
     .action-btn { 
         padding: 15px 25px; 
         font-size: 1rem; 
     }
-
     .book-image-item { 
-        width: 160px; 
-        height: 230px; 
-    } 
+        width: 180px; 
+        height: 250px; 
+    }
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
 }
 </style>
-
 </head>
 <body>
 
@@ -682,10 +876,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 <div class="hero">
   <h1>Welcome to AbhiLearn</h1>
   <p>Your trusted platform for previous year papers, study materials, second-hand books and exam preparation resources. Explore colleges and streams easily!</p>
+  <a href="#colleges" class="cta-button">Explore Colleges</a>
 </div>
 
 <!-- Colleges Section -->
-<section class="colleges">
+<section class="colleges" id="colleges">
   <a href="college.html?college=Punjab University" class="college-card">Punjab University</a>
   <a href="college.html?college=GNDU Amritsar" class="college-card">GNDU Amritsar</a>
   <a href="college.html?college=Punjab Engineering College" class="college-card">Punjab Engineering College</a>
@@ -831,6 +1026,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   </div>
 </footer>
 
+<!-- Back to Top Button -->
+<div class="back-to-top" id="backToTop">
+  <i class="fas fa-arrow-up"></i>
+</div>
+
 <script>
 // Better current page detection
 let currentPage = window.location.pathname.split("/").pop();
@@ -886,26 +1086,55 @@ function scrollBooks(distance) {
   });
 }
 
-<script>
-    // Navbar active link
-    document.querySelectorAll(".nav-link").forEach(link => {
-        const linkPage = link.getAttribute("href");
-        if (linkPage === window.location.pathname.split("/").pop()) {
-            link.classList.add("active");
-        } else {
-            link.classList.remove("active");
-        }
-    });
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const navbar = document.querySelector('.navbar');
+  const backToTop = document.getElementById('backToTop');
+  
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Show/hide back to top button
+  if (window.scrollY > 500) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+});
 
-    // Book scroll function
-    function scrollBooks(amount) {
-        document.getElementById("bookScroll").scrollBy({
-            left: amount,
-            behavior: "smooth"
-        });
+// Back to top functionality
+document.getElementById('backToTop').addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// Add subtle animations to elements when they come into view
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = 'translateY(0)';
     }
-</script>
+  });
+}, observerOptions);
 
+// Observe elements for animation
+document.querySelectorAll('.college-card, .book-image-item').forEach(item => {
+  item.style.opacity = 0;
+  item.style.transform = 'translateY(20px)';
+  item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(item);
+});
 </script>
 
 </body>
