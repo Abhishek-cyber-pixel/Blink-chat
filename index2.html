@@ -141,13 +141,13 @@ body {
     width:100%; 
 }
 
-/* Enhanced Hero Section with Typewriter Effect */
+/* Enhanced Hero Section with New Background */
 .hero { 
     text-align:center; 
     padding:120px 20px 100px; 
     background: 
         linear-gradient(135deg, rgba(26, 42, 108, 0.85), rgba(42, 82, 152, 0.85)),
-        url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80') center/cover;
+        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
     position:relative; 
     z-index:1; 
     overflow: hidden;
@@ -167,8 +167,7 @@ body {
 }
 
 .hero h1 { 
-    font-size:3.5rem; 
-    color:#fff; 
+    font-size:4rem; 
     margin-bottom:20px; 
     text-shadow:0 3px 15px rgba(0,0,0,0.5); 
     font-weight: 700;
@@ -180,12 +179,14 @@ body {
     flex-wrap: wrap;
 }
 
-.hero h1 span {
-    color: #00ffcc;
+.hero h1 .typewriter-text {
+    color: #00ffcc; /* Cyan color */
     position: relative;
+    font-weight: 800;
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
 }
 
-.hero h1 span::after {
+.hero h1 .typewriter-text::after {
     content: '|';
     position: absolute;
     right: -8px;
@@ -930,7 +931,7 @@ body {
 <!-- Hero Section -->
 <div class="hero">
   <div class="hero-content">
-    <h1 id="typewriter">Welcome to AbhiLearn</h1>
+    <h1 id="typewriter"><span class="typewriter-text"></span></h1>
     <p>Your trusted platform for previous year papers, study materials, second-hand books and exam preparation resources. Explore colleges and streams easily!</p>
     <a href="#colleges" class="cta-button">Explore Colleges</a>
   </div>
@@ -1194,27 +1195,32 @@ document.querySelectorAll('.college-card, .book-image-item').forEach(item => {
 });
 
 // Typewriter effect for hero section
-function typeWriter(text, i, fnCallback) {
-  if (i < (text.length)) {
-    document.getElementById("typewriter").innerHTML = text.substring(0, i+1) + '<span aria-hidden="true"></span>';
-    
-    setTimeout(function() {
-      typeWriter(text, i + 1, fnCallback)
-    }, 100);
-  }
-  else if (typeof fnCallback == 'function') {
-    setTimeout(fnCallback, 700);
-  }
-}
+const text = "Welcome to AbhiLearn";
+let i = 0;
+let isDeleting = false;
+let speed = 100;
 
-// Start typewriter effect
-function startTextAnimation() {
-  const text = "Welcome to AbhiLearn";
-  typeWriter(text, 0, function(){});
+function typeWriter() {
+  const typewriterElement = document.querySelector('.typewriter-text');
+  
+  if (i < text.length && !isDeleting) {
+    typewriterElement.innerHTML = text.substring(0, i+1);
+    i++;
+    speed = 100;
+  } else if (i > 0 && isDeleting) {
+    typewriterElement.innerHTML = text.substring(0, i-1);
+    i--;
+    speed = 50;
+  } else {
+    isDeleting = !isDeleting;
+    speed = isDeleting ? 1000 : 500;
+  }
+  
+  setTimeout(typeWriter, speed);
 }
 
 // Start the animation when page loads
-window.addEventListener('load', startTextAnimation);
+window.addEventListener('load', typeWriter);
 </script>
 
 </body>
