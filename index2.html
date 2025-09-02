@@ -10,7 +10,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
     font-family: 'Poppins', sans-serif; 
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+    background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%); 
     color:#fff; 
     min-height:100vh; 
     display:flex; 
@@ -141,12 +141,12 @@ body {
     width:100%; 
 }
 
-/* Enhanced Hero Section */
+/* Enhanced Hero Section with Typewriter Effect */
 .hero { 
     text-align:center; 
     padding:120px 20px 100px; 
     background: 
-        linear-gradient(135deg, rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.85)),
+        linear-gradient(135deg, rgba(26, 42, 108, 0.85), rgba(42, 82, 152, 0.85)),
         url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80') center/cover;
     position:relative; 
     z-index:1; 
@@ -161,13 +161,42 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+.hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 .hero h1 { 
     font-size:3.5rem; 
-    color:#00ffcc; 
+    color:#fff; 
     margin-bottom:20px; 
     text-shadow:0 3px 15px rgba(0,0,0,0.5); 
     font-weight: 700;
     letter-spacing: 1px;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.hero h1 span {
+    color: #00ffcc;
+    position: relative;
+}
+
+.hero h1 span::after {
+    content: '|';
+    position: absolute;
+    right: -8px;
+    opacity: 1;
+    animation: blink 0.7s infinite;
+    color: #00ffcc;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .hero p { 
@@ -191,11 +220,34 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #00e6b8, #009999);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+}
+
+.cta-button:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .cta-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color: #1a2a6c;
 }
 
 /* Enhanced Colleges Section */ 
@@ -727,6 +779,7 @@ body {
     }
     .hero h1 {
         font-size: 3rem;
+        min-height: 100px;
     }
 }
 
@@ -763,6 +816,7 @@ body {
     }
     .hero h1 { 
         font-size:2.5rem; 
+        min-height: 90px;
     } 
     .hero p { 
         font-size:1.1rem; 
@@ -820,6 +874,7 @@ body {
     }
     .hero h1 { 
         font-size: 2rem; 
+        min-height: 70px;
     }
     .hero p {
         font-size: 1rem;
@@ -874,9 +929,11 @@ body {
 
 <!-- Hero Section -->
 <div class="hero">
-  <h1>Welcome to AbhiLearn</h1>
-  <p>Your trusted platform for previous year papers, study materials, second-hand books and exam preparation resources. Explore colleges and streams easily!</p>
-  <a href="#colleges" class="cta-button">Explore Colleges</a>
+  <div class="hero-content">
+    <h1 id="typewriter">Welcome to AbhiLearn</h1>
+    <p>Your trusted platform for previous year papers, study materials, second-hand books and exam preparation resources. Explore colleges and streams easily!</p>
+    <a href="#colleges" class="cta-button">Explore Colleges</a>
+  </div>
 </div>
 
 <!-- Colleges Section -->
@@ -1135,6 +1192,29 @@ document.querySelectorAll('.college-card, .book-image-item').forEach(item => {
   item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(item);
 });
+
+// Typewriter effect for hero section
+function typeWriter(text, i, fnCallback) {
+  if (i < (text.length)) {
+    document.getElementById("typewriter").innerHTML = text.substring(0, i+1) + '<span aria-hidden="true"></span>';
+    
+    setTimeout(function() {
+      typeWriter(text, i + 1, fnCallback)
+    }, 100);
+  }
+  else if (typeof fnCallback == 'function') {
+    setTimeout(fnCallback, 700);
+  }
+}
+
+// Start typewriter effect
+function startTextAnimation() {
+  const text = "Welcome to AbhiLearn";
+  typeWriter(text, 0, function(){});
+}
+
+// Start the animation when page loads
+window.addEventListener('load', startTextAnimation);
 </script>
 
 </body>
