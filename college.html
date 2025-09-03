@@ -6,74 +6,92 @@
 <title>College - BR Paper</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
 
-/* Body & Background */
+/* Body & Background - Matching AbhiLearn */
 body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%);
   color:#fff;
   min-height:100vh;
   display:flex;
   flex-direction:column;
   background-attachment: fixed;
+  line-height: 1.6;
 }
 
-/* Hero Section */
+/* Hero Section - Matching AbhiLearn */
 .hero {
   text-align:center;
-  padding:60px 20px 20px;
+  padding:100px 20px 60px;
+  background: 
+      linear-gradient(135deg, rgba(26, 42, 108, 0.85), rgba(42, 82, 152, 0.85)),
+      url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
   position:relative;
-  background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-.hero h1 {
-  font-size:2.8rem;
-  margin-bottom:10px;
-  color:#ffeb3b;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
-  letter-spacing: 1px;
-}
-.hero p { 
-  font-size:1.2rem; 
-  max-width: 600px;
-  margin: 0 auto;
-  opacity: 0.9;
+  z-index:1;
+  overflow: hidden;
+  border-radius: 0 0 50% 50% / 0 0 30px 30px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-out;
 }
 
-/* Back Button */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 {
+  font-size:3rem;
+  margin-bottom:15px;
+  color:#ffeb3b;
+  text-shadow: 0 3px 15px rgba(0,0,0,0.5);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.hero p { 
+  font-size:1.3rem; 
+  max-width:750px;
+  margin:0 auto 30px;
+  line-height:1.6;
+  color:#fff;
+  font-weight: 300;
+}
+
+/* Back Button - Matching AbhiLearn */
 .back-btn-container {
   text-align:center;
-  padding: 20px 0 10px;
+  padding: 20px 0 30px;
   position: relative;
 }
 .back-btn {
   display:inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin:10px auto 25px;
-  padding:12px 24px;
-  background: linear-gradient(to right, #ffeb3b, #ffd600);
-  color:#1e3c72;
+  padding:15px 30px;
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color: #1e3c72;
   border-radius:50px;
-  font-weight:bold;
+  font-weight:600;
   text-decoration:none;
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  font-size: 1.1rem;
 }
 .back-btn:hover {
-  transform:translateY(-3px);
-  box-shadow:0 6px 15px rgba(0,0,0,0.4);
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  color: #1a2a6c;
 }
 
-/* Stream Cards */
+/* Stream Cards - Matching AbhiLearn */
 .stream-container {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-  gap:25px;
-  padding:30px 20px 100px;
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+  gap:30px;
+  padding:50px 30px 120px;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -81,53 +99,68 @@ body {
 .stream-card {
   text-decoration:none;
   color:#fff;
-  background: rgba(42, 82, 152, 0.8);
-  padding:30px 20px;
-  border-radius:16px;
+  background: rgba(255,255,255,0.1);
+  padding:35px 25px;
+  border-radius:20px;
   text-align:center;
-  font-size:18px;
-  font-weight:bold;
-  transition: all 0.3s ease;
+  font-size:1.2rem;
+  font-weight:700;
+  transition:0.4s;
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
+  backdrop-filter: blur(5px);
   display:flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 20px;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .stream-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(to right, #ffeb3b, #ffd600);
-}
-.stream-card:hover {
-  background:rgba(30, 60, 114, 0.9);
-  transform: translateY(-8px) scale(1.03);
-  box-shadow:0 15px 30px rgba(0,0,0,0.35);
-}
-.stream-icon {
-  font-size: 2.5rem;
-  color: #ffeb3b;
-  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Footer */
+.stream-card:hover { 
+  transform: translateY(-10px) scale(1.05); 
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
+  background: linear-gradient(135deg,#00ffcc,#00b3b3); 
+  color:#1e3c72; 
+}
+
+.stream-card:hover::before {
+  opacity: 1;
+}
+
+.stream-icon {
+  font-size: 2.8rem;
+  color: #00ffcc;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.stream-card:hover .stream-icon {
+  color: #1e3c72;
+}
+
+/* Footer - Matching AbhiLearn */
 footer {
   text-align:center;
   padding:20px;
-  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
+  background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
   color:#ffeb3b;
   font-size:1rem;
   font-weight:600;
   letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+  box-shadow:0 -5px 20px rgba(0,0,0,0.3);
   position:fixed;
   bottom:0;
   left:0;
@@ -145,40 +178,6 @@ footer span {
 footer span:hover {
   transform: scale(1.1);
   text-shadow:0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
-}
-.social-links {
-  display: flex;
-  gap: 15px;
-}
-.social-links a {
-  color: #ffeb3b;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-}
-.social-links a:hover {
-  transform: translateY(-3px);
-  text-shadow:0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-  .stream-container {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 15px;
-    padding: 20px 15px 100px;
-  }
-  .stream-card {
-    padding: 20px 15px;
-    font-size: 16px;
-  }
-  footer {
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-  }
 }
 
 /* Animation for cards on load */
@@ -205,6 +204,48 @@ footer span:hover {
 .stream-card:nth-child(7) { animation-delay: 0.7s; }
 .stream-card:nth-child(8) { animation-delay: 0.8s; }
 .stream-card:nth-child(9) { animation-delay: 0.9s; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 20px 40px;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .hero p {
+    font-size: 1.1rem;
+  }
+  .stream-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 30px 20px 100px;
+  }
+  .stream-card {
+    padding: 25px 15px;
+    font-size: 1.1rem;
+  }
+  footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .stream-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .back-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -264,13 +305,7 @@ footer span:hover {
 
 <!-- Footer -->
 <footer>
-  <span>©2025 BR Paper</span>
-  <div class="social-links">
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-linkedin"></i></a>
-  </div>
+  <span>©2025 BR Paper | Made with <i class="fas fa-heart" style="color: #ff3366;"></i></span>
 </footer>
 
 <script>
