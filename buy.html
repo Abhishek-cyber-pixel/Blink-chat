@@ -22,9 +22,10 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     top:0; 
     z-index:1000; 
     border-bottom:1px solid rgba(255,255,255,0.1); 
-    flex-direction: row-reverse; /* Add this line */
+    flex-direction: row-reverse;
 }    
-    .navbar .logo { 
+
+.navbar .logo { 
     font-size:1.8rem; 
     font-weight:700; 
     color:#ffeb3b;  
@@ -32,7 +33,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     align-items:center; 
     gap:8px; 
     text-decoration: none;
-    visibility: hidden; /* Hide the logo */
+    visibility: hidden;
 }
 
 .logo-icon { font-size:2rem; }
@@ -165,31 +166,31 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     color: #00ffcc; 
 }
 
-/* Books Grid */ 
+/* Books Grid - Updated for mobile responsiveness */
 .books-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-    gap: 20px; 
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 15px; 
     margin-bottom: 30px; 
 }
 
 .book-card { 
     background: rgba(255,255,255,0.1); 
-    border-radius: 15px; 
+    border-radius: 12px; 
     overflow: hidden; 
-    transition: all 0.4s ease; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+    transition: all 0.3s ease; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
     backdrop-filter: blur(5px); 
 }
 
 .book-card:hover { 
-    transform: translateY(-8px) scale(1.02); 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+    transform: translateY(-5px) scale(1.02); 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
     background: rgba(255,255,255,0.15); 
 }
 
 .book-image { 
-    height: 180px; 
+    height: 140px; 
     overflow: hidden; 
     background: #1e3c72;
     display: flex;
@@ -209,66 +210,70 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 }
 
 .book-details { 
-    padding: 18px; 
+    padding: 12px; 
 }
 
 .book-title { 
-    font-size: 1.2rem; 
-    font-weight: 700; 
-    margin-bottom: 8px; 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    margin-bottom: 6px; 
     color: #fff; 
     line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .book-author { 
     color: #ccc; 
-    margin-bottom: 10px; 
-    font-size: 0.9rem; 
+    margin-bottom: 8px; 
+    font-size: 0.75rem; 
 }
 
 .book-price { 
     color: #00ffcc; 
     font-weight: 700; 
-    font-size: 1.3rem; 
-    margin-bottom: 12px; 
+    font-size: 1rem; 
+    margin-bottom: 8px; 
 }
 
 .book-price::before { 
     content: '₹'; 
-    font-size: 1rem; 
+    font-size: 0.8rem; 
 }
 
 .book-condition { 
     display: inline-block; 
     background: rgba(0,255,204,0.2); 
     color: #00ffcc; 
-    padding: 4px 8px; 
-    border-radius: 5px; 
-    font-size: 0.75rem; 
-    margin-bottom: 12px; 
+    padding: 3px 6px; 
+    border-radius: 4px; 
+    font-size: 0.65rem; 
+    margin-bottom: 10px; 
 }
 
 .buy-btn { 
     width: 100%; 
-    padding: 10px; 
+    padding: 8px; 
     background: linear-gradient(to right, #00ffcc, #00b3b3); 
     color: #1e3c72; 
     border: none; 
-    border-radius: 8px; 
-    font-weight: 700; 
+    border-radius: 6px; 
+    font-weight: 600; 
     cursor: pointer; 
     transition: all 0.3s ease; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    gap: 8px; 
-    font-size: 0.9rem;
+    gap: 5px; 
+    font-size: 0.8rem;
 }
 
 .buy-btn:hover { 
     background: linear-gradient(to right, #00e6b8, #009999); 
-    transform: translateY(-3px); 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
 }
 
 /* Pagination */ 
@@ -575,7 +580,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     font-weight: 600; 
 }
 
-/* Responsive Design */ 
+/* Responsive Design - Updated for better mobile experience */
 @media(max-width: 992px) { 
     .navbar { 
         padding: 12px 20px; 
@@ -590,7 +595,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     }
 
     .books-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
     } 
 }
 
@@ -604,8 +609,12 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     }
 
     .books-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-        gap: 15px; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px; 
+    }
+    
+    .book-image {
+        height: 120px;
     }
 
     .footer-container { 
@@ -626,11 +635,11 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
 @media (max-width: 576px) { 
     .navbar { 
         padding: 10px 15px; 
-        justify-content: flex-end; /* Align back button to right */
+        justify-content: flex-end;
     }
 
     .logo { 
-        display: none; /* Completely hide logo on small screens */
+        display: none;
     }
     
     .logo-icon {
@@ -647,7 +656,16 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
     }
 
     .books-grid { 
-        grid-template-columns: 1fr; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+    }
+    
+    .book-image {
+        height: 110px;
+    }
+    
+    .book-title {
+        font-size: 0.85rem;
     }
 
     .modal-content { 
@@ -866,7 +884,7 @@ const books = [
     price: 450,
     condition: "Like New",
     category: "programming",
-    image: "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?programming,book,c++",
     description: "The classic C++ programming guide by the creator of C++."
   },
   {
@@ -876,7 +894,7 @@ const books = [
     price: 550,
     condition: "Good",
     category: "programming",
-    image: "https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?database,book",
     description: "Comprehensive textbook on database systems concepts."
   },
   {
@@ -886,7 +904,7 @@ const books = [
     price: 350,
     condition: "Fair",
     category: "mathematics",
-    image: "https://images.pexels.com/photos/414860/pexels-photo-414860.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?mathematics,book",
     description: "Essential mathematics for engineering students."
   },
   {
@@ -896,7 +914,7 @@ const books = [
     price: 600,
     condition: "New",
     category: "programming",
-    image: "https://images.pexels.com/photos/5473298/pexels-photo-5473298.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?algorithm,book",
     description: "Comprehensive guide to data structures and algorithms."
   },
   {
@@ -906,7 +924,7 @@ const books = [
     price: 480,
     condition: "Good",
     category: "engineering",
-    image: "https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?electrical,engineering,book",
     description: "Fundamental concepts of electrical engineering."
   },
   {
@@ -916,7 +934,7 @@ const books = [
     price: 520,
     condition: "Like New",
     category: "engineering",
-    image: "https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
+    image: "https://source.unsplash.com/random/300x400/?mechanical,engineering,book",
     description: "Principles and applications of mechanical engineering."
   },
   {
@@ -926,7 +944,7 @@ const books = [
     price: 650,
     condition: "New",
     category: "science",
-    image: "https://images.pexels.com/photos/21696/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?physics,book",
     description: "Comprehensive physics textbook for science and engineering students."
   },
   {
@@ -936,7 +954,7 @@ const books = [
     price: 580,
     condition: "Good",
     category: "business",
-    image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?business,analytics,book",
     description: "Data analysis and decision making for business."
   },
   {
@@ -946,7 +964,7 @@ const books = [
     price: 620,
     condition: "Like New",
     category: "science",
-    image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?chemistry,book",
     description: "Comprehensive guide to organic chemistry concepts."
   },
   {
@@ -956,7 +974,7 @@ const books = [
     price: 490,
     condition: "Good",
     category: "engineering",
-    image: "https://images.pexels.com/photos/325111/pexels-photo-325111.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?digital,logic,book",
     description: "Fundamentals of digital logic and circuit design."
   },
   {
@@ -966,7 +984,7 @@ const books = [
     price: 570,
     condition: "New",
     category: "business",
-    image: "https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?marketing,book",
     description: "Comprehensive guide to marketing strategies and management."
   },
   {
@@ -976,7 +994,7 @@ const books = [
     price: 680,
     condition: "Like New",
     category: "mathematics",
-    image: "https://images.pexels.com/photos/414860/pexels-photo-414860.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "https://source.unsplash.com/random/300x400/?calculus,book",
     description: "Advanced concepts in calculus for mathematics students."
   }
 ];
@@ -1113,130 +1131,10 @@ window.addEventListener('click', (e) => {
 displayBooks(books);
 priceValue.textContent = `₹${priceRange.value}`;
 
-    // Go back to previous page
+// Go back to previous page
 function goBack() {
   window.history.back();
 }
-
-/* ... (keep all existing styles) ... */
-
-/* Books Grid - Updated for mobile responsiveness */
-.books-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-    gap: 15px; 
-    margin-bottom: 30px; 
-}
-
-.book-card { 
-    background: rgba(255,255,255,0.1); 
-    border-radius: 12px; 
-    overflow: hidden; 
-    transition: all 0.3s ease; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-    backdrop-filter: blur(5px); 
-}
-
-.book-image { 
-    height: 140px; 
-    overflow: hidden; 
-    background: #1e3c72;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.book-details { 
-    padding: 12px; 
-}
-
-.book-title { 
-    font-size: 0.9rem; 
-    font-weight: 600; 
-    margin-bottom: 6px; 
-    color: #fff; 
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.book-author { 
-    color: #ccc; 
-    margin-bottom: 8px; 
-    font-size: 0.75rem; 
-}
-
-.book-price { 
-    color: #00ffcc; 
-    font-weight: 700; 
-    font-size: 1rem; 
-    margin-bottom: 8px; 
-}
-
-.book-condition { 
-    display: inline-block; 
-    background: rgba(0,255,204,0.2); 
-    color: #00ffcc; 
-    padding: 3px 6px; 
-    border-radius: 4px; 
-    font-size: 0.65rem; 
-    margin-bottom: 10px; 
-}
-
-.buy-btn { 
-    width: 100%; 
-    padding: 8px; 
-    background: linear-gradient(to right, #00ffcc, #00b3b3); 
-    color: #1e3c72; 
-    border: none; 
-    border-radius: 6px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 5px; 
-    font-size: 0.8rem;
-}
-
-/* Responsive Design - Updated for better mobile experience */
-@media(max-width: 992px) { 
-    .books-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-    }
-}
-
-@media (max-width: 768px) { 
-    .books-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 12px; 
-    }
-    
-    .book-image {
-        height: 120px;
-    }
-}
-
-@media (max-width: 480px) { 
-    .books-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 10px; 
-    }
-    
-    .book-image {
-        height: 110px;
-    }
-    
-    .book-title {
-        font-size: 0.85rem;
-    }
-}
-
-/* ... (keep the rest of the existing styles) ... */
-
 </script>
 
 </body>
