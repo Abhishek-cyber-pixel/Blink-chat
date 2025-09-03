@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>College - BR Paper</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
 
 /* Body & Background */
 body {
@@ -14,6 +15,7 @@ body {
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  background-attachment: fixed;
 }
 
 /* Hero Section */
@@ -21,63 +23,105 @@ body {
   text-align:center;
   padding:60px 20px 20px;
   position:relative;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .hero h1 {
-  font-size:2.5rem;
+  font-size:2.8rem;
   margin-bottom:10px;
   color:#ffeb3b;
   text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+  letter-spacing: 1px;
 }
-.hero p { font-size:1.2rem; }
+.hero p { 
+  font-size:1.2rem; 
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
 
 /* Back Button */
+.back-btn-container {
+  text-align:center;
+  padding: 20px 0 10px;
+  position: relative;
+}
 .back-btn {
-  display:inline-block;
+  display:inline-flex;
+  align-items: center;
+  gap: 8px;
   margin:10px auto 25px;
-  padding:10px 20px;
-  background:#ffeb3b;
+  padding:12px 24px;
+  background: linear-gradient(to right, #ffeb3b, #ffd600);
   color:#1e3c72;
-  border-radius:8px;
+  border-radius:50px;
   font-weight:bold;
   text-decoration:none;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 .back-btn:hover {
-  background:#ffd600;
-  transform:scale(1.05);
+  transform:translateY(-3px);
+  box-shadow:0 6px 15px rgba(0,0,0,0.4);
 }
 
 /* Stream Cards */
 .stream-container {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
-  gap:20px;
-  padding:20px 20px 80px; /* footer se overlap na ho */
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:25px;
+  padding:30px 20px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 .stream-card {
   text-decoration:none;
   color:#fff;
-  background:#2a5298;
-  padding:25px 15px;
-  border-radius:12px;
+  background: rgba(42, 82, 152, 0.8);
+  padding:30px 20px;
+  border-radius:16px;
   text-align:center;
   font-size:18px;
   font-weight:bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  display:block;
-  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.stream-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(to right, #ffeb3b, #ffd600);
 }
 .stream-card:hover {
-  background:#1e3c72;
-  transform: translateY(-5px) scale(1.05);
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  background:rgba(30, 60, 114, 0.9);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow:0 15px 30px rgba(0,0,0,0.35);
+}
+.stream-icon {
+  font-size: 2.5rem;
+  color: #ffeb3b;
+  margin-bottom: 10px;
 }
 
 /* Footer */
 footer {
   text-align:center;
-  padding:18px;
+  padding:20px;
   background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
   color:#ffeb3b;
   font-size:1rem;
@@ -88,6 +132,11 @@ footer {
   bottom:0;
   left:0;
   width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 footer span {
   display:inline-block;
@@ -97,6 +146,65 @@ footer span:hover {
   transform: scale(1.1);
   text-shadow:0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
 }
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+.social-links a {
+  color: #ffeb3b;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+.social-links a:hover {
+  transform: translateY(-3px);
+  text-shadow:0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .stream-container {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 20px 15px 100px;
+  }
+  .stream-card {
+    padding: 20px 15px;
+    font-size: 16px;
+  }
+  footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+}
+
+/* Animation for cards on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.stream-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+.stream-card:nth-child(1) { animation-delay: 0.1s; }
+.stream-card:nth-child(2) { animation-delay: 0.2s; }
+.stream-card:nth-child(3) { animation-delay: 0.3s; }
+.stream-card:nth-child(4) { animation-delay: 0.4s; }
+.stream-card:nth-child(5) { animation-delay: 0.5s; }
+.stream-card:nth-child(6) { animation-delay: 0.6s; }
+.stream-card:nth-child(7) { animation-delay: 0.7s; }
+.stream-card:nth-child(8) { animation-delay: 0.8s; }
+.stream-card:nth-child(9) { animation-delay: 0.9s; }
 </style>
 </head>
 <body>
@@ -104,30 +212,65 @@ footer span:hover {
 <!-- Hero Section -->
 <div class="hero">
   <h1 id="collegeName">College</h1>
-  <p>Select a Stream to explore</p>
+  <p>Select a Stream to explore question papers and resources</p>
 </div>
 
 <!-- Back Button -->
-<div style="text-align:center;">
-  <a href="index2.html" class="back-btn">← Back</a>
+<div class="back-btn-container">
+  <a href="index2.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Back to Colleges
+  </a>
 </div>
 
 <!-- Stream Cards -->
 <div class="stream-container">
-  <a href="#" class="stream-card" data-stream="BCA">BCA</a>
-  <a href="#" class="stream-card" data-stream="BBA">BBA</a>
-  <a href="#" class="stream-card" data-stream="BA">BA</a>
-  <a href="#" class="stream-card" data-stream="BSc">BSc</a>
-  <a href="#" class="stream-card" data-stream="BCom">BCom</a>
-  <a href="#" class="stream-card" data-stream="MA">MA</a>
-  <a href="#" class="stream-card" data-stream="MSc">MSc</a>
-  <a href="#" class="stream-card" data-stream="MBA">MBA</a>
-  <a href="#" class="stream-card" data-stream="MCA">MCA</a>
+  <a href="#" class="stream-card" data-stream="BCA">
+    <div class="stream-icon"><i class="fas fa-laptop-code"></i></div>
+    <div>BCA</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="BBA">
+    <div class="stream-icon"><i class="fas fa-chart-line"></i></div>
+    <div>BBA</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="BA">
+    <div class="stream-icon"><i class="fas fa-book-open"></i></div>
+    <div>BA</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="BSc">
+    <div class="stream-icon"><i class="fas fa-flask"></i></div>
+    <div>BSc</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="BCom">
+    <div class="stream-icon"><i class="fas fa-calculator"></i></div>
+    <div>BCom</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="MA">
+    <div class="stream-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div>MA</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="MSc">
+    <div class="stream-icon"><i class="fas fa-microscope"></i></div>
+    <div>MSc</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="MBA">
+    <div class="stream-icon"><i class="fas fa-briefcase"></i></div>
+    <div>MBA</div>
+  </a>
+  <a href="#" class="stream-card" data-stream="MCA">
+    <div class="stream-icon"><i class="fas fa-code"></i></div>
+    <div>MCA</div>
+  </a>
 </div>
 
 <!-- Footer -->
 <footer>
   <span>©2025 BR Paper</span>
+  <div class="social-links">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+  </div>
 </footer>
 
 <script>
