@@ -4,85 +4,277 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BCA - BR Paper</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color:#fff; min-height:100vh;
-  display:flex; flex-direction:column;
+* { 
+  margin:0; 
+  padding:0; 
+  box-sizing:border-box; 
+  font-family:'Poppins', sans-serif; 
 }
-/* Hero */
-.hero { text-align:center; padding:40px 20px 20px; }
-.hero h1 { font-size:2rem; margin-bottom:8px; color:#ffeb3b; text-shadow:0 3px 8px rgba(0,0,0,0.6);}
-.hero p { font-size:1rem; }
+
+body {
+  background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%);
+  color:#fff; 
+  min-height:100vh;
+  display:flex; 
+  flex-direction:column;
+}
+
+/* Header */
+.header { 
+  text-align:center; 
+  padding:50px 20px 30px; 
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header h1 { 
+  font-size:2.8rem; 
+  margin-bottom:15px; 
+  color:#00ffcc; 
+  text-shadow:0 3px 15px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.header p { 
+  font-size:1.3rem; 
+  opacity: 0.9;
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Back Button */
+.back-btn-container {
+  text-align:center;
+  padding: 25px 0 15px;
+}
+
+.back-btn {
+  display:inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin:10px auto 30px;
+  padding:14px 28px;
+  background: linear-gradient(to right, #00ffcc, #00b3b3);
+  color:#1e3c72;
+  border-radius:50px;
+  font-weight:600;
+  text-decoration:none;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.back-btn:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  color: #1a2a6c;
+}
 
 /* Grid Cards */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
-  gap:18px; padding:20px;
+  grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+  gap:25px; 
+  padding:40px 30px 120px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
+
 .card {
   text-decoration:none;
   color:#fff;
-  background:#2a5298;
-  height:120px; width:100%;
-  border-radius:12px;
+  background: rgba(255, 255, 255, 0.1);
+  height:150px; 
+  width:100%;
+  border-radius:16px;
   text-align:center;
-  font-size:16px;
-  font-weight:bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  box-shadow:0 6px 15px rgba(0,0,0,0.25);
-  display:flex; align-items:center; justify-content:center;
-}
-.card:hover {
-  background:#ffeb3b; color:#1e3c72;
-  transform: translateY(-4px) scale(1.04);
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  font-size:18px;
+  font-weight:600;
+  transition: all 0.3s ease;
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
+  display:flex; 
+  flex-direction: column;
+  align-items:center; 
+  justify-content:center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
 
-/* Back Button */
-.back-btn {
-  display:inline-block;
-  margin:0 auto 15px;
-  padding:10px 20px;
-  background:#ffeb3b; color:#1e3c72;
-  border-radius:8px;
-  font-weight:bold;
-  text-decoration:none;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  transition: background 0.3s ease, transform 0.3s ease;
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0,255,204,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.back-btn:hover {
-  background:#ffd600;
-  transform:scale(1.05);
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  background: linear-gradient(135deg, #00ffcc, #00b3b3);
+  color:#1e3c72;
+  transform: translateY(-8px) scale(1.05);
+  box-shadow:0 15px 30px rgba(0,0,0,0.4);
+}
+
+.card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  color: #00ffcc;
+  transition: all 0.3s ease;
+}
+
+.card:hover .card-icon {
+  color: #1e3c72;
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Footer */
 footer {
-  text-align:center; padding:14px; margin-top:auto;
-  background:linear-gradient(to right,#0f2027,#203a43,#2c5364);
-  color:#ffeb3b; font-size:0.9rem; font-weight:600; letter-spacing:1px;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.5);
+  text-align:center; 
+  padding:20px; 
+  margin-top:auto;
+  background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72);
+  color:#00ffcc; 
+  font-size:1rem; 
+  font-weight:600; 
+  letter-spacing:1px;
+  box-shadow:0 -5px 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #00ffcc, #1e3c72);
+}
+
+footer span {
+  display:inline-block;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+footer span:hover {
+  transform: scale(1.1);
+  text-shadow:0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+/* Animation for cards on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .header p {
+    font-size: 1.1rem;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    padding: 30px 20px 100px;
+  }
+  
+  .card {
+    height: 130px;
+    font-size: 16px;
+  }
+  
+  .card-icon {
+    font-size: 1.8rem;
+  }
+  
+  .back-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 40px 15px 20px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 25px 15px 100px;
+  }
+  
+  .back-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="hero">
+<!-- Header -->
+<div class="header">
   <h1 id="pageTitle">BCA</h1>
   <p id="pageSubtitle">Select a Semester</p>
 </div>
 
-<div style="text-align:center;">
-  <a href="#" id="backButton" class="back-btn" style="display:none;">← Back</a>
+<!-- Back Button -->
+<div class="back-btn-container">
+  <a href="#" id="backButton" class="back-btn" style="display:none;">
+    <i class="fas fa-arrow-left"></i> Back
+  </a>
 </div>
 
+<!-- Grid Cards -->
 <div class="grid" id="gridContainer">
   <!-- Dynamic content loads here -->
 </div>
 
-<footer>©2025 BR Paper</footer>
+<footer>
+  <span>©2025 BR Paper</span>
+</footer>
 
 <script>
 // Params
@@ -95,12 +287,38 @@ document.getElementById("pageTitle").innerText = stream;
 
 // Subjects per semester
 const subjectsData = {
-  "Sem 1": ["Maths", "C Programming", "English", "Punjabi"],
-  "Sem 2": ["C++", "DBMS", "EVS", "Business Comm"],
-  "Sem 3": ["Java", "OS", "DSA"],
-  "Sem 4": ["Python", "Computer Networks", "AI"],
-  "Sem 5": ["ASP.NET", "Software Engg", "Statistics"],
-  "Sem 6": ["Mobile Computing", "Cloud Computing", "Project Work"]
+  "Sem 1": [
+    { name: "Mathematics", icon: "fa-calculator" },
+    { name: "C Programming", icon: "fa-code" },
+    { name: "English", icon: "fa-language" },
+    { name: "Punjabi", icon: "fa-font" }
+  ],
+  "Sem 2": [
+    { name: "C++ Programming", icon: "fa-laptop-code" },
+    { name: "DBMS", icon: "fa-database" },
+    { name: "Environmental Studies", icon: "fa-leaf" },
+    { name: "Business Communication", icon: "fa-comments" }
+  ],
+  "Sem 3": [
+    { name: "Java Programming", icon: "fa-coffee" },
+    { name: "Operating Systems", icon: "fa-desktop" },
+    { name: "Data Structures", icon: "fa-project-diagram" }
+  ],
+  "Sem 4": [
+    { name: "Python Programming", icon: "fa-code" },
+    { name: "Computer Networks", icon: "fa-network-wired" },
+    { name: "Artificial Intelligence", icon: "fa-brain" }
+  ],
+  "Sem 5": [
+    { name: "ASP.NET", icon: "fa-window-maximize" },
+    { name: "Software Engineering", icon: "fa-cogs" },
+    { name: "Statistics", icon: "fa-chart-bar" }
+  ],
+  "Sem 6": [
+    { name: "Mobile Computing", icon: "fa-mobile-alt" },
+    { name: "Cloud Computing", icon: "fa-cloud" },
+    { name: "Project Work", icon: "fa-tasks" }
+  ]
 };
 
 // Grid container
@@ -112,10 +330,11 @@ if (!sem && !subject) {
   document.getElementById("pageSubtitle").innerText = "Select a Semester";
   backBtn.style.display = "inline-block";
   backBtn.href = "college.html"; // back to colleges
+  
   for (let i = 1; i <= 6; i++) {
     let a = document.createElement("a");
     a.className = "card";
-    a.innerText = "Semester " + i;
+    a.innerHTML = `<div class="card-icon"><i class="fas fa-graduation-cap"></i></div>Semester ${i}`;
     a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${i}`;
     grid.appendChild(a);
   }
@@ -125,12 +344,13 @@ else if (sem && !subject) {
   document.getElementById("pageSubtitle").innerText = `Semester ${sem} - Select a Subject`;
   backBtn.style.display = "inline-block";
   backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}`;
+  
   const subs = subjectsData["Sem " + sem] || [];
   subs.forEach(sub => {
     let a = document.createElement("a");
     a.className = "card";
-    a.innerText = sub;
-    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(sub)}`;
+    a.innerHTML = `<div class="card-icon"><i class="fas ${sub.icon}"></i></div>${sub.name}`;
+    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(sub.name)}`;
     grid.appendChild(a);
   });
 }
@@ -139,17 +359,20 @@ else if (sem && subject) {
   document.getElementById("pageSubtitle").innerText = `${subject} (Semester ${sem}) - Select a Year`;
   backBtn.style.display = "inline-block";
   backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}`;
-  for (let year = 2012; year <= 2025; year++) {
+  
+  for (let year = 2020; year <= 2025; year++) {
     let a = document.createElement("a");
     a.className = "card";
-    a.innerText = year;
-    // ✅ Options page par bhejna
+    a.innerHTML = `<div class="card-icon"><i class="fas fa-calendar-alt"></i></div>${year}`;
     a.href = `option.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}&year=${year}`;
     grid.appendChild(a);
   }
 }
 
-  
+// Add staggered animation delays to cards
+document.querySelectorAll('.card').forEach((card, index) => {
+  card.style.animationDelay = `${0.1 * index}s`;
+});
 </script>
 
 </body>
