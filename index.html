@@ -904,7 +904,75 @@ body {
         width: 45px;
         height: 45px;
     }
+    
 }
+/* Testimonials Section */
+        .testimonials-section {
+            padding: 110px 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.15);
+            margin: 50px 0;
+        }
+
+        .testimonials-container {
+            display: flex;
+            gap: 35px;
+            overflow-x: auto;
+            padding: 35px 25px;
+            scrollbar-width: none;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonials-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-card {
+            flex: 0 0 auto;
+            width: 380px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(8px);
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+        }
+
+        .author-details h4 {
+            color: var(--accent);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .author-details p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
 </style>
 </head>
 <body>
@@ -1019,6 +1087,51 @@ body {
       <button class="scroll-nav-btn" onclick="scrollBooks(300)"><i class="fas fa-chevron-right"></i></button>
     </div>
   </div>
+</section>
+
+
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="section-header">
+        <h2>What Students Say</h2>
+        <p>Hear from students who have benefited from AbhiLearn's resources</p>
+    </div>
+    
+    <div class="testimonials-container">
+        <div class="testimonial-card">
+            <p class="testimonial-text">"AbhiLearn helped me find all the previous year question papers for my exams. I scored 90% thanks to their comprehensive collection!"</p>
+            <div class="testimonial-author">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Riya Sharma" class="author-avatar">
+                <div class="author-details">
+                    <h4>Riya Sharma</h4>
+                    <p>Punjab University</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <p class="testimonial-text">"The second-hand books marketplace saved me so much money. I got all my engineering books at almost half the price!"</p>
+            <div class="testimonial-author">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Amit Kumar" class="author-avatar">
+                <div class="author-details">
+                    <h4>Amit Kumar</h4>
+                    <p>Thapar University</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <p class="testimonial-text">"As a college freshman, AbhiLearn made it so easy to find all the study materials I needed. The platform is intuitive and resourceful!"</p>
+            <div class="testimonial-author">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Singh" class="author-avatar">
+                <div class="author-details">
+                    <h4>Priya Singh</h4>
+                    <p>Chandigarh University</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- New Professional Footer -->
