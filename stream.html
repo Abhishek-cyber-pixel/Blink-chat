@@ -273,15 +273,20 @@ footer span:hover {
 </div>
 
 <footer>
-  <span>©2025 BR Paper</span>
+  <span>©2025 Abhi-Learn</span>
 </footer>
 
 <script>
 // Params
 const params = new URLSearchParams(window.location.search);
+const college = params.get("college") || "";
 const stream = params.get("stream") || "BCA";
 const sem = params.get("sem");
+const year = params.get("year");
 const subject = params.get("subject");
+
+// Format college name for API (remove spaces and convert to lowercase)
+const formattedCollegeName = college.replace(/\s+/g, '').toLowerCase();
 
 document.getElementById("pageTitle").innerText = stream;
 
@@ -325,48 +330,72 @@ const subjectsData = {
 const grid = document.getElementById("gridContainer");
 const backBtn = document.getElementById("backButton");
 
+// Function to add click events with API path alerts
+function addApiPathAlert(element, path) {
+  element.addEventListener('click', function(e) {
+    e.preventDefault();
+    alert(`API Path: ${path}`);
+    
+    // After alert, proceed to navigate
+    setTimeout(() => {
+      window.location.href = element.getAttribute('href');
+    }, 100);
+  });
+}
+
 // Step 1 → Show Semesters
-if (!sem && !subject) {
+if (!sem && !year && !subject) {
   document.getElementById("pageSubtitle").innerText = "Select a Semester";
   backBtn.style.display = "inline-block";
-  backBtn.href = "college.html"; // back to colleges
+  backBtn.href = `college.html?college=${encodeURIComponent(college)}`;
   
   for (let i = 1; i <= 6; i++) {
     let a = document.createElement("a");
     a.className = "card";
     a.innerHTML = `<div class="card-icon"><i class="fas fa-graduation-cap"></i></div>Semester ${i}`;
-    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${i}`;
+    a.href = `stream.html?college=${encodeURIComponent(college)}&stream=${encodeURIComponent(stream)}&sem=${i}`;
+    
+    // Don't add API path alert for semesters
     grid.appendChild(a);
   }
 }
-// Step 2 → Show Subjects
-else if (sem && !subject) {
-  document.getElementById("pageSubtitle").innerText = `Semester ${sem} - Select a Subject`;
+// Step 2 → Show Years
+else if (sem && !year && !subject) {
+  document.getElementById("pageSubtitle").innerText = `Semester ${sem} - Select a Year`;
   backBtn.style.display = "inline-block";
-  backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}`;
+  backBtn.href = `stream.html?college=${encodeURIComponent(college)}&stream=${encodeURIComponent(stream)}`;
+  
+  for (let y = 2020; y <= 2025; y++) {
+    let a = document.createElement("a");
+    a.className = "card";
+    a.innerHTML = `<div class="card-icon"><i class="fas fa-calendar-alt"></i></div>${y}`;
+    a.href = `stream.html?college=${encodeURIComponent(college)}&stream=${encodeURIComponent(stream)}&sem=${sem}&year=${y}`;
+    
+    // Don't add API path alert for years
+    grid.appendChild(a);
+  }
+}
+// Step 3 → Show Subjects
+else if (sem && year && !subject) {
+  document.getElementById("pageSubtitle").innerText = `Semester ${sem} (${year}) - Select a Subject`;
+  backBtn.style.display = "inline-block";
+  backBtn.href = `stream.html?college=${encodeURIComponent(college)}&stream=${encodeURIComponent(stream)}&sem=${sem}`;
   
   const subs = subjectsData["Sem " + sem] || [];
   subs.forEach(sub => {
     let a = document.createElement("a");
     a.className = "card";
     a.innerHTML = `<div class="card-icon"><i class="fas ${sub.icon}"></i></div>${sub.name}`;
-    a.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(sub.name)}`;
+    a.href = `option.html?college=${encodeURIComponent(college)}&stream=${encodeURIComponent(stream)}&sem=${sem}&year=${year}&subject=${encodeURIComponent(sub.name)}`;
+    
+    // Format subject name for API (remove spaces and convert to lowercase)
+    const formattedSubjectName = sub.name.replace(/\s+/g, '').toLowerCase();
+    
+    // Add API path alert only for subject selection
+    addApiPathAlert(a, `${formattedCollegeName}/${stream.toLowerCase()}/sem${sem}/${year}/${formattedSubjectName}`);
+    
     grid.appendChild(a);
   });
-}
-// Step 3 → Show Years
-else if (sem && subject) {
-  document.getElementById("pageSubtitle").innerText = `${subject} (Semester ${sem}) - Select a Year`;
-  backBtn.style.display = "inline-block";
-  backBtn.href = `stream.html?stream=${encodeURIComponent(stream)}&sem=${sem}`;
-  
-  for (let year = 2020; year <= 2025; year++) {
-    let a = document.createElement("a");
-    a.className = "card";
-    a.innerHTML = `<div class="card-icon"><i class="fas fa-calendar-alt"></i></div>${year}`;
-    a.href = `option.html?stream=${encodeURIComponent(stream)}&sem=${sem}&subject=${encodeURIComponent(subject)}&year=${year}`;
-    grid.appendChild(a);
-  }
 }
 
 // Add staggered animation delays to cards
