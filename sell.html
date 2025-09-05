@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AbhiLearn - Sell Your Book</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%); 
+    color:#fff; 
+    min-height:100vh; 
+    display:flex; 
+    flex-direction:column; 
+    position:relative; 
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.header h1 {
+    color: #00ffcc;
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: relative;
+    display: inline-block;
+}
+
+.header h1:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #00ffcc, #ffeb3b);
+    border-radius: 2px;
+}
+
+.header p {
+    color: #ccc;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    color: #00ffcc;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(0, 255, 204, 0.1);
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+    color: #ffeb3b;
+    background: rgba(0, 255, 204, 0.2);
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 900px) {
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #00ffcc, #ffeb3b);
+}
+
+.form-section h2 {
+    color: #ffeb3b;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0, 255, 204, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section h2 i {
+    font-size: 1.3rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #00ffcc;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(0, 255, 204, 0.3);
+    border-color: #00ffcc;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #ccc;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.photo-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-area {
+    width: 100%;
+    min-height: 200px;
+    border: 2px dashed #00ffcc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-area:hover {
+    background: rgba(0, 255, 204, 0.1);
+    transform: translateY(-3px);
+}
+
+.upload-area i {
+    font-size: 3rem;
+    color: #00ffcc;
+    margin-bottom: 15px;
+}
+
+.upload-area p {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.upload-area span {
+    font-size: 0.9rem;
+    color: #ffeb3b;
+}
+
+.preview-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .preview-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.preview-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.preview-item:hover {
+    transform: scale(1.05);
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-item .remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.preview-item .remove-btn:hover {
+    background: rgba(255, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+.camera-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background: linear-gradient(to right, #00ffcc, #00b3b3);
+    color: #1e3c72;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.camera-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, #00ffcc, #00b3b3);
+    color: #1e3c72;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.5s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.submit-btn:hover:before {
+    left: 100%;
+}
+
+.required {
+    color: #ff5252;
+}
+
+/* Camera modal */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.camera-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.camera-container {
+    background: #1a2a6c;
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    position: relative;
+}
+
+#cameraVideo {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #00ffcc;
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.camera-controls button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.capture-btn {
+    background: linear-gradient(to right, #00ffcc, #00b3b3);
+    color: #1e3c72;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.camera-controls button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+/* Form icons */
+.form-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Animation for form sections */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-section {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.form-section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Price tag styling */
+.price-tag {
+    position: relative;
+}
+
+.price-tag:after {
+    content: '₹';
+    position: absolute;
+    right: 15px;
+    top: 42px;
+    color: #00ffcc;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .form-section {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<a href="index2.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Back to Home
+</a>
+
+<div class="container">
+    <div class="header">
+        <h1>Sell Your Book</h1>
+        <p>Fill in the details below to list your second-hand book for sale</p>
+    </div>
+
+    <form id="sellBookForm">
+        <div class="form-container">
+            <div class="form-section">
+                <h2><i class="fas fa-book"></i> Book Information</h2>
+                
+                <div class="form-group">
+                    <label for="bookName"><i class="fas fa-font"></i> Book Name <span class="required">*</span></label>
+                    <input type="text" id="bookName" name="bookName" required placeholder="Enter book title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="author"><i class="fas fa-user-pen"></i> Author Name</label>
+                    <input type="text" id="author" name="author" placeholder="Enter author name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="isbn"><i class="fas fa-barcode"></i> ISBN (Optional)</label>
+                    <input type="text" id="isbn" name="isbn" placeholder="Enter ISBN if known">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject"><i class="fas fa-graduation-cap"></i> Subject <span class="required">*</span></label>
+                    <input type="text" id="subject" name="subject" required placeholder="e.g., Mathematics, Physics, etc.">
+                </div>
+                
+                <div class="form-group">
+                    <label for="condition"><i class="fas fa-file-circle-question"></i> Book Condition <span class="required">*</span></label>
+                    <select id="condition" name="condition" required>
+                        <option value="">Select condition</option>
+                        <option value="new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                        <option value="poor">Poor</option>
+                    </select>
+                </div>
+                
+                <div class="form-group price-tag">
+                    <label for="price"><i class="fas fa-indian-rupee-sign"></i> Price (₹) <span class="required">*</span></label>
+                    <input type="number" id="price" name="price" required placeholder="Enter price in rupees">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Describe your book, any highlights, notes, etc."></textarea>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2><i class="fas fa-user-graduate"></i> Academic Information</h2>
+                
+                <div class="form-group">
+                    <label for="university"><i class="fas fa-building-columns"></i> University <span class="required">*</span></label>
+                    <input type="text" id="university" name="university" required placeholder="Enter your university name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="stream"><i class="fas fa-road"></i> Stream <span class="required">*</span></label>
+                    <select id="stream" name="stream" required>
+                        <option value="">Select your stream</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="medical">Medical</option>
+                        <option value="arts">Arts</option>
+                        <option value="science">Science</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="law">Law</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="semester"><i class="fas fa-layer-group"></i> Semester</label>
+                        <select id="semester" name="semester">
+                            <option value="">Select semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year"><i class="fas fa-calendar-days"></i> Year</label>
+                        <select id="year" name="year">
+                            <option value="">Select year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-user-circle"></i> Seller Information</h2>
+                
+                <div class="form-group">
+                    <label for="sellerName"><i class="fas fa-user"></i> Your Name <span class="required">*</span></label>
+                    <input type="text" id="sellerName" name="sellerName" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobile"><i class="fas fa-mobile-alt"></i> Mobile Number <span class="required">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" required placeholder="Enter your 10-digit mobile number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-location-dot"></i> Location <span class="required">*</span></label>
+                    <input type="text" id="location" name="location" required placeholder="Enter your city or area">
+                </div>
+                
+                <div class="form-group photo-upload">
+                    <label><i class="fas fa-images"></i> Book Photos (Max 6) <span class="required">*</span></label>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload or use camera</p>
+                        <span>Upload at least one clear photo of your book</span>
+                    </div>
+                    
+                    <button type="button" class="camera-btn" id="openCamera">
+                        <i class="fas fa-camera"></i> Use Camera
+                    </button>
+                    
+                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                    
+                    <div class="preview-container" id="previewContainer"></div>
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-check-circle"></i> List My Book for Sale
+        </button>
+    </form>
+</div>
+
+<!-- Camera Modal -->
+<div class="camera-modal" id="cameraModal">
+    <div class="camera-container">
+        <video id="cameraVideo" autoplay playsinline></video>
+        <div class="camera-controls">
+            <button class="capture-btn" id="captureBtn"><i class="fas fa-camera"></i> Capture</button>
+            <button class="cancel-btn" id="closeCamera"><i class="fas fa-times"></i> Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const openCameraBtn = document.getElementById('openCamera');
+    const cameraModal = document.getElementById('cameraModal');
+    const cameraVideo = document.getElementById('cameraVideo');
+    const captureBtn = document.getElementById('captureBtn');
+    const closeCameraBtn = document.getElementById('closeCamera');
+    const form = document.getElementById('sellBookForm');
+    
+    let stream = null;
+    let uploadedImages = 0;
+    const maxImages = 6;
+    
+    // File upload handling
+    uploadArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', function(e) {
+        handleFiles(e.target.files);
+    });
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.style.background = 'rgba(0, 255, 204, 0.2)';
+    });
+    
+    uploadArea.addEventListener('dragleave', function() {
+        uploadArea.style.background = '';
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.style.background = '';
+        
+        if (e.dataTransfer.files.length) {
+            handleFiles(e.dataTransfer.files);
+        }
+    });
+    
+    function handleFiles(files) {
+        if (uploadedImages >= maxImages) {
+            alert(`You can only upload up to ${maxImages} images.`);
+            return;
+        }
+        
+        for (let i = 0; i < files.length; i++) {
+            if (uploadedImages >= maxImages) break;
+            
+            const file = files[i];
+            if (!file.type.match('image.*')) continue;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                addImagePreview(e.target.result);
+            };
+            reader.readAsDataURL(file);
+            uploadedImages++;
+        }
+    }
+    
+    function addImagePreview(src) {
+        const previewItem = document.createElement('div');
+        previewItem.className = 'preview-item';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.addEventListener('click', function() {
+            previewItem.remove();
+            uploadedImages--;
+        });
+        
+        previewItem.appendChild(img);
+        previewItem.appendChild(removeBtn);
+        previewContainer.appendChild(previewItem);
+    }
+    
+    // Camera functionality
+    openCameraBtn.addEventListener('click', openCamera);
+    closeCameraBtn.addEventListener('click', closeCamera);
+    captureBtn.addEventListener('click', captureImage);
+    
+    async function openCamera() {
+        if (uploadedImages >= maxImages) {
+            alert(`You can only upload up to ${maxImages} images.`);
+            return;
+        }
+        
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'environment' }, 
+                audio: false 
+            });
+            cameraVideo.srcObject = stream;
+            cameraModal.classList.add('active');
+        } catch (err) {
+            console.error('Error accessing camera:', err);
+            alert('Unable to access camera. Please check permissions.');
+        }
+    }
+    
+    function closeCamera() {
+        cameraModal.classList.remove('active');
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+    }
+    
+    function captureImage() {
+        if (uploadedImages >= maxImages) {
+            alert(`You can only upload up to ${maxImages} images.`);
+            closeCamera();
+            return;
+        }
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = cameraVideo.videoWidth;
+        canvas.height = cameraVideo.videoHeight;
+        canvas.getContext('2d').drawImage(cameraVideo, 0, 0);
+        
+        addImagePreview(canvas.toDataURL('image/png'));
+        uploadedImages++;
+        closeCamera();
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        if (uploadedImages === 0) {
+            alert('Please upload at least one photo of your book.');
+            return;
+        }
+        
+        // Here you would typically send the data to your server
+        alert('Book listing submitted successfully!');
+        form.reset();
+        previewContainer.innerHTML = '';
+        uploadedImages = 0;
+    });
+});
+</script>
+
+</body>
+</html>
