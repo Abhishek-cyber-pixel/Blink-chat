@@ -15,7 +15,7 @@ body {
   min-height:100vh; 
   display:flex; 
   flex-direction:column; 
-  overflow-x: hidden; /* Added to prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* Navbar */
@@ -30,7 +30,7 @@ body {
   top:0;
   z-index:1000;
   border-bottom:1px solid rgba(255,255,255,0.1);
-  width: 100%; /* Ensure full width */
+  width: 100%;
 }
 
 .navbar .logo {
@@ -128,7 +128,7 @@ body {
 .content {
   flex:1;
   padding:80px 20px 60px;
-  max-width:1200px; /* Increased max-width for better layout */
+  max-width:1200px;
   margin:0 auto;
   text-align:center;
   width: 100%;
@@ -158,7 +158,7 @@ body {
   gap: 40px;
   margin-top: 30px;
   flex-wrap: wrap;
-  justify-content: center; /* Center the container */
+  justify-content: center;
   width: 100%;
 }
 
@@ -320,6 +320,188 @@ body {
 .contact-box button:hover {
   transform:translateY(-3px);
   box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Thank You Popup */
+.thank-you-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.thank-you-popup.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 450px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(50px) scale(0.9);
+  opacity: 0;
+  transition: all 0.5s ease;
+  border: 2px solid #00ffcc;
+  position: relative;
+  overflow: hidden;
+}
+
+.thank-you-popup.active .popup-content {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.popup-badge {
+  width: 80px;
+  height: 80px;
+  background: #00ffcc;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: badgePulse 2s infinite;
+  box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7);
+  z-index: 2;
+  position: relative;
+}
+
+.popup-badge i {
+  font-size: 40px;
+  color: #1e3c72;
+}
+
+.popup-content h2 {
+  color: #00ffcc;
+  margin-bottom: 15px;
+  font-size: 28px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  position: relative;
+}
+
+.popup-content p {
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  z-index: 2;
+  position: relative;
+}
+
+.popup-btn {
+  background: linear-gradient(90deg, #ffeb3b, #ffc107);
+  color: #000;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 235, 59, 0.4);
+  z-index: 2;
+  position: relative;
+}
+
+.popup-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 235, 59, 0.6);
+}
+
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.close-popup:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.close-popup i {
+  color: #00ffcc;
+  font-size: 14px;
+}
+
+/* Confetti particles */
+.confetti {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  z-index: 1;
+}
+
+.confetti::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffeb3b;
+  border-radius: 50%;
+}
+
+.confetti.square::before {
+  border-radius: 2px;
+}
+
+.confetti.triangle::before {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border-radius: 0;
+  background: #00ffcc;
+}
+
+.confetti.circle::before {
+  border-radius: 50%;
+}
+
+@keyframes badgePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(0, 255, 204, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 204, 0);
+  }
+}
+
+/* Confetti animation */
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(-100px) translateX(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(500px) translateX(calc(var(--tx) * 100px)) rotate(calc(var(--r) * 360deg));
+  }
 }
 
 /* New Professional Footer */
@@ -550,6 +732,19 @@ body {
     width: 100%;
     padding: 12px;
   }
+  
+  .popup-content {
+    padding: 30px 20px;
+  }
+  
+  .popup-badge {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .popup-badge i {
+    font-size: 30px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -568,6 +763,10 @@ body {
   
   .content {
     padding: 60px 15px 30px;
+  }
+  
+  .popup-content h2 {
+    font-size: 24px;
   }
 }
 </style>
@@ -630,7 +829,7 @@ body {
 
     <div class="contact-box">
       <h2>Send a Message</h2>
-      <form>
+      <form id="contactForm">
         <label for="name">Your Name</label>
         <input type="text" id="name" placeholder="Enter your name" required>
         
@@ -646,6 +845,21 @@ body {
         <button type="submit">Send Message</button>
       </form>
     </div>
+  </div>
+</div>
+
+<!-- Thank You Popup -->
+<div class="thank-you-popup" id="thankYouPopup">
+  <div class="popup-content">
+    <div class="close-popup" onclick="hideThankYouPopup()">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="popup-badge">
+      <i class="fas fa-check"></i>
+    </div>
+    <h2>Thank You!</h2>
+    <p>Your message has been successfully sent. We will contact you very soon!</p>
+    <button class="popup-btn" onclick="hideThankYouPopup()">Continue</button>
   </div>
 </div>
 
@@ -701,10 +915,10 @@ body {
     <div class="footer-section">
       <h3 class="footer-heading">Newsletter</h3>
       <p>Subscribe to our newsletter for updates on new books, study materials and exam resources.</p>
-      <form class="newsletter-form">
-        <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
-        <button type="submit" class="newsletter-btn">Subscribe</button>
-      </form>
+  <form class="newsletter-form">
+    <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
+    <button type="submit" class="newsletter-btn">Subscribe</button>
+  </form>
     </div>
   </div>
   
@@ -756,6 +970,84 @@ document.querySelectorAll('.nav-link').forEach(link => {
     document.querySelector('.hamburger').classList.remove('active');
   });
 });
+
+// Form submission handling
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // In a real application, you would send the form data to a server here
+  // For demonstration, we'll just show the success message
+  showThankYouPopup();
+  
+  // Reset form
+  this.reset();
+});
+
+// Show thank you popup function
+function showThankYouPopup() {
+  const popup = document.getElementById('thankYouPopup');
+  popup.classList.add('active');
+  
+  // Create confetti
+  createConfetti();
+}
+
+// Hide thank you popup function
+function hideThankYouPopup() {
+  document.getElementById('thankYouPopup').classList.remove('active');
+}
+
+// Close popup when clicking outside
+document.getElementById('thankYouPopup').addEventListener('click', function(e) {
+  if (e.target === this) {
+    hideThankYouPopup();
+  }
+});
+
+// Create confetti function
+function createConfetti() {
+  const popupContent = document.querySelector('.popup-content');
+  const colors = ['#ffeb3b', '#00ffcc', '#ffc107', '#1e3c72', '#2a5298'];
+  const shapes = ['circle', 'square', 'triangle'];
+  
+  // Remove existing confetti
+  document.querySelectorAll('.confetti').forEach(el => el.remove());
+  
+  // Create new confetti
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    
+    // Random shape
+    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    confetti.classList.add(shape);
+    
+    // Random position
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.top = '-20px';
+    
+    // Random color
+    confetti.style.setProperty('--c', colors[Math.floor(Math.random() * colors.length)]);
+    confetti.style.backgroundColor = 'var(--c)';
+    
+    // Random animation variables
+    confetti.style.setProperty('--tx', Math.random() * 2 - 1);
+    confetti.style.setProperty('--r', Math.random());
+    
+    // Random size
+    const size = Math.random() * 8 + 6;
+    confetti.style.width = size + 'px';
+    confetti.style.height = size + 'px';
+    
+    // Random animation delay and duration
+    const delay = Math.random() * 2;
+    const duration = Math.random() * 2 + 3;
+    
+    confetti.style.animation = `confettiFall ${duration}s linear ${delay}s forwards`;
+    
+    popupContent.appendChild(confetti);
+  }
+}
 </script>
 
 </body>
