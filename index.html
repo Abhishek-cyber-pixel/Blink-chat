@@ -414,58 +414,89 @@ body {
     line-height: 1.6;
 }
 
-/* Testimonials Section */
+/* Enhanced Testimonials Section */
 .testimonials {
     padding: 100px 30px;
     text-align: center;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
 }
 
 .testimonial-container {
     position: relative;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 50px auto;
     overflow: hidden;
-    height: 300px;
+    height: 350px;
+}
+
+.testimonial-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%;
 }
 
 .testimonial-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    flex: 0 0 33.333%;
+    padding: 0 15px;
     height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.testimonial-card {
     background: rgba(255,255,255,0.1);
     padding: 30px;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-.testimonial-slide.active {
-    opacity: 1;
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.testimonial-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px;
+    border: 3px solid #00ffcc;
 }
 
 .testimonial-text {
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 20px;
     color: #fff;
+    line-height: 1.6;
 }
 
 .testimonial-author {
     font-weight: 600;
     color: #00ffcc;
+    margin-top: auto;
+}
+
+.testimonial-college {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 5px;
 }
 
 .testimonial-nav {
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -485,8 +516,41 @@ body {
     transform: scale(1.2);
 }
 
+.testimonial-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.testimonial-btn:hover {
+    background: #00ffcc;
+    color: #1e3c72;
+}
+
+.testimonial-btn.prev {
+    left: -25px;
+}
+
+.testimonial-btn.next {
+    right: -25px;
+}
+
 /* Enhanced Footer */
- .footer { 
+.footer { 
     background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72); 
     padding: 60px 0 20px; 
     margin-top: auto; 
@@ -617,54 +681,6 @@ body {
     transform: translateY(-5px); 
 }
 
-.newsletter p { 
-    margin-bottom: 20px; 
-    line-height: 1.6; 
-    color: #ccc;
-}
-
-.newsletter-form { 
-    display: flex; 
-    gap: 10px; 
-}
-
-.newsletter-input { 
-    flex: 1; 
-    padding: 12px 15px; 
-    border: none; 
-    border-radius: 5px; 
-    background: rgba(255,255,255,0.1); 
-    color: #fff; 
-    font-family: 'Poppins', sans-serif; 
-    transition: all 0.3s ease;
-}
-
-.newsletter-input:focus {
-    outline: none;
-    background: rgba(255,255,255,0.15);
-    box-shadow: 0 0 0 2px #00ffcc;
-}
-
-.newsletter-input::placeholder { 
-    color: #ccc; 
-}
-
-.newsletter-btn { 
-    background: linear-gradient(to right, #00ffcc, #00b3b3); 
-    color: #1e3c72; 
-    border: none; 
-    padding: 0 20px; 
-    border-radius: 5px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-}
-
-.newsletter-btn:hover { 
-    background: linear-gradient(to right, #00e6b8, #009999); 
-    transform: translateY(-2px); 
-}
-
 .footer-bottom { 
     text-align: center; 
     padding: 25px 0 10px; 
@@ -714,13 +730,39 @@ body {
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* Floating Elements */
+/* Floating Elements - Updated to academic shapes */
 .floating-element {
     position: absolute;
-    border-radius: 50%;
     background: rgba(255,255,255,0.05);
     animation: float 15s infinite ease-in-out;
     z-index: -1;
+}
+
+.floating-element:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 5%;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    background: rgba(0, 255, 204, 0.1);
+}
+
+.floating-element:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: rgba(255, 235, 59, 0.1);
+}
+
+.floating-element:nth-child(3) {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 15%;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: rgba(30, 60, 114, 0.2);
 }
 
 @keyframes float {
@@ -751,6 +793,9 @@ body {
     }
     .stat-number {
         font-size: 2.5rem;
+    }
+    .testimonial-slide {
+        flex: 0 0 50%;
     }
 }
 
@@ -803,21 +848,18 @@ body {
     .features-grid {
         grid-template-columns: 1fr;
     }
+    .testimonial-slide {
+        flex: 0 0 100%;
+    }
+    .testimonial-btn {
+        display: none;
+    }
 
     /* Footer Responsive */ 
     .footer-container { 
         flex-direction: column; 
         gap: 30px; 
     }
-
-    .newsletter-form { 
-        flex-direction: column; 
-    }
-
-    .newsletter-btn { 
-        width: 100%; 
-        padding: 12px; 
-    } 
 }
 
 @media (max-width: 480px) { 
@@ -849,7 +891,7 @@ body {
         height: 45px;
     }
     .testimonial-container {
-        height: 350px;
+        height: 400px;
     }
 }
 </style>
@@ -860,9 +902,9 @@ body {
 <div id="particles-js"></div>
 
 <!-- Floating Elements -->
-<div class="floating-element" style="width: 100px; height: 100px; top: 20%; left: 5%;"></div>
-<div class="floating-element" style="width: 150px; height: 150px; top: 60%; right: 10%;"></div>
-<div class="floating-element" style="width: 80px; height: 80px; bottom: 20%; left: 15%;"></div>
+<div class="floating-element"></div>
+<div class="floating-element"></div>
+<div class="floating-element"></div>
 
 <!-- Navbar -->
 <nav class="navbar">
@@ -871,6 +913,7 @@ body {
   </div>
   <ul class="nav-links">
     <li><a href="index2.html" class="nav-link"><span>🏠</span> Home</a></li>
+    <li><a href="#" class="nav-link"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link"><span>📞</span> Contact</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMenu()">
@@ -957,7 +1000,7 @@ body {
   </div>
 </section>
 
-<!-- Testimonials Section -->
+<!-- Enhanced Testimonials Section -->
 <section class="testimonials">
   <div class="section-header">
     <h2>What Students Say</h2>
@@ -965,19 +1008,63 @@ body {
   </div>
   
   <div class="testimonial-container">
-    <div class="testimonial-slide active">
-      <p class="testimonial-text">"AbhiLearn helped me ace my semester exams with their comprehensive notes and previous year papers. The quality of materials is exceptional!"</p>
-      <p class="testimonial-author">- Rajesh Kumar, Punjab University</p>
-    </div>
+    <button class="testimonial-btn prev"><i class="fas fa-chevron-left"></i></button>
+    <button class="testimonial-btn next"><i class="fas fa-chevron-right"></i></button>
     
-    <div class="testimonial-slide">
-      <p class="testimonial-text">"The study materials are well-organized and easy to understand. I particularly appreciate the subject-wise categorization that saved me a lot of time."</p>
-      <p class="testimonial-author">- Priya Sharma, GNDU Amritsar</p>
-    </div>
-    
-    <div class="testimonial-slide">
-      <p class="testimonial-text">"As a working professional, I needed flexible study options. AbhiLearn's downloadable resources allowed me to study at my own pace and schedule."</p>
-      <p class="testimonial-author">- Amit Patel, Chandigarh University</p>
+    <div class="testimonial-track">
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"AbhiLearn helped me ace my semester exams with their comprehensive notes and previous year papers. The quality of materials is exceptional!"</p>
+          <p class="testimonial-author">Rajesh Kumar</p>
+          <p class="testimonial-college">Punjab University</p>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"The study materials are well-organized and easy to understand. I particularly appreciate the subject-wise categorization that saved me a lot of time."</p>
+          <p class="testimonial-author">Priya Sharma</p>
+          <p class="testimonial-college">GNDU Amritsar</p>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"As a working professional, I needed flexible study options. AbhiLearn's downloadable resources allowed me to study at my own pace and schedule."</p>
+          <p class="testimonial-author">Amit Patel</p>
+          <p class="testimonial-college">Chandigarh University</p>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"The question bank and mock tests were exactly what I needed to prepare for my finals. Scored 20% higher than my previous semester!"</p>
+          <p class="testimonial-author">Neha Gupta</p>
+          <p class="testimonial-college">Thapar University</p>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"The faculty notes and expert-curated materials made complex topics easy to understand. Highly recommended for engineering students!"</p>
+          <p class="testimonial-author">Rahul Singh</p>
+          <p class="testimonial-college">Punjab Engineering College</p>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Student" class="testimonial-image">
+          <p class="testimonial-text">"I was struggling with my coursework until I found AbhiLearn. The structured materials and practice questions boosted my confidence."</p>
+          <p class="testimonial-author">Simran Kaur</p>
+          <p class="testimonial-college">LPU Jalandhar</p>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -985,6 +1072,9 @@ body {
     <div class="testimonial-dot active" data-index="0"></div>
     <div class="testimonial-dot" data-index="1"></div>
     <div class="testimonial-dot" data-index="2"></div>
+    <div class="testimonial-dot" data-index="3"></div>
+    <div class="testimonial-dot" data-index="4"></div>
+    <div class="testimonial-dot" data-index="5"></div>
   </div>
 </section>
 
@@ -1008,7 +1098,7 @@ body {
       <h3 class="footer-heading">Quick Links</h3>
       <ul class="footer-links">
         <li><a href="index2.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="materials.html"><i class="fas fa-book"></i> Study Materials</a></li>
+        <li><a href="#"><i class="fas fa-book"></i> Question Papers</a></li>
         <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
       </ul>
     </div>
@@ -1036,12 +1126,13 @@ body {
     </div>
 
     <div class="footer-section">
-      <h3 class="footer-heading">Newsletter</h3>
-      <p>Subscribe to our newsletter for updates on new study materials and resources.</p>
-      <form class="newsletter-form">
-        <input type="email" class="newsletter-input" placeholder="Enter your email">
-        <button type="submit" class="newsletter-btn">Subscribe</button>
-      </form>
+      <h3 class="footer-heading">Resources</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-book"></i> Study Materials</a></li>
+        <li><a href="#"><i class="fas fa-file-alt"></i> Previous Year Papers</a></li>
+        <li><a href="#"><i class="fas fa-graduation-cap"></i> College Guides</a></li>
+        <li><a href="#"><i class="fas fa-video"></i> Video Lectures</a></li>
+      </ul>
     </div>
   </div>
 
@@ -1251,32 +1342,106 @@ const statsObserver = new IntersectionObserver(function(entries) {
 
 statsObserver.observe(document.querySelector('.stats-section'));
 
-// Testimonial slider
+// Enhanced Testimonial Slider
 let currentTestimonial = 0;
+const testimonialTrack = document.querySelector('.testimonial-track');
 const testimonials = document.querySelectorAll('.testimonial-slide');
 const dots = document.querySelectorAll('.testimonial-dot');
+const prevBtn = document.querySelector('.testimonial-btn.prev');
+const nextBtn = document.querySelector('.testimonial-btn.next');
+let autoSlideInterval;
 
 function showTestimonial(index) {
-  testimonials.forEach(testimonial => testimonial.classList.remove('active'));
-  dots.forEach(dot => dot.classList.remove('active'));
+  // Handle wrap-around for infinite sliding
+  if (index < 0) {
+    index = testimonials.length - 1;
+  } else if (index >= testimonials.length) {
+    index = 0;
+  }
   
-  testimonials[index].classList.add('active');
-  dots[index].classList.add('active');
   currentTestimonial = index;
+  
+  // Calculate the transform value based on current index
+  const transformValue = -currentTestimonial * (100 / testimonials.length) * (testimonials.length / 3);
+  testimonialTrack.style.transform = `translateX(${transformValue}%)`;
+  
+  // Update active dot
+  dots.forEach((dot, i) => {
+    if (i === currentTestimonial % dots.length) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+}
+
+function nextTestimonial() {
+  showTestimonial(currentTestimonial + 1);
+}
+
+function prevTestimonial() {
+  showTestimonial(currentTestimonial - 1);
 }
 
 // Add click events to dots
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
     showTestimonial(index);
+    resetAutoSlide();
   });
 });
 
+// Add click events to navigation buttons
+prevBtn.addEventListener('click', () => {
+  prevTestimonial();
+  resetAutoSlide();
+});
+
+nextBtn.addEventListener('click', () => {
+  nextTestimonial();
+  resetAutoSlide();
+});
+
 // Auto-rotate testimonials
-setInterval(() => {
-  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-  showTestimonial(currentTestimonial);
-}, 5000);
+function startAutoSlide() {
+  autoSlideInterval = setInterval(() => {
+    nextTestimonial();
+  }, 5000);
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlideInterval);
+  startAutoSlide();
+}
+
+// Touch events for mobile swipe
+let touchStartX = 0;
+let touchEndX = 0;
+
+testimonialTrack.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+testimonialTrack.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const swipeThreshold = 50;
+  
+  if (touchEndX < touchStartX - swipeThreshold) {
+    // Swipe left - next testimonial
+    nextTestimonial();
+    resetAutoSlide();
+  }
+  
+  if (touchEndX > touchStartX + swipeThreshold) {
+    // Swipe right - previous testimonial
+    prevTestimonial();
+    resetAutoSlide();
+  }
+}
 
 // Start the animation when page loads
 window.addEventListener('load', function() {
@@ -1287,6 +1452,31 @@ window.addEventListener('load', function() {
   floatingElements.forEach((el, index) => {
     el.style.animationDelay = `${index * 2}s`;
   });
+  
+  // Initialize testimonial slider
+  showTestimonial(0);
+  startAutoSlide();
+  
+  // Adjust testimonial slider for different screen sizes
+  function adjustTestimonialSlides() {
+    if (window.innerWidth <= 768) {
+      testimonials.forEach(slide => {
+        slide.style.flex = '0 0 100%';
+      });
+    } else if (window.innerWidth <= 1024) {
+      testimonials.forEach(slide => {
+        slide.style.flex = '0 0 50%';
+      });
+    } else {
+      testimonials.forEach(slide => {
+        slide.style.flex = '0 0 33.333%';
+      });
+    }
+    showTestimonial(currentTestimonial);
+  }
+  
+  adjustTestimonialSlides();
+  window.addEventListener('resize', adjustTestimonialSlides);
 });
 </script>
 
