@@ -824,18 +824,18 @@ body {
 
     <div class="contact-box">
       <h2>Send a Message</h2>
-      <form id="contactForm">
+      <form id="contactForm" action="https://formspree.io/f/xyzdoanp" method="POST">
         <label for="name">Your Name</label>
-        <input type="text" id="name" placeholder="Enter your name" required>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
         
         <label for="email">Your Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
         
         <label for="subject">Subject</label>
-        <input type="text" id="subject" placeholder="Enter subject">
+        <input type="text" id="subject" name="subject" placeholder="Enter subject">
         
         <label for="message">Your Message</label>
-        <textarea id="message" rows="5" placeholder="Type your message" required></textarea>
+        <textarea id="message" name="message" rows="5" placeholder="Type your message" required></textarea>
         
         <button type="submit">Send Message</button>
       </form>
@@ -969,15 +969,32 @@ document.querySelectorAll('.nav-link').forEach(link => {
 });
 
 // Form submission handling
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   
-  // In a real application, you would send the form data to a server here
-  // For demonstration, we'll just show the success message
-  showThankYouPopup();
+  // Get form data
+  const formData = new FormData(this);
   
-  // Reset form
-  this.reset();
+  try {
+    // Send to Formspree
+    const response = await fetch(this.action, {
+      method: this.method,
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (response.ok) {
+      showThankYouPopup();
+      this.reset();
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('There was a problem submitting your form. Please try again.');
+  }
 });
 
 // Show thank you popup function
