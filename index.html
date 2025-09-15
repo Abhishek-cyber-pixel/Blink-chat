@@ -158,6 +158,28 @@ body {
     width:100%; 
 }
 
+/* Close button for mobile menu */
+.close-menu {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1100;
+}
+
+.close-menu:hover {
+    background: rgba(255,255,255,0.2);
+    transform: rotate(90deg);
+}
+
 /* Enhanced Hero Section with New Background */
 .hero { 
     text-align:center; 
@@ -736,6 +758,10 @@ body {
         background: rgba(255,255,255,0.05);
     } 
     
+    .close-menu {
+        display: flex;
+    }
+    
     .hero { 
         padding: 80px 15px 60px;
     }
@@ -805,27 +831,6 @@ body {
     
     .footer-section {
         width: 100%;
-    }
-    
-    /* Close button for mobile menu */
-    .close-menu {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255,255,255,0.1);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .close-menu:hover {
-        background: rgba(255,255,255,0.2);
-        transform: rotate(90deg);
     }
 }
 
@@ -910,9 +915,6 @@ body {
     <span class="logo-icon">🎓</span> AbhiLearn
   </div>
   <ul class="nav-links">
-    <div class="close-menu" onclick="toggleMenu()">
-      <i class="fas fa-times"></i>
-    </div>
     <li><a href="index.html" class="nav-link"><span>🏠</span> Home</a></li>
     <li><a href="#colleges" class="nav-link question-papers"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link"><span>📞</span> Contact</a></li>
@@ -923,6 +925,9 @@ body {
     <div></div>
     <div></div>
     <div></div>
+  </div>
+  <div class="close-menu" onclick="toggleMenu()">
+    <i class="fas fa-times"></i>
   </div>
 </nav>
 
@@ -1142,14 +1147,17 @@ document.querySelectorAll(".nav-link").forEach(link => {
 function toggleMenu() {
   const navLinks = document.querySelector('.nav-links');
   const hamburger = document.querySelector('.hamburger');
+  const closeMenu = document.querySelector('.close-menu');
   
   navLinks.classList.toggle('show');
   hamburger.classList.toggle('active');
   
-  // Prevent body scrolling when menu is open
+  // Toggle close menu button visibility
   if (navLinks.classList.contains('show')) {
+    closeMenu.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   } else {
+    closeMenu.style.display = 'none';
     document.body.style.overflow = 'auto';
   }
 }
@@ -1158,10 +1166,12 @@ function toggleMenu() {
 document.addEventListener('click', function(event) {
   const nav = document.querySelector('.nav-links');
   const hamburger = document.querySelector('.hamburger');
+  const closeMenu = document.querySelector('.close-menu');
   
-  if (!nav.contains(event.target) && !hamburger.contains(event.target) && window.innerWidth <= 768) {
+  if (!nav.contains(event.target) && !hamburger.contains(event.target) && !closeMenu.contains(event.target) && window.innerWidth <= 768) {
     nav.classList.remove('show');
     hamburger.classList.remove('active');
+    closeMenu.style.display = 'none';
     document.body.style.overflow = 'auto';
   }
 });
@@ -1172,6 +1182,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     if (window.innerWidth <= 768) {
       document.querySelector('.nav-links').classList.remove('show');
       document.querySelector('.hamburger').classList.remove('active');
+      document.querySelector('.close-menu').style.display = 'none';
       document.body.style.overflow = 'auto';
     }
   });
@@ -1299,6 +1310,7 @@ document.querySelector('.question-papers').addEventListener('click', function(e)
   if (window.innerWidth <= 768) {
     document.querySelector('.nav-links').classList.remove('show');
     document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.close-menu').style.display = 'none';
     document.body.style.overflow = 'auto';
   }
 });
