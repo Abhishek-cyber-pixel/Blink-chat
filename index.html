@@ -33,7 +33,7 @@ body {
     display:flex; 
     justify-content:space-between; 
     align-items:center; 
-    padding:15px 40px; 
+    padding:15px 20px; 
     background: rgba(0,0,0,0.6); 
     backdrop-filter: blur(10px); 
     position:sticky; 
@@ -44,13 +44,13 @@ body {
 }
 
 .navbar.scrolled {
-    padding: 10px 40px;
+    padding: 10px 20px;
     background: rgba(0,0,0,0.9);
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 
 .navbar .logo { 
-    font-size:1.8rem; 
+    font-size:1.5rem; 
     font-weight:700; 
     color:#ffeb3b;  
     display:flex; 
@@ -65,7 +65,7 @@ body {
 }
 
 .logo-icon { 
-    font-size:2rem; 
+    font-size:1.8rem; 
     animation: pulse 2s infinite;
 }
 
@@ -84,6 +84,10 @@ body {
     z-index:1100; 
     padding: 5px; 
     transition: transform 0.3s ease;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
 }
 
 .hamburger:hover {
@@ -115,7 +119,7 @@ body {
 .nav-links { 
     display:flex; 
     list-style:none; 
-    gap:25px; 
+    gap:15px; 
 }
 
 .nav-links li a { 
@@ -129,6 +133,7 @@ body {
     align-items:center; 
     gap:8px; 
     border-radius:8px; 
+    font-size: 1rem;
 }
 
 .nav-links li a:hover, .nav-links li a.active { 
@@ -156,7 +161,7 @@ body {
 /* Enhanced Hero Section with New Background */
 .hero { 
     text-align:center; 
-    padding:120px 20px 100px; 
+    padding:100px 20px 80px; 
     background: 
         linear-gradient(135deg, rgba(26, 42, 108, 0.85), rgba(42, 82, 152, 0.85)),
         url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
@@ -192,12 +197,12 @@ body {
 }
 
 .hero h1 { 
-    font-size:4rem; 
+    font-size:2.8rem; 
     margin-bottom:20px; 
     text-shadow:0 3px 15px rgba(0,0,0,0.5); 
     font-weight: 700;
     letter-spacing: 1px;
-    min-height: 120px;
+    min-height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -226,7 +231,7 @@ body {
 }
 
 .hero p { 
-    font-size:1.3rem; 
+    font-size:1.1rem; 
     max-width:750px; 
     margin:0 auto 30px; 
     line-height:1.6; 
@@ -236,19 +241,20 @@ body {
 
 .cta-button {
     display: inline-block;
-    padding: 15px 35px;
+    padding: 14px 30px;
     background: linear-gradient(to right, #00ffcc, #00b3b3);
     color: #1e3c72;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     margin-top: 20px;
     position: relative;
     overflow: hidden;
     z-index: 1;
+    min-width: 180px;
 }
 
 .cta-button::before {
@@ -281,7 +287,7 @@ body {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    padding: 60px 20px;
+    padding: 40px 20px;
     background: rgba(0, 0, 0, 0.3);
     margin: 40px 0;
     border-radius: 20px;
@@ -289,16 +295,41 @@ body {
     max-width: 1200px;
     margin: 40px auto;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    gap: 20px;
 }
 
 .stat-item {
     text-align: center;
-    padding: 20px;
-    min-width: 200px;
+    padding: 15px;
+    min-width: 150px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: #00ffcc;
+    margin-bottom: 15px;
+    background: rgba(0, 255, 204, 0.1);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover .stat-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(0, 255, 204, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
 }
 
 .stat-number {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: #00ffcc;
     margin-bottom: 10px;
@@ -306,7 +337,7 @@ body {
 }
 
 .stat-label {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #ccc;
 }
 
@@ -314,8 +345,8 @@ body {
 .colleges { 
     display:grid; 
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); 
-    gap:35px; 
-    padding:80px 30px; 
+    gap:25px; 
+    padding:60px 20px; 
     z-index:1; 
     max-width: 1200px;
     margin: 0 auto;
@@ -323,10 +354,10 @@ body {
 
 .college-card { 
     background: rgba(255,255,255,0.1); 
-    padding:35px 25px; 
-    border-radius:20px; 
+    padding:25px 20px; 
+    border-radius:15px; 
     text-align:center; 
-    font-size:1.2rem; 
+    font-size:1.1rem; 
     font-weight:700; 
     cursor:pointer; 
     transition:0.4s; 
@@ -337,6 +368,10 @@ body {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.1);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .college-card::before {
@@ -352,7 +387,7 @@ body {
 }
 
 .college-card:hover { 
-    transform: translateY(-10px) scale(1.05); 
+    transform: translateY(-8px) scale(1.03); 
     box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
     background: linear-gradient(135deg,#00ffcc,#00b3b3); 
     color:#1e3c72; 
@@ -364,7 +399,7 @@ body {
 
 /* Features Section */
 .features-section {
-    padding: 100px 30px;
+    padding: 80px 20px;
     background: rgba(0, 0, 0, 0.3);
     margin: 40px 0;
     border-radius: 20px;
@@ -374,16 +409,34 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #00ffcc;
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    color: #ccc;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
+    gap: 25px;
+    margin-top: 40px;
 }
 
 .feature-card {
     background: rgba(255,255,255,0.1);
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     text-align: center;
     transition: all 0.3s ease;
@@ -392,19 +445,19 @@ body {
 }
 
 .feature-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     background: rgba(0,255,204,0.1);
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
 
 .feature-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #00ffcc;
     margin-bottom: 20px;
 }
 
 .feature-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 15px;
     color: #00ffcc;
 }
@@ -412,195 +465,13 @@ body {
 .feature-card p {
     color: #ccc;
     line-height: 1.6;
+    font-size: 1rem;
 }
 
-/* Enhanced Testimonials Section - FIXED */
-.testimonials {
-    padding: 100px 30px;
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-}
-
-.testimonial-container {
-    position: relative;
-    max-width: 1000px;
-    margin: 50px auto;
-    overflow: hidden;
-    height: 350px;
-}
-
-.testimonial-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    height: 100%;
-}
-
-.testimonial-slide {
-    flex: 0 0 33.333%;
-    padding: 0 15px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.testimonial-card {
-    background: rgba(255,255,255,0.1);
-    padding: 30px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
-
-.testimonial-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 20px;
-    border: 3px solid #00ffcc;
-}
-
-.testimonial-text {
-    font-style: italic;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: #fff;
-    line-height: 1.6;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-}
-
-.testimonial-author {
-    font-weight: 600;
-    color: #00ffcc;
-}
-
-.testimonial-college {
-    font-size: 0.9rem;
-    color: #ccc;
-    margin-top: 5px;
-}
-
-.testimonial-nav {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.testimonial-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.testimonial-dot.active {
-    background: #00ffcc;
-    transform: scale(1.2);
-}
-
-.testimonial-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.2);
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-
-.testimonial-btn:hover {
-    background: #00ffcc;
-    color: #1e3c72;
-}
-
-.testimonial-btn.prev {
-    left: 15px;
-}
-
-.testimonial-btn.next {
-    right: 15px;
-}
-
-/* Responsive adjustments for testimonials */
-@media(max-width:1024px){
-    .testimonial-slide {
-        flex: 0 0 50%;
-    }
-    .testimonial-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    .testimonial-btn.prev {
-        left: 10px;
-    }
-    .testimonial-btn.next {
-        right: 10px;
-    }
-}
-
-@media(max-width:768px){
-    .testimonial-slide {
-        flex: 0 0 100%;
-    }
-    .testimonial-container {
-        height: 380px;
-    }
-    .testimonial-btn {
-        display: flex;
-    }
-}
-
-@media (max-width: 480px) {
-    .testimonials {
-        padding: 60px 15px;
-    }
-    .testimonial-container {
-        height: 420px;
-    }
-    .testimonial-card {
-        padding: 20px;
-    }
-    .testimonial-text {
-        font-size: 1rem;
-    }
-}
-
-/* Enhanced Footer */
+/* New Professional Footer */
 .footer { 
     background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72); 
-    padding: 60px 0 20px; 
+    padding: 50px 0 20px; 
     margin-top: auto; 
     box-shadow: 0 -5px 20px rgba(0,0,0,0.3); 
     position: relative;
@@ -622,8 +493,8 @@ body {
     justify-content: space-between; 
     max-width: 1200px; 
     margin: 0 auto; 
-    padding: 0 30px; 
-    gap: 40px; 
+    padding: 0 20px; 
+    gap: 30px; 
 }
 
 .footer-section { 
@@ -633,8 +504,8 @@ body {
 
 .footer-heading { 
     color: #00ffcc; 
-    font-size: 1.4rem; 
-    margin-bottom: 25px; 
+    font-size: 1.3rem; 
+    margin-bottom: 20px; 
     position: relative; 
     padding-bottom: 10px; 
     font-weight: 700; 
@@ -656,7 +527,7 @@ body {
 }
 
 .footer-links li { 
-    margin-bottom: 15px; 
+    margin-bottom: 12px; 
 }
 
 .footer-links a { 
@@ -667,6 +538,7 @@ body {
     gap: 10px; 
     transition: all 0.3s ease; 
     font-weight: 500; 
+    font-size: 0.95rem;
 }
 
 .footer-links a:hover { 
@@ -676,22 +548,23 @@ body {
 
 .footer-links i { 
     color: #00ffcc; 
-    font-size: 1.1rem; 
-    width: 25px; 
+    font-size: 1rem; 
+    width: 20px; 
 }
 
 .contact-info { 
     color: #fff; 
     display: flex; 
     flex-direction: column; 
-    gap: 15px; 
+    gap: 12px; 
 }
 
 .contact-item { 
     display: flex; 
     align-items: center; 
-    gap: 15px; 
+    gap: 12px; 
     transition: transform 0.3s ease;
+    font-size: 0.95rem;
 }
 
 .contact-item:hover {
@@ -700,13 +573,13 @@ body {
 
 .contact-item i { 
     color: #00ffcc; 
-    font-size: 1.2rem; 
-    width: 25px; 
+    font-size: 1.1rem; 
+    width: 20px; 
 }
 
 .social-links { 
     display: flex; 
-    gap: 15px; 
+    gap: 12px; 
     margin-top: 20px; 
 }
 
@@ -714,12 +587,12 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    width: 40px; 
-    height: 40px; 
+    width: 38px; 
+    height: 38px; 
     background: rgba(255,255,255,0.1); 
     border-radius: 50%; 
     color: #fff; 
-    font-size: 1.2rem; 
+    font-size: 1.1rem; 
     transition: all 0.3s ease; 
 }
 
@@ -731,8 +604,8 @@ body {
 
 .footer-bottom { 
     text-align: center; 
-    padding: 25px 0 10px; 
-    margin-top: 40px; 
+    padding: 20px 0 10px; 
+    margin-top: 30px; 
     border-top: 1px solid rgba(255,255,255,0.1); 
 }
 
@@ -749,17 +622,17 @@ body {
 /* Back to Top Button */
 .back-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
+    bottom: 25px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
     background: linear-gradient(to right, #00ffcc, #00b3b3);
     color: #1e3c72;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     opacity: 0;
@@ -787,8 +660,8 @@ body {
 }
 
 .floating-element:nth-child(1) {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     top: 20%;
     left: 5%;
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
@@ -796,8 +669,8 @@ body {
 }
 
 .floating-element:nth-child(2) {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     top: 60%;
     right: 10%;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
@@ -805,8 +678,8 @@ body {
 }
 
 .floating-element:nth-child(3) {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     bottom: 20%;
     left: 15%;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
@@ -821,16 +694,16 @@ body {
 }
 
 /* Responsive */ 
-@media(max-width:1024px){ 
+@media (min-width: 769px) and (max-width:1024px){ 
     .nav-links { 
-        gap: 15px; 
+        gap: 12px; 
     }
     .nav-links li a { 
         padding: 8px 12px; 
-        font-size: 0.9rem; 
+        font-size: 0.95rem; 
     }
     .hero h1 {
-        font-size: 3rem;
+        font-size: 3.2rem;
         min-height: 100px;
     }
     .stats-section {
@@ -844,90 +717,145 @@ body {
     }
 }
 
-@media(max-width:768px){ 
+@media (max-width:768px){ 
     .navbar { 
         justify-content: space-between; 
-        padding: 15px 20px; 
+        padding: 12px 15px; 
     } 
+    
+    .navbar .logo {
+        font-size: 1.4rem;
+    }
+    
     .hamburger { 
         display:flex; 
     } 
+    
     .nav-links { 
-        position:absolute; 
-        top:60px; 
-        right:10px; 
+        position: fixed; 
+        top: 64px;
+        right: 0;
+        left: 0;
         background: rgba(0,0,0,0.95); 
         flex-direction:column; 
-        width:220px; 
-        padding:20px; 
-        border-radius:0 0 10px 10px; 
-        gap:15px; 
+        width: 100%;
+        padding: 20px; 
+        border-radius: 0 0 10px 10px; 
+        gap: 10px; 
         box-shadow:0 10px 25px rgba(0,0,0,0.5); 
         display: none;
+        z-index: 1000;
     } 
+    
     .nav-links.show {
         display: flex;
     }
+    
     .nav-links li a { 
-        padding:12px 15px; 
+        padding:15px; 
         font-size:1.1rem; 
+        justify-content: center;
     } 
+    
     .hero { 
-        padding: 100px 20px 80px;
+        padding: 80px 15px 60px;
     }
+    
     .hero h1 { 
-        font-size:2.5rem; 
-        min-height: 90px;
+        font-size:2.2rem; 
+        min-height: 80px;
     } 
+    
     .hero p { 
-        font-size:1.1rem; 
+        font-size:1rem; 
     } 
+    
     .college-card { 
-        font-size:1.1rem; 
-        padding:30px; 
+        font-size:1rem; 
+        padding:20px 15px; 
+        min-height: 80px;
     }
+    
     .stats-section {
         flex-direction: column;
-        gap: 30px;
+        gap: 25px;
+        padding: 30px 15px;
     }
+    
+    .stat-item {
+        width: 100%;
+        padding: 15px 0;
+    }
+    
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .features-section {
+        padding: 60px 15px;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
     }
 
     /* Footer Responsive */ 
     .footer-container { 
         flex-direction: column; 
         gap: 30px; 
+        padding: 0 15px;
+    }
+    
+    .footer-section {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) { 
     .hero { 
-        padding: 80px 15px 60px;
+        padding: 70px 15px 50px;
     }
+    
     .hero h1 { 
-        font-size: 2rem; 
+        font-size: 1.8rem; 
         min-height: 70px;
     }
+    
     .hero p {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
+    
     .college-card { 
-        padding: 20px 15px; 
-        font-size: 1rem; 
+        padding: 18px 12px; 
+        font-size: 0.95rem; 
+        min-height: 70px;
     }
+    
     .section-header h2 { 
         font-size: 1.8rem; 
     }
-    .action-btn { 
-        padding: 15px 25px; 
-        font-size: 1rem; 
+    
+    .cta-button { 
+        padding: 12px 25px; 
+        font-size: 0.95rem; 
+        min-width: 160px;
     }
+    
     .back-to-top {
         bottom: 20px;
         right: 20px;
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .footer {
+        padding: 40px 0 15px;
+    }
+    
+    .footer-heading {
+        font-size: 1.2rem;
     }
 }
 </style>
@@ -951,6 +879,8 @@ body {
     <li><a href="index2.html" class="nav-link"><span>🏠</span> Home</a></li>
     <li><a href="#" class="nav-link"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link"><span>📞</span> Contact</a></li>
+    <li><a href="#" class="nav-link"><span>⭐</span> Premium</a></li>
+    <li><a href="#" class="nav-link"><span>🔔</span> Notifications</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMenu()">
     <div></div>
@@ -971,18 +901,30 @@ body {
 <!-- Stats Section -->
 <div class="stats-section">
   <div class="stat-item">
+    <div class="stat-icon">
+      <i class="fas fa-university"></i>
+    </div>
     <span class="stat-number" id="colleges-count">0</span>
     <span class="stat-label">Colleges</span>
   </div>
   <div class="stat-item">
+    <div class="stat-icon">
+      <i class="fas fa-book"></i>
+    </div>
     <span class="stat-number" id="materials-count">0</span>
     <span class="stat-label">Study Materials</span>
   </div>
   <div class="stat-item">
+    <div class="stat-icon">
+      <i class="fas fa-user-graduate"></i>
+    </div>
     <span class="stat-number" id="students-count">0</span>
     <span class="stat-label">Happy Students</span>
   </div>
   <div class="stat-item">
+    <div class="stat-icon">
+      <i class="fas fa-file-alt"></i>
+    </div>
     <span class="stat-number" id="resources-count">0</span>
     <span class="stat-label">Resources</span>
   </div>
@@ -1033,84 +975,6 @@ body {
       <h3>Digital Learning</h3>
       <p>Learn anytime, anywhere with our mobile-friendly platform and downloadable resources.</p>
     </div>
-  </div>
-</section>
-
-<!-- Enhanced Testimonials Section - FIXED -->
-<section class="testimonials">
-  <div class="section-header">
-    <h2>What Students Say</h2>
-    <p>Hear from students who have benefited from our resources</p>
-  </div>
-  
-  <div class="testimonial-container">
-    <button class="testimonial-btn prev"><i class="fas fa-chevron-left"></i></button>
-    <button class="testimonial-btn next"><i class="fas fa-chevron-right"></i></button>
-    
-    <div class="testimonial-track">
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8SW5kaWFuJTIwc3R1ZGVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"AbhiLearn helped me ace my semester exams with their comprehensive notes and previous year papers. The quality of materials is exceptional!"</p>
-          <p class="testimonial-author">Rajesh Kumar</p>
-          <p class="testimonial-college">Punjab University</p>
-        </div>
-      </div>
-      
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8SW5kaWFuJTIwd29tYW4lMjBzdHVkZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"The study materials are well-organized and easy to understand. I particularly appreciate the subject-wise categorization that saved me a lot of time."</p>
-          <p class="testimonial-author">Priya Sharma</p>
-          <p class="testimonial-college">GNDU Amritsar</p>
-        </div>
-      </div>
-      
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8SW5kaWFuJTIwc3R1ZGVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"As a working professional, I needed flexible study options. AbhiLearn's downloadable resources allowed me to study at my own pace and schedule."</p>
-          <p class="testimonial-author">Amit Patel</p>
-          <p class="testimonial-college">Chandigarh University</p>
-        </div>
-      </div>
-      
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fEluZGlhbiUyMHdvbWFuJTIwc3R1ZGVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"The question bank and mock tests were exactly what I needed to prepare for my finals. Scored 20% higher than my previous semester!"</p>
-          <p class="testimonial-author">Neha Gupta</p>
-          <p class="testimonial-college">Thapar University</p>
-        </div>
-      </div>
-      
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fEluZGlhbiUyMHN0dWRlbnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"The faculty notes and expert-curated materials made complex topics easy to understand. Highly recommended for engineering students!"</p>
-          <p class="testimonial-author">Rahul Singh</p>
-          <p class="testimonial-college">Punjab Engineering College</p>
-        </div>
-      </div>
-      
-      <div class="testimonial-slide">
-        <div class="testimonial-card">
-          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fEluZGlhbiUyMHdvbWFuJTIwc3R1ZGVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Indian Student" class="testimonial-image">
-          <p class="testimonial-text">"I was struggling with my coursework until I found AbhiLearn. The structured materials and practice questions boosted my confidence."</p>
-          <p class="testimonial-author">Simran Kaur</p>
-          <p class="testimonial-college">LPU Jalandhar</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="testimonial-nav">
-    <div class="testimonial-dot active" data-index="0"></div>
-    <div class="testimonial-dot" data-index="1"></div>
-    <div class="testimonial-dot" data-index="2"></div>
-    <div class="testimonial-dot" data-index="3"></div>
-    <div class="testimonial-dot" data-index="4"></div>
-    <div class="testimonial-dot" data-index="5"></div>
   </div>
 </section>
 
@@ -1351,12 +1215,12 @@ function animateCounter(elementId, finalValue, duration) {
     if (!startTime) startTime = timestamp;
     const progress = Math.min((timestamp - startTime) / duration, 1);
     const value = Math.floor(progress * finalValue);
-    element.textContent = value;
+    element.textContent = value + "+";
     
     if (progress < 1) {
       requestAnimationFrame(updateCounter);
     } else {
-      element.textContent = finalValue;
+      element.textContent = finalValue + "+";
     }
   }
   
@@ -1378,150 +1242,6 @@ const statsObserver = new IntersectionObserver(function(entries) {
 
 statsObserver.observe(document.querySelector('.stats-section'));
 
-// Enhanced Testimonial Slider - FIXED
-let currentTestimonial = 0;
-const testimonialTrack = document.querySelector('.testimonial-track');
-const testimonials = document.querySelectorAll('.testimonial-slide');
-const dots = document.querySelectorAll('.testimonial-dot');
-const prevBtn = document.querySelector('.testimonial-btn.prev');
-const nextBtn = document.querySelector('.testimonial-btn.next');
-let autoSlideInterval;
-
-function updateTestimonialSlides() {
-  // Adjust slides per view based on screen size
-  if (window.innerWidth <= 768) {
-    testimonials.forEach(slide => {
-      slide.style.flex = '0 0 100%';
-    });
-  } else if (window.innerWidth <= 1024) {
-    testimonials.forEach(slide => {
-      slide.style.flex = '0 0 50%';
-    });
-  } else {
-    testimonials.forEach(slide => {
-      slide.style.flex = '0 0 33.333%';
-    });
-  }
-  showTestimonial(currentTestimonial);
-}
-
-function showTestimonial(index) {
-  // Handle wrap-around for infinite sliding
-  if (index < 0) {
-    index = testimonials.length - 1;
-  } else if (index >= testimonials.length) {
-    index = 0;
-  }
-  
-  currentTestimonial = index;
-  
-  // Calculate the transform value based on current index and slides per view
-  let slidesPerView;
-  if (window.innerWidth <= 768) {
-    slidesPerView = 1;
-  } else if (window.innerWidth <= 1024) {
-    slidesPerView = 2;
-  } else {
-    slidesPerView = 3;
-  }
-  
-  const transformValue = -currentTestimonial * (100 / slidesPerView);
-  testimonialTrack.style.transform = `translateX(${transformValue}%)`;
-  
-  // Update active dot
-  dots.forEach((dot, i) => {
-    if (i === currentTestimonial % dots.length) {
-      dot.classList.add('active');
-    } else {
-      dot.classList.remove('active');
-    }
-  });
-}
-
-function nextTestimonial() {
-  let slidesToMove;
-  if (window.innerWidth <= 768) {
-    slidesToMove = 1;
-  } else if (window.innerWidth <= 1024) {
-    slidesToMove = 2;
-  } else {
-    slidesToMove = 3;
-  }
-  showTestimonial(currentTestimonial + slidesToMove);
-}
-
-function prevTestimonial() {
-  let slidesToMove;
-  if (window.innerWidth <= 768) {
-    slidesToMove = 1;
-  } else if (window.innerWidth <= 1024) {
-    slidesToMove = 2;
-  } else {
-    slidesToMove = 3;
-  }
-  showTestimonial(currentTestimonial - slidesToMove);
-}
-
-// Add click events to dots
-dots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    showTestimonial(index);
-    resetAutoSlide();
-  });
-});
-
-// Add click events to navigation buttons
-prevBtn.addEventListener('click', () => {
-  prevTestimonial();
-  resetAutoSlide();
-});
-
-nextBtn.addEventListener('click', () => {
-  nextTestimonial();
-  resetAutoSlide();
-});
-
-// Auto-rotate testimonials
-function startAutoSlide() {
-  autoSlideInterval = setInterval(() => {
-    nextTestimonial();
-  }, 5000);
-}
-
-function resetAutoSlide() {
-  clearInterval(autoSlideInterval);
-  startAutoSlide();
-}
-
-// Touch events for mobile swipe
-let touchStartX = 0;
-let touchEndX = 0;
-
-testimonialTrack.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-});
-
-testimonialTrack.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  const swipeThreshold = 50;
-  
-  if (touchEndX < touchStartX - swipeThreshold) {
-    // Swipe left - next testimonial
-    nextTestimonial();
-    resetAutoSlide();
-  }
-  
-  if (touchEndX > touchStartX + swipeThreshold) {
-    // Swipe right - previous testimonial
-    prevTestimonial();
-    resetAutoSlide();
-  }
-}
-
 // Start the animation when page loads
 window.addEventListener('load', function() {
   typeWriter();
@@ -1531,13 +1251,6 @@ window.addEventListener('load', function() {
   floatingElements.forEach((el, index) => {
     el.style.animationDelay = `${index * 2}s`;
   });
-  
-  // Initialize testimonial slider
-  updateTestimonialSlides();
-  startAutoSlide();
-  
-  // Adjust testimonial slider on window resize
-  window.addEventListener('resize', updateTestimonialSlides);
 });
 </script>
 
