@@ -693,30 +693,7 @@ body {
     75% { transform: translate(-20px, 20px) rotate(-5deg); }
 }
 
-/* Responsive */ 
-@media (min-width: 769px) and (max-width:1024px){ 
-    .nav-links { 
-        gap: 12px; 
-    }
-    .nav-links li a { 
-        padding: 8px 12px; 
-        font-size: 0.95rem; 
-    }
-    .hero h1 {
-        font-size: 3.2rem;
-        min-height: 100px;
-    }
-    .stats-section {
-        padding: 40px 20px;
-    }
-    .stat-item {
-        min-width: 150px;
-    }
-    .stat-number {
-        font-size: 2.5rem;
-    }
-}
-
+/* Mobile Menu Styling */
 @media (max-width:768px){ 
     .navbar { 
         justify-content: space-between; 
@@ -733,28 +710,30 @@ body {
     
     .nav-links { 
         position: fixed; 
-        top: 64px;
-        right: 0;
-        left: 0;
+        top: 0;
+        right: -60%;
+        width: 60%;
+        height: 100vh;
         background: rgba(0,0,0,0.95); 
         flex-direction:column; 
-        width: 100%;
-        padding: 20px; 
-        border-radius: 0 0 10px 10px; 
-        gap: 10px; 
-        box-shadow:0 10px 25px rgba(0,0,0,0.5); 
-        display: none;
+        padding: 80px 30px 30px; 
+        gap: 15px; 
+        box-shadow: -5px 0 25px rgba(0,0,0,0.5); 
+        display: flex;
         z-index: 1000;
+        transition: right 0.4s ease;
     } 
     
     .nav-links.show {
-        display: flex;
+        right: 0;
     }
     
     .nav-links li a { 
         padding:15px; 
         font-size:1.1rem; 
-        justify-content: center;
+        justify-content: flex-start;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.05);
     } 
     
     .hero { 
@@ -770,6 +749,12 @@ body {
         font-size:1rem; 
     } 
     
+    .colleges { 
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 40px 15px;
+    }
+    
     .college-card { 
         font-size:1rem; 
         padding:20px 15px; 
@@ -777,14 +762,25 @@ body {
     }
     
     .stats-section {
-        flex-direction: column;
-        gap: 25px;
+        grid-template-columns: 1fr 1fr;
+        display: grid;
+        gap: 15px;
         padding: 30px 15px;
     }
     
     .stat-item {
         width: 100%;
-        padding: 15px 0;
+        padding: 15px 5px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
     }
     
     .features-grid {
@@ -809,6 +805,27 @@ body {
     
     .footer-section {
         width: 100%;
+    }
+    
+    /* Close button for mobile menu */
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .close-menu:hover {
+        background: rgba(255,255,255,0.2);
+        transform: rotate(90deg);
     }
 }
 
@@ -857,6 +874,23 @@ body {
     .footer-heading {
         font-size: 1.2rem;
     }
+    
+    .stats-section {
+        gap: 10px;
+        padding: 20px 10px;
+    }
+    
+    .stat-item {
+        padding: 10px 5px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
 }
 </style>
 </head>
@@ -876,8 +910,11 @@ body {
     <span class="logo-icon">🎓</span> AbhiLearn
   </div>
   <ul class="nav-links">
-    <li><a href="index2.html" class="nav-link"><span>🏠</span> Home</a></li>
-    <li><a href="#" class="nav-link"><span>📝</span> Question Papers</a></li>
+    <div class="close-menu" onclick="toggleMenu()">
+      <i class="fas fa-times"></i>
+    </div>
+    <li><a href="index.html" class="nav-link"><span>🏠</span> Home</a></li>
+    <li><a href="#colleges" class="nav-link question-papers"><span>📝</span> Question Papers</a></li>
     <li><a href="contact.html" class="nav-link"><span>📞</span> Contact</a></li>
     <li><a href="#" class="nav-link"><span>⭐</span> Premium</a></li>
     <li><a href="#" class="nav-link"><span>🔔</span> Notifications</a></li>
@@ -997,8 +1034,8 @@ body {
     <div class="footer-section">
       <h3 class="footer-heading">Quick Links</h3>
       <ul class="footer-links">
-        <li><a href="index2.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#"><i class="fas fa-book"></i> Question Papers</a></li>
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#colleges"><i class="fas fa-book"></i> Question Papers</a></li>
         <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
       </ul>
     </div>
@@ -1108,6 +1145,13 @@ function toggleMenu() {
   
   navLinks.classList.toggle('show');
   hamburger.classList.toggle('active');
+  
+  // Prevent body scrolling when menu is open
+  if (navLinks.classList.contains('show')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
 }
 
 // Close menu when clicking outside
@@ -1118,6 +1162,7 @@ document.addEventListener('click', function(event) {
   if (!nav.contains(event.target) && !hamburger.contains(event.target) && window.innerWidth <= 768) {
     nav.classList.remove('show');
     hamburger.classList.remove('active');
+    document.body.style.overflow = 'auto';
   }
 });
 
@@ -1127,6 +1172,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     if (window.innerWidth <= 768) {
       document.querySelector('.nav-links').classList.remove('show');
       document.querySelector('.hamburger').classList.remove('active');
+      document.body.style.overflow = 'auto';
     }
   });
 });
@@ -1241,6 +1287,21 @@ const statsObserver = new IntersectionObserver(function(entries) {
 }, { threshold: 0.5 });
 
 statsObserver.observe(document.querySelector('.stats-section'));
+
+// Question Papers link scroll to colleges section
+document.querySelector('.question-papers').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.querySelector('#colleges').scrollIntoView({
+    behavior: 'smooth'
+  });
+  
+  // Close mobile menu if open
+  if (window.innerWidth <= 768) {
+    document.querySelector('.nav-links').classList.remove('show');
+    document.querySelector('.hamburger').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
 
 // Start the animation when page loads
 window.addEventListener('load', function() {
