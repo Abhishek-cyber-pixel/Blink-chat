@@ -263,6 +263,18 @@
             }
         }
         
+        .verification-screen {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .verification-icon {
+            font-size: 4rem;
+            color: #00ffcc;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
         @media (max-width: 500px) {
             .auth-container {
                 padding: 15px;
@@ -285,6 +297,27 @@
     
     <div class="auth-container">
         <div class="auth-box">
+            <!-- VERIFICATION SCREEN -->
+            <div id="verificationScreen" class="hidden">
+                <div class="verification-screen">
+                    <div class="verification-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h2>Verify Your Email</h2>
+                    <p>We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.</p>
+                    <p>Once verified, you'll be automatically redirected to the home page.</p>
+                    <div class="message success" id="verificationMessage">
+                        Verification email sent successfully!
+                    </div>
+                    <button class="btn" onclick="resendVerification()" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> Resend Verification Email
+                    </button>
+                    <div class="links" style="justify-content: center; margin-top: 30px;">
+                        <a onclick="showLogin()">Back to Login</a>
+                    </div>
+                </div>
+            </div>
+            
             <!-- LOGIN FORM -->
             <div id="loginForm">
                 <div class="logo">
@@ -421,6 +454,9 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         
+        // Store the user who just signed up for verification
+        let currentUser = null;
+        
         // Create animated bubbles
         function createBubbles() {
             const bubblesContainer = document.getElementById('bubbles');
@@ -466,6 +502,7 @@
             document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('signupForm').classList.add('hidden');
             document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('verificationScreen').classList.add('hidden');
             clearMessages();
         }
         
@@ -473,6 +510,7 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.remove('hidden');
             document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('verificationScreen').classList.add('hidden');
             clearMessages();
         }
         
@@ -480,6 +518,15 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.add('hidden');
             document.getElementById('forgotPasswordForm').classList.remove('hidden');
+            document.getElementById('verificationScreen').classList.add('hidden');
+            clearMessages();
+        }
+        
+        function showVerificationScreen() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('verificationScreen').classList.remove('hidden');
             clearMessages();
         }
         
@@ -504,8 +551,8 @@
                         window.location.href = 'index.html';
                     } else {
                         // User is signed in but email is not verified
-                        showMessage('loginMessage', 'Please verify your email before logging in. Check your inbox.', 'error');
-                        auth.signOut();
+                        // Don't sign them out automatically, let them verify
+                        currentUser = user;
                     }
                 }
             });
@@ -531,8 +578,9 @@
                             window.location.href = 'index.html';
                         }, 1500);
                     } else {
-                        showMessage('loginMessage', 'Please verify your email before logging in. Check your inbox.', 'error');
-                        auth.signOut();
+                        showMessage('loginMessage', 'Please verify your email before logging in.', 'error');
+                        currentUser = user;
+                        // Don't sign out - let them verify
                     }
                 })
                 .catch((error) => {
@@ -560,6 +608,8 @@
                 .then((userCredential) => {
                     // Update user profile with name
                     const user = userCredential.user;
+                    currentUser = user;
+                    
                     user.updateProfile({
                         displayName: name
                     });
@@ -567,12 +617,8 @@
                     // Send email verification
                     user.sendEmailVerification()
                         .then(() => {
-                            showMessage('signupMessage', 'Account created! Please check your email for verification link. After verifying, you can login.', 'success');
-                            // Sign out the user until they verify their email
-                            setTimeout(() => {
-                                auth.signOut();
-                                showLogin();
-                            }, 5000);
+                            // Show verification screen instead of message
+                            showVerificationScreen();
                         })
                         .catch((error) => {
                             showMessage('signupMessage', 'Error sending verification email: ' + error.message, 'error');
@@ -581,6 +627,21 @@
                 .catch((error) => {
                     showMessage('signupMessage', 'Error: ' + error.message, 'error');
                 });
+        }
+        
+        // Resend verification email
+        function resendVerification() {
+            if (currentUser) {
+                currentUser.sendEmailVerification()
+                    .then(() => {
+                        showMessage('verificationMessage', 'Verification email sent successfully!', 'success');
+                    })
+                    .catch((error) => {
+                        showMessage('verificationMessage', 'Error: ' + error.message, 'error');
+                    });
+            } else {
+                showMessage('verificationMessage', 'No user found. Please sign up again.', 'error');
+            }
         }
         
         // Google Sign In
@@ -627,6 +688,11 @@
             createBubbles();
             showLogin();
             checkAuthState();
+            
+            // Check if we're coming back from email verification
+            if (window.location.href.indexOf('mode=verifyEmail') > -1) {
+                showMessage('loginMessage', 'Email verified successfully! You can now log in.', 'success');
+            }
         };
     </script>
 </body>
