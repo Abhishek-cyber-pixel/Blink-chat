@@ -7,6 +7,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -275,6 +276,13 @@
             animation: pulse 2s infinite;
         }
         
+        .countdown {
+            font-size: 1.2rem;
+            color: #00ffcc;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
         @media (max-width: 500px) {
             .auth-container {
                 padding: 15px;
@@ -309,8 +317,12 @@
                     <div class="message success" id="verificationMessage">
                         Verification email sent successfully!
                     </div>
+                    <div class="countdown" id="countdown">Checking verification status...</div>
                     <button class="btn" onclick="resendVerification()" style="margin-top: 20px;">
                         <i class="fas fa-redo"></i> Resend Verification Email
+                    </button>
+                    <button class="btn" onclick="checkVerificationManually()" style="margin-top: 10px; background: linear-gradient(45deg, #FF9800, #FF5722);">
+                        <i class="fas fa-sync-alt"></i> Check Verification Status
                     </button>
                     <div class="links" style="justify-content: center; margin-top: 30px;">
                         <a onclick="showLogin()">Back to Login</a>
@@ -453,9 +465,11 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const db = firebase.firestore();
         
         // Store the user who just signed up for verification
         let currentUser = null;
+        let verificationCheckInterval = null;
         
         // Create animated bubbles
         function createBubbles() {
@@ -504,6 +518,7 @@
             document.getElementById('forgotPasswordForm').classList.add('hidden');
             document.getElementById('verificationScreen').classList.add('hidden');
             clearMessages();
+            stopVerificationCheck();
         }
         
         function showSignup() {
@@ -512,6 +527,7 @@
             document.getElementById('forgotPasswordForm').classList.add('hidden');
             document.getElementById('verificationScreen').classList.add('hidden');
             clearMessages();
+            stopVerificationCheck();
         }
         
         function showForgotPassword() {
@@ -520,6 +536,7 @@
             document.getElementById('forgotPasswordForm').classList.remove('hidden');
             document.getElementById('verificationScreen').classList.add('hidden');
             clearMessages();
+            stopVerificationCheck();
         }
         
         function showVerificationScreen() {
@@ -528,6 +545,7 @@
             document.getElementById('forgotPasswordForm').classList.add('hidden');
             document.getElementById('verificationScreen').classList.remove('hidden');
             clearMessages();
+            startVerificationCheck();
         }
         
         function clearMessages() {
@@ -542,6 +560,63 @@
             messageDiv.className = 'message ' + type;
         }
         
+        // Check if email is verified
+        function checkEmailVerification() {
+            if (currentUser) {
+                currentUser.reload().then(() => {
+                    if (currentUser.emailVerified) {
+                        // Email is verified, redirect to index.html
+                        showMessage('verificationMessage', 'Email verified successfully! Redirecting...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1500);
+                    } else {
+                        // Email not verified yet
+                        document.getElementById('countdown').textContent = 'Email not verified yet. Please check your inbox.';
+                    }
+                }).catch((error) => {
+                    console.error('Error reloading user:', error);
+                    document.getElementById('countdown').textContent = 'Error checking verification status.';
+                });
+            } else {
+                showMessage('verificationMessage', 'Session expired. Please sign in again.', 'error');
+                showLogin();
+            }
+        }
+        
+        // Start checking verification status
+        function startVerificationCheck() {
+            stopVerificationCheck();
+            checkEmailVerification();
+            verificationCheckInterval = setInterval(checkEmailVerification, 3000); // Check every 3 seconds
+        }
+        
+        // Stop checking verification status
+        function stopVerificationCheck() {
+            if (verificationCheckInterval) {
+                clearInterval(verificationCheckInterval);
+                verificationCheckInterval = null;
+            }
+        }
+        
+        // Manual verification check
+        function checkVerificationManually() {
+            document.getElementById('countdown').textContent = 'Checking verification status...';
+            checkEmailVerification();
+        }
+        
+        // Save user data to Firestore
+        function saveUserToFirestore(user, name) {
+            return db.collection('users').doc(user.uid).set({
+                uid: user.uid,
+                displayName: name,
+                email: user.email,
+                emailVerified: user.emailVerified,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+        
         // Check if user is logged in and verified
         function checkAuthState() {
             auth.onAuthStateChanged((user) => {
@@ -551,8 +626,21 @@
                         window.location.href = 'index.html';
                     } else {
                         // User is signed in but email is not verified
-                        // Don't sign them out automatically, let them verify
-                        currentUser = user;
+                        // Check if we're coming back from email verification
+                        if (window.location.href.indexOf('mode=verifyEmail') > -1 || 
+                            window.location.href.indexOf('oobCode=') > -1) {
+                            // User just clicked verification link
+                            user.reload().then(() => {
+                                if (user.emailVerified) {
+                                    // Email verified, redirect to homepage
+                                    window.location.href = 'index.html';
+                                } else {
+                                    // Show verification screen
+                                    currentUser = user;
+                                    showVerificationScreen();
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -568,11 +656,19 @@
                 return;
             }
             
-            auth.signInWithEmailAndPassword(email, password)
+            // Set session persistence to prevent automatic sign-in
+            auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+                .then(() => {
+                    return auth.signInWithEmailAndPassword(email, password);
+                })
                 .then((userCredential) => {
                     const user = userCredential.user;
                     if (user.emailVerified) {
                         showMessage('loginMessage', 'Login successful! Redirecting...', 'success');
+                        // Update last login in Firestore
+                        db.collection('users').doc(user.uid).update({
+                            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                        });
                         // Redirect to index.html after a short delay
                         setTimeout(() => {
                             window.location.href = 'index.html';
@@ -580,7 +676,11 @@
                     } else {
                         showMessage('loginMessage', 'Please verify your email before logging in.', 'error');
                         currentUser = user;
-                        // Don't sign out - let them verify
+                        // Optionally, resend verification email
+                        user.sendEmailVerification()
+                            .then(() => {
+                                showMessage('loginMessage', 'Verification email sent again. Please check your inbox.', 'success');
+                            });
                     }
                 })
                 .catch((error) => {
@@ -604,7 +704,11 @@
                 return;
             }
             
-            auth.createUserWithEmailAndPassword(email, password)
+            // Set session persistence
+            auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+                .then(() => {
+                    return auth.createUserWithEmailAndPassword(email, password);
+                })
                 .then((userCredential) => {
                     // Update user profile with name
                     const user = userCredential.user;
@@ -614,8 +718,22 @@
                         displayName: name
                     });
                     
-                    // Send email verification
-                    user.sendEmailVerification()
+                    // Save user data to Firestore
+                    saveUserToFirestore(user, name)
+                        .then(() => {
+                            console.log('User data saved to Firestore');
+                        })
+                        .catch((error) => {
+                            console.error('Error saving user data:', error);
+                        });
+                    
+                    // Send email verification with custom redirect URL
+                    const actionCodeSettings = {
+                        url: window.location.origin + '/index.html?verified=true', // Redirect to index.html after verification
+                        handleCodeInApp: false
+                    };
+                    
+                    user.sendEmailVerification(actionCodeSettings)
                         .then(() => {
                             // Show verification screen instead of message
                             showVerificationScreen();
@@ -632,7 +750,12 @@
         // Resend verification email
         function resendVerification() {
             if (currentUser) {
-                currentUser.sendEmailVerification()
+                const actionCodeSettings = {
+                    url: window.location.origin + '/index.html?verified=true',
+                    handleCodeInApp: false
+                };
+                
+                currentUser.sendEmailVerification(actionCodeSettings)
                     .then(() => {
                         showMessage('verificationMessage', 'Verification email sent successfully!', 'success');
                     })
@@ -641,6 +764,7 @@
                     });
             } else {
                 showMessage('verificationMessage', 'No user found. Please sign up again.', 'error');
+                showSignup();
             }
         }
         
@@ -648,9 +772,21 @@
         function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             
-            auth.signInWithPopup(provider)
+            // Set session persistence
+            auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+                .then(() => {
+                    return auth.signInWithPopup(provider);
+                })
                 .then((result) => {
                     // Google sign-in is successful
+                    const user = result.user;
+                    
+                    // Save user data to Firestore
+                    saveUserToFirestore(user, user.displayName)
+                        .then(() => {
+                            console.log('Google user data saved to Firestore');
+                        });
+                    
                     showMessage('loginMessage', 'Sign in successful! Redirecting...', 'success');
                     // Redirect to index.html after a short delay
                     setTimeout(() => {
@@ -689,10 +825,10 @@
             showLogin();
             checkAuthState();
             
-            // Check if we're coming back from email verification
-            if (window.location.href.indexOf('mode=verifyEmail') > -1) {
-                showMessage('loginMessage', 'Email verified successfully! You can now log in.', 'success');
-            }
+            // Clear any existing authentication state
+            auth.signOut().catch(() => {
+                // Ignore errors if no user is signed in
+            });
         };
     </script>
 </body>
