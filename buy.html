@@ -98,6 +98,7 @@
             transition: transform 0.3s;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         
         .pdf-card:hover {
@@ -124,6 +125,23 @@
             display: block;
             text-decoration: none;
             color: inherit;
+        }
+        
+        .pdf-actions {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            gap: 10px;
+        }
+        
+        .pdf-action-btn {
+            background: #4e54c8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
         }
         
         .hidden {
@@ -337,6 +355,17 @@
             const cloudName = 'dnqudeeuu';
             const uploadPreset = 'abhilearn2';
             
+            // Store uploaded PDFs
+            let uploadedPdfs = JSON.parse(localStorage.getItem('uploadedPdfs')) || [];
+            
+            // Load previously uploaded PDFs
+            if (uploadedPdfs.length > 0) {
+                emptyState.classList.add('hidden');
+                uploadedPdfs.forEach(pdf => {
+                    addPdfCard(pdf.name, pdf.url);
+                });
+            }
+            
             // Handle upload button click
             uploadButton.addEventListener('click', function() {
                 fileInput.click();
@@ -392,6 +421,16 @@
                     // Complete progress bar
                     progressBar.style.width = '100%';
                     
+                    // Store the PDF data
+                    const pdfData = {
+                        name: file.name,
+                        url: data.secure_url,
+                        publicId: data.public_id
+                    };
+                    
+                    uploadedPdfs.push(pdfData);
+                    localStorage.setItem('uploadedPdfs', JSON.stringify(uploadedPdfs));
+                    
                     // Add new PDF card to the grid
                     addPdfCard(file.name, data.secure_url);
                     
@@ -430,21 +469,26 @@
                 const pdfUrl = url.replace('http://', 'https://');
                 
                 pdfCard.innerHTML = `
-                    <a href="#" class="pdf-link" data-pdf-url="${pdfUrl}" data-pdf-name="${name}">
-                        <div class="pdf-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <div class="pdf-name">${displayName}</div>
-                    </a>
+                    <div class="pdf-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="pdf-name">${displayName}</div>
+                    <div class="pdf-actions">
+                        <button class="pdf-action-btn view-btn">View</button>
+                        <button class="pdf-action-btn download-btn">Download</button>
+                    </div>
                 `;
                 
-                // Add click event to open PDF in viewer
-                const link = pdfCard.querySelector('.pdf-link');
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const pdfUrl = this.getAttribute('data-pdf-url');
-                    const pdfName = this.getAttribute('data-pdf-name');
-                    openPdfViewer(pdfUrl, pdfName);
+                // Add click event to view PDF
+                const viewBtn = pdfCard.querySelector('.view-btn');
+                viewBtn.addEventListener('click', function() {
+                    openPdfViewer(pdfUrl, name);
+                });
+                
+                // Add click event to download PDF
+                const downloadBtn = pdfCard.querySelector('.download-btn');
+                downloadBtn.addEventListener('click', function() {
+                    downloadPdf(pdfUrl, name);
                 });
                 
                 pdfContainer.insertBefore(pdfCard, pdfContainer.firstChild);
@@ -453,8 +497,19 @@
             // Function to open PDF in viewer
             function openPdfViewer(url, name) {
                 pdfViewerTitle.textContent = name;
-                pdfViewerIframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+                // Use direct PDF URL for embedding (works in modern browsers)
+                pdfViewerIframe.src = url;
                 pdfViewerModal.style.display = 'flex';
+            }
+            
+            // Function to download PDF
+            function downloadPdf(url, name) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
             
             // Close PDF viewer
@@ -470,16 +525,6 @@
                     pdfViewerIframe.src = '';
                 }
             });
-            
-            // Add sample PDFs for demonstration
-            setTimeout(() => {
-                // Using reliable sample PDFs that work on all devices
-                addPdfCard("Sample Document", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
-                addPdfCard("Project Report", "https://www.africau.edu/images/default/sample.pdf");
-                
-                // Hide empty state after adding sample PDFs
-                emptyState.classList.add('hidden');
-            }, 1000);
         });
     </script>
 </body>
