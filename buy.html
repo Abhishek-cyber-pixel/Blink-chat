@@ -197,6 +197,51 @@
             font-size: 14px;
         }
         
+        .pdf-viewer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pdf-viewer-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pdf-viewer-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .pdf-viewer-close {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pdf-viewer-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+        
         @media (max-width: 600px) {
             .pdf-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -209,6 +254,11 @@
             .upload-btn {
                 padding: 12px 25px;
                 font-size: 16px;
+            }
+            
+            .pdf-viewer-content {
+                width: 95%;
+                height: 95%;
             }
         }
     </style>
@@ -235,6 +285,7 @@
                     <p><strong>Configuration Check:</strong> Please verify your Cloudinary account name and upload preset are correct.</p>
                     <p>Cloudinary Name: <strong id="cloud-name">dnqudeeuu</strong></p>
                     <p>Upload Preset: <strong id="upload-preset">abhilearn</strong></p>
+                    <p>Note: Make sure your upload preset allows unsigned uploads and is set to "Raw" file type.</p>
                 </div>
                 
                 <div class="instructions">
@@ -258,6 +309,17 @@
         </footer>
     </div>
 
+    <!-- PDF Viewer Modal -->
+    <div class="pdf-viewer-modal" id="pdf-viewer-modal">
+        <div class="pdf-viewer-content">
+            <div class="pdf-viewer-header">
+                <h3 id="pdf-viewer-title">PDF Viewer</h3>
+                <button class="pdf-viewer-close" id="pdf-viewer-close">Close</button>
+            </div>
+            <iframe class="pdf-viewer-iframe" id="pdf-viewer-iframe"></iframe>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.getElementById('file-input');
@@ -266,10 +328,14 @@
             const progressBar = document.getElementById('progress-bar');
             const pdfContainer = document.getElementById('pdf-container');
             const emptyState = document.getElementById('empty-state');
+            const pdfViewerModal = document.getElementById('pdf-viewer-modal');
+            const pdfViewerIframe = document.getElementById('pdf-viewer-iframe');
+            const pdfViewerClose = document.getElementById('pdf-viewer-close');
+            const pdfViewerTitle = document.getElementById('pdf-viewer-title');
             
-            // Cloudinary configuration - USER MUST VERIFY THESE
-            const cloudName = 'dnqudeeuu'; // Verify this is correct
-            const uploadPreset = 'abhilearn2'; // Verify this is correct
+            // Cloudinary configuration
+            const cloudName = 'dnqudeeuu';
+            const uploadPreset = 'abhilearn2';
             
             // Handle upload button click
             uploadButton.addEventListener('click', function() {
@@ -316,6 +382,8 @@
                     });
                     
                     if (!response.ok) {
+                        const errorData = await response.text();
+                        console.error("Upload error details:", errorData);
                         throw new Error('Upload failed. Check your Cloudinary configuration.');
                     }
                     
@@ -358,8 +426,11 @@
                 // Shorten long names
                 const displayName = name.length > 18 ? name.substring(0, 15) + '...' : name;
                 
+                // Create a URL that will work in mobile browsers
+                const pdfUrl = url.replace('http://', 'https://');
+                
                 pdfCard.innerHTML = `
-                    <a href="${url}" class="pdf-link" target="_blank">
+                    <a href="#" class="pdf-link" data-pdf-url="${pdfUrl}" data-pdf-name="${name}">
                         <div class="pdf-icon">
                             <i class="fas fa-file-pdf"></i>
                         </div>
@@ -367,8 +438,38 @@
                     </a>
                 `;
                 
+                // Add click event to open PDF in viewer
+                const link = pdfCard.querySelector('.pdf-link');
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pdfUrl = this.getAttribute('data-pdf-url');
+                    const pdfName = this.getAttribute('data-pdf-name');
+                    openPdfViewer(pdfUrl, pdfName);
+                });
+                
                 pdfContainer.insertBefore(pdfCard, pdfContainer.firstChild);
             }
+            
+            // Function to open PDF in viewer
+            function openPdfViewer(url, name) {
+                pdfViewerTitle.textContent = name;
+                pdfViewerIframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+                pdfViewerModal.style.display = 'flex';
+            }
+            
+            // Close PDF viewer
+            pdfViewerClose.addEventListener('click', function() {
+                pdfViewerModal.style.display = 'none';
+                pdfViewerIframe.src = '';
+            });
+            
+            // Close modal when clicking outside content
+            pdfViewerModal.addEventListener('click', function(e) {
+                if (e.target === pdfViewerModal) {
+                    pdfViewerModal.style.display = 'none';
+                    pdfViewerIframe.src = '';
+                }
+            });
             
             // Add sample PDFs for demonstration
             setTimeout(() => {
