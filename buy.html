@@ -1,1167 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buy Second Hand Books</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; position:relative; }
-
-/* Navbar */ 
-.navbar { 
-    display:flex; 
-    justify-content:space-between; 
-    align-items:center; 
-    padding:15px 40px; 
-    background: rgba(0,0,0,0.6); 
-    backdrop-filter: blur(10px); 
-    position:sticky; 
-    top:0; 
-    z-index:1000; 
-    border-bottom:1px solid rgba(255,255,255,0.1); 
-    flex-direction: row-reverse;
-}    
-
-.navbar .logo { 
-    font-size:1.8rem; 
-    font-weight:700; 
-    color:#ffeb3b;  
-    display:flex; 
-    align-items:center; 
-    gap:8px; 
-    text-decoration: none;
-    visibility: hidden;
-}
-
-.logo-icon { font-size:2rem; }
-
-/* Back Button */ 
-.back-btn { 
-    background: rgba(255,255,255,0.2); 
-    color: #fff; 
-    border: none; 
-    width: 50px;
-    height: 50px;
-    border-radius: 50%; 
-    font-weight: 600; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    transition: all 0.3s ease; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.back-btn:hover { 
-    background: rgba(255,255,255,0.3); 
-    transform: translateY(-3px) scale(1.05); 
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-}
-
-/* Main Content */ 
-.main-content { 
-    flex: 1; 
-    padding: 20px; 
-    max-width: 1400px; 
-    margin: 0 auto; 
-    width: 100%; 
-}
-
-.page-title { 
-    text-align: center; 
-    margin-bottom: 25px; 
-    color: #00ffcc; 
-    font-size: 2.2rem; 
-    text-shadow: 0 3px 15px rgba(0,0,0,0.5);
-    padding-top: 10px;
-}
-
-/* Search and Filters */ 
-.search-filters { 
-    background: rgba(255,255,255,0.1); 
-    padding: 20px; 
-    border-radius: 15px; 
-    margin-bottom: 25px; 
-    backdrop-filter: blur(5px); 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
-}
-
-.search-container { 
-    position: relative; 
-    margin-bottom: 20px; 
-}
-
-.search-input { 
-    width: 100%; 
-    padding: 15px 20px 15px 50px; 
-    border-radius: 50px; 
-    border: 2px solid rgba(255,255,255,0.2); 
-    background: rgba(0,0,0,0.3); 
-    color: #fff; 
-    font-size: 1.1rem; 
-    transition: all 0.3s ease; 
-}
-
-.search-input:focus { 
-    outline: none; 
-    border-color: #00ffcc; 
-    box-shadow: 0 0 15px rgba(0,255,204,0.3); 
-}
-
-.search-icon { 
-    position: absolute; 
-    left: 20px; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    color: #ccc; 
-}
-
-.filters-container { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 15px; 
-}
-
-.filter-group { 
-    flex: 1; 
-    min-width: 200px; 
-}
-
-.filter-label { 
-    display: block; 
-    margin-bottom: 8px; 
-    font-weight: 600; 
-    color: #00ffcc; 
-}
-
-.filter-select, .filter-input { 
-    width: 100%; 
-    padding: 12px 15px; 
-    border-radius: 8px; 
-    border: 2px solid rgba(255,255,255,0.2); 
-    background: rgba(0,0,0,0.3); 
-    color: #fff; 
-    font-family: 'Poppins', sans-serif; 
-}
-
-.filter-select:focus, .filter-input:focus { 
-    outline: none; 
-    border-color: #00ffcc; 
-}
-
-.price-range { 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    margin-top: 10px; 
-}
-
-.price-value { 
-    min-width: 60px; 
-    text-align: center; 
-    font-weight: 600; 
-    color: #00ffcc; 
-}
-
-/* Books Grid - Updated for mobile responsiveness */
-.books-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-    gap: 20px; 
-    margin-bottom: 30px; 
-}
-
-.book-card { 
-    background: rgba(255,255,255,0.1); 
-    border-radius: 12px; 
-    overflow: hidden; 
-    transition: all 0.3s ease; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-    backdrop-filter: blur(5px); 
-    display: flex;
-    flex-direction: column;
-}
-
-.book-card:hover { 
-    transform: translateY(-5px) scale(1.02); 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-    background: rgba(255,255,255,0.15); 
-}
-
-.book-image { 
-    height: 200px; 
-    overflow: hidden; 
-    background: #1e3c72;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.book-image img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    transition: transform 0.5s ease; 
-}
-
-.book-card:hover .book-image img { 
-    transform: scale(1.1); 
-}
-
-.book-details { 
-    padding: 15px; 
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.book-title { 
-    font-size: 1rem; 
-    font-weight: 600; 
-    margin-bottom: 8px; 
-    color: #fff; 
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 2.6em;
-}
-
-.book-author { 
-    color: #ccc; 
-    margin-bottom: 10px; 
-    font-size: 0.85rem; 
-}
-
-.book-price { 
-    color: #00ffcc; 
-    font-weight: 700; 
-    font-size: 1.1rem; 
-    margin-bottom: 10px; 
-}
-
-.book-price::before { 
-    content: '₹'; 
-    font-size: 0.9rem; 
-}
-
-.book-condition { 
-    display: inline-block; 
-    background: rgba(0,255,204,0.2); 
-    color: #00ffcc; 
-    padding: 4px 8px; 
-    border-radius: 4px; 
-    font-size: 0.75rem; 
-    margin-bottom: 15px; 
-}
-
-.buy-btn { 
-    width: 100%; 
-    padding: 10px; 
-    background: linear-gradient(to right, #00ffcc, #00b3b3); 
-    color: #1e3c72; 
-    border: none; 
-    border-radius: 6px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 5px; 
-    font-size: 0.9rem;
-    margin-top: auto;
-}
-
-.buy-btn:hover { 
-    background: linear-gradient(to right, #00e6b8, #009999); 
-    transform: translateY(-2px); 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-}
-
-/* Pagination */ 
-.pagination { 
-    display: flex; 
-    justify-content: center; 
-    gap: 10px; 
-    margin-top: 25px; 
-}
-
-.pagination-btn { 
-    width: 40px; 
-    height: 40px; 
-    border-radius: 8px; 
-    background: rgba(255,255,255,0.1); 
-    color: #fff; 
-    border: none; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-}
-
-.pagination-btn:hover, .pagination-btn.active { 
-    background: #00ffcc; 
-    color: #1e3c72; 
-}
-
-/* Purchase Form Modal */ 
-.modal { 
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.8); 
-    backdrop-filter: blur(5px); 
-    z-index: 2000; 
-    overflow-y: auto; 
-}
-
-.modal-content { 
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
-    margin: 50px auto; 
-    padding: 25px; 
-    border-radius: 15px; 
-    max-width: 600px; 
-    width: 90%; 
-    box-shadow: 0 15px 50px rgba(0,0,0,0.5); 
-    position: relative; 
-}
-
-.close-modal { 
-    position: absolute; 
-    top: 20px; 
-    right: 25px; 
-    font-size: 1.8rem; 
-    color: #fff; 
-    cursor: pointer; 
-    transition: color 0.3s ease; 
-}
-
-.close-modal:hover { 
-    color: #00ffcc; 
-}
-
-.modal-title { 
-    text-align: center; 
-    margin-bottom: 20px; 
-    color: #00ffcc; 
-    font-size: 1.8rem; 
-}
-
-.form-group { 
-    margin-bottom: 18px; 
-}
-
-.form-label { 
-    display: block; 
-    margin-bottom: 8px; 
-    font-weight: 600; 
-    color: #00ffcc; 
-}
-
-.form-input, .form-textarea, .form-select { 
-    width: 100%; 
-    padding: 12px 15px; 
-    border-radius: 8px; 
-    border: 2px solid rgba(255,255,255,0.2); 
-    background: rgba(0,0,0,0.3); 
-    color: #fff; 
-    font-family: 'Poppins', sans-serif; 
-}
-
-.form-input:focus, .form-textarea:focus, .form-select:focus { 
-    outline: none; 
-    border-color: #00ffcc; 
-}
-
-.form-textarea { 
-    min-height: 100px; 
-    resize: vertical; 
-}
-
-.submit-btn { 
-    width: 100%; 
-    padding: 14px; 
-    background: linear-gradient(to right, #00ffcc, #00b3b3); 
-    color: #1e3c72; 
-    border: none; 
-    border-radius: 8px; 
-    font-weight: 700; 
-    font-size: 1rem; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    margin-top: 10px; 
-}
-
-.submit-btn:hover { 
-    background: linear-gradient(to right, #00e6b8, #009999); 
-    transform: translateY(-3px); 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-}
-
-/* Footer */ 
-.footer { 
-    background: linear-gradient(to right, #0a1929, #142a4a, #1e3c72); 
-    padding: 50px 0 15px; 
-    margin-top: auto; 
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.3); 
-}
-
-.footer-container { 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 0 25px; 
-    gap: 30px; 
-}
-
-.footer-section { 
-    flex: 1; 
-    min-width: 220px; 
-}
-
-.footer-heading { 
-    color: #00ffcc; 
-    font-size: 1.3rem; 
-    margin-bottom: 20px; 
-    position: relative; 
-    padding-bottom: 8px; 
-    font-weight: 700; 
-}
-
-.footer-heading::after { 
-    content: ''; 
-    position: absolute; 
-    left: 0; 
-    bottom: 0; 
-    width: 40px; 
-    height: 3px; 
-    background: linear-gradient(to right, #00ffcc, #009e7a); 
-    border-radius: 3px; 
-}
-
-.footer-links { 
-    list-style: none; 
-}
-
-.footer-links li { 
-    margin-bottom: 12px; 
-}
-
-.footer-links a { 
-    color: #fff; 
-    text-decoration: none; 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    transition: all 0.3s ease; 
-    font-weight: 500; 
-    font-size: 0.9rem;
-}
-
-.footer-links a:hover { 
-    color: #00ffcc; 
-    transform: translateX(5px); 
-}
-
-.footer-links i { 
-    color: #00ffcc; 
-    font-size: 1rem; 
-    width: 20px; 
-}
-
-.contact-info { 
-    color: #fff; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-}
-
-.contact-item { 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    font-size: 0.9rem;
-}
-
-.contact-item i { 
-    color: #00ffcc; 
-    font-size: 1.1rem; 
-    width: 20px; 
-}
-
-.social-links { 
-    display: flex; 
-    gap: 12px; 
-    margin-top: 18px; 
-}
-
-.social-links a { 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    width: 38px; 
-    height: 38px; 
-    background: rgba(255,255,255,0.1); 
-    border-radius: 50%; 
-    color: #fff; 
-    font-size: 1.1rem; 
-    transition: all 0.3s ease; 
-    text-decoration: none;
-}
-
-.social-links a:hover { 
-    background: #00ffcc; 
-    color: #1e3c72; 
-    transform: translateY(-3px); 
-}
-
-.newsletter p { 
-    margin-bottom: 18px; 
-    line-height: 1.6; 
-    font-size: 0.9rem;
-    color: #ccc;
-}
-
-.newsletter-form { 
-    display: flex; 
-    gap: 10px; 
-}
-
-.newsletter-input { 
-    flex: 1; 
-    padding: 10px 12px; 
-    border: none; 
-    border-radius: 5px; 
-    background: rgba(255,255,255,0.1); 
-    color: #fff; 
-    font-family: 'Poppins', sans-serif; 
-    font-size: 0.9rem;
-}
-
-.newsletter-input::placeholder { 
-    color: #ccc; 
-}
-
-.newsletter-btn { 
-    background: linear-gradient(to right, #00ffcc, #00b3b3); 
-    color: #1e3c72; 
-    border: none; 
-    padding: 0 18px; 
-    border-radius: 5px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    font-size: 0.9rem;
-}
-
-.newsletter-btn:hover { 
-    background: linear-gradient(to right, #00e6b8, #009999); 
-    transform: translateY(-2px); 
-}
-
-.footer-bottom { 
-    text-align: center; 
-    padding: 20px 0 10px; 
-    margin-top: 30px; 
-    border-top: 1px solid rgba(255,255,255,0.1); 
-}
-
-.footer-bottom p { 
-    color: #ccc; 
-    font-size: 0.85rem; 
-}
-
-.footer-bottom span { 
-    color: #00ffcc; 
-    font-weight: 600; 
-}
-
-/* Responsive Design - Updated for better mobile experience */
-@media(max-width: 992px) { 
-    .navbar { 
-        padding: 12px 20px; 
-    }
-
-    .main-content { 
-        padding: 15px; 
-    }
-
-    .filters-container { 
-        flex-direction: column; 
-    }
-
-    .books-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-        gap: 15px;
-    } 
-}
-
-@media (max-width: 768px) { 
-    .page-title { 
-        font-size: 1.8rem; 
-    }
-
-    .search-filters { 
-        padding: 15px; 
-    }
-
-    .books-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 15px; 
-    }
-    
-    .book-image {
-        height: 180px;
-    }
-
-    .footer-container { 
-        flex-direction: column; 
-        gap: 25px; 
-    }
-
-    .newsletter-form { 
-        flex-direction: column; 
-    }
-
-    .newsletter-btn { 
-        width: 100%; 
-        padding: 10px; 
-    } 
-}
-
-@media (max-width: 576px) { 
-    .navbar { 
-        padding: 10px 15px; 
-        justify-content: flex-end;
-    }
-
-    .logo { 
-        display: none;
-    }
-    
-    .logo-icon {
-        display: none;
-    }
-
-    .back-btn { 
-        width: 45px;
-        height: 45px;
-    }
-
-    .page-title { 
-        font-size: 1.6rem; 
-    }
-
-    .books-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 12px;
-    }
-    
-    .book-image {
-        height: 160px;
-    }
-    
-    .book-title {
-        font-size: 0.9rem;
-    }
-
-    .modal-content { 
-        padding: 20px; 
-    } 
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 255, 204, 0.5);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 255, 204, 0.7);
-}
-
-/* No books message */
-.no-books {
-    text-align: center;
-    grid-column: 1 / -1;
-    padding: 40px;
-    font-size: 1.2rem;
-    color: #ccc;
-}
-
-/* Fallback for broken images */
-.book-image::before {
-    content: "Book Cover";
-    position: absolute;
-    color: #ccc;
-    font-size: 0.9rem;
-    z-index: 1;
-    display: none;
-}
-
-.book-image img[src*="undefined"] + ::before,
-.book-image img:not([src]) + ::before {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Manager | Cloudinary Integration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+        
+        header {
+            background: #4e54c8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .upload-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .upload-btn {
+            background: #4e54c8;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
+        }
+        
+        .upload-btn:hover {
+            background: #3a3eb3;
+            transform: translateY(-2px);
+        }
+        
+        .view-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4e54c8;
+        }
+        
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pdf-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pdf-icon {
+            background: #4e54c8;
+            color: white;
+            font-size: 40px;
+            padding: 25px 0;
+        }
+        
+        .pdf-name {
+            padding: 15px 10px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pdf-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .status-message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            min-height: 24px;
+        }
+        
+        .success {
+            color: #28a745;
+        }
+        
+        .error {
+            color: #dc3545;
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            border-left: 4px solid #4e54c8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 600px) {
+            .pdf-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .upload-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Navbar -->
-<nav class="navbar">
-   <button class="back-btn" onclick="window.history.back();">
-    <i class="fas fa-arrow-left"></i>
-</button>
-  </nav>
-<!-- Main Content -->
-<main class="main-content">
-  <h1 class="page-title">Buy Second Hand Books</h1>
-
-  <!-- Search and Filters -->
-  <section class="search-filters">
-    <div class="search-container">
-      <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search for books, authors, or subjects..." id="searchInput">
-    </div>
-
-    <div class="filters-container">
-      <div class="filter-group">
-        <label class="filter-label" for="categoryFilter">Category</label>
-        <select class="filter-select" id="categoryFilter">
-          <option value="">All Categories</option>
-          <option value="programming">Programming</option>
-          <option value="mathematics">Mathematics</option>
-          <option value="engineering">Engineering</option>
-          <option value="science">Science</option>
-          <option value="business">Business</option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label class="filter-label" for="conditionFilter">Condition</label>
-        <select class="filter-select" id="conditionFilter">
-          <option value="">Any Condition</option>
-          <option value="new">New</option>
-          <option value="like new">Like New</option>
-          <option value="good">Good</option>
-          <option value="fair">Fair</option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label class="filter-label" for="priceRange">Max Price: <span class="price-value" id="priceValue">₹1000</span></label>
-        <input type="range" class="filter-input" id="priceRange" min="100" max="1000" step="50" value="1000">
-      </div>
-      
-      <div class="filter-group">
-        <label class="filter-label" for="sortFilter">Sort By</label>
-        <select class="filter-select" id="sortFilter">
-          <option value="newest">Newest</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-        </select>
-      </div>
-    </div>
-  </section>
-
-  <!-- Books Grid -->
-  <section class="books-grid" id="booksGrid">
-    <!-- Books will be dynamically loaded here -->
-  </section>
-
-  <!-- Pagination -->
-  <div class="pagination" id="pagination">
-    <button class="pagination-btn active">1</button>
-    <button class="pagination-btn">2</button>
-    <button class="pagination-btn">3</button>
-    <button class="pagination-btn">></button>
-  </div>
-</main>
-
-<!-- Purchase Form Modal -->
-<div class="modal" id="purchaseModal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeModal">&times;</span>
-    <h2 class="modal-title">Purchase Book</h2>
-    <form id="purchaseForm">
-      <div class="form-group">
-        <label class="form-label" for="modalBookTitle">Book Title</label>
-        <input type="text" class="form-input" id="modalBookTitle" readonly>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="modalBookPrice">Price</label>
-        <input type="text" class="form-input" id="modalBookPrice" readonly>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="buyerName">Your Name</label>
-        <input type="text" class="form-input" id="buyerName" placeholder="Enter your full name" required>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="buyerEmail">Email Address</label>
-        <input type="email" class="form-input" id="buyerEmail" placeholder="Enter your email" required>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="buyerPhone">Phone Number</label>
-        <input type="tel" class="form-input" id="buyerPhone" placeholder="Enter your phone number" required>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="buyerAddress">Delivery Address</label>
-        <textarea class="form-textarea" id="buyerAddress" placeholder="Enter your complete address" required></textarea>
-      </div>
-      
-      <button type="submit" class="submit-btn">
-        <i class="fas fa-check-circle"></i> Confirm Purchase
-      </button>
-    </form>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-section">
-      <h3 class="footer-heading">Quick Links</h3>
-      <ul class="footer-links">
-        <li><a href="index2.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#"><i class="fas fa-book"></i> Study Materials</a></li>
-        <li><a href="#"><i class="fas fa-file-alt"></i> Previous Papers</a></li>
-        <li><a href="#"><i class="fas fa-hand-holding-usd"></i> Sell Books</a></li>
-        <li><a href="#"><i class="fas fa-headset"></i> Support</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-section">
-      <h3 class="footer-heading">Contact Info</h3>
-      <div class="contact-info">
-        <div class="contact-item">
-          <i class="fas fa-map-marker-alt"></i>
-          <span>123 Education Street, Learning City</span>
+    <div class="container">
+        <header>
+            <h1>PDF Manager</h1>
+            <p class="subtitle">Upload and view your PDFs securely with Cloudinary</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="upload-section">
+                <button class="upload-btn" id="upload-button">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload PDF
+                </button>
+                <p class="status-message" id="status-message"></p>
+                
+                <div class="instructions">
+                    <p><strong>How to use:</strong> Click "Upload PDF" to select a PDF file. After upload, it will appear below. Click on any PDF to view it.</p>
+                    <p class="hidden" id="cloudinary-info">Cloudinary Account: dnqudeeuu | Upload Preset: abhilearn</p>
+                </div>
+            </div>
+            
+            <div class="view-section">
+                <h2>Your Uploaded PDFs</h2>
+                <div class="pdf-grid" id="pdf-container">
+                    <div class="empty-state" id="empty-state">
+                        <i class="fas fa-file-pdf" style="font-size: 50px; margin-bottom: 15px;"></i>
+                        <p>No PDFs uploaded yet</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-phone"></i>
-          <span>+91 98765 43210</span>
-        </div>
-        <div class="contact-item">
-          <i class="fas fa-envelope"></i>
-          <span>support@example.com</span>
-        </div>
-      </div>
+        
+        <footer>
+            <p>PDF Manager App &copy; 2023 | Powered by Cloudinary</p>
+        </footer>
     </div>
 
-    <div class="footer-section">
-      <h3 class="footer-heading">Follow Us</h3>
-      <div class="social-links">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-    </div>
-
-    <div class="footer-section">
-      <h3 class="footer-heading">Newsletter</h3>
-      <p>Subscribe for updates on new books and study materials</p>
-      <form class="newsletter-form">
-        <input type="email" class="newsletter-input" placeholder="Your Email Address">
-        <button type="submit" class="newsletter-btn">Subscribe</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; 2025 <span>BookStore</span>. All Rights Reserved.</p>
-  </div>
-</footer>
-
-<script>
-// Sample book data with reliable image URLs
-const books = [
-  {
-    id: 1,
-    title: "C++ Programming Language",
-    author: "Bjarne Stroustrup",
-    price: 450,
-    condition: "Like New",
-    category: "programming",
-    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "The classic C++ programming guide by the creator of C++."
-  },
-  {
-    id: 2,
-    title: "Database System Concepts",
-    author: "Abraham Silberschatz",
-    price: 550,
-    condition: "Good",
-    category: "programming",
-    image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Comprehensive textbook on database systems concepts."
-  },
-  {
-    id: 3,
-    title: "Engineering Mathematics",
-    author: "K.A. Stroud",
-    price: 350,
-    condition: "Fair",
-    category: "mathematics",
-    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Essential mathematics for engineering students."
-  },
-  {
-    id: 4,
-    title: "Data Structures and Algorithms",
-    author: "Thomas H. Cormen",
-    price: 600,
-    condition: "New",
-    category: "programming",
-    image: "https://images.unsplash.com/photo-1515091943-9d5c0ad475af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Comprehensive guide to data structures and algorithms."
-  },
-  {
-    id: 5,
-    title: "Electrical Engineering Fundamentals",
-    author: "Vincent Del Toro",
-    price: 480,
-    condition: "Good",
-    category: "engineering",
-    image: "https://images.unsplash.com/photo-1581094288338-231b058b38b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Fundamental concepts of electrical engineering."
-  },
-  {
-    id: 6,
-    title: "Mechanical Engineering Principles",
-    author: "John Bird",
-    price: 520,
-    condition: "Like New",
-    category: "engineering",
-    image: "https://images.unsplash.com/photo-1581093458799-6d6a1e5f3c3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Principles and applications of mechanical engineering."
-  },
-  {
-    id: 7,
-    title: "Physics for Scientists and Engineers",
-    author: "Raymond A. Serway",
-    price: 650,
-    condition: "New",
-    category: "science",
-    image: "https://images.unsplash.com/photo-1605649487210-4a2c5c294a33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Comprehensive physics textbook for science and engineering students."
-  },
-  {
-    id: 8,
-    title: "Business Analytics",
-    author: "James Evans",
-    price: 580,
-    condition: "Good",
-    category: "business",
-    image: "https://images.unsplash.com/photo-1553484771-11998c592b9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Data analysis and decision making for business."
-  },
-  {
-    id: 9,
-    title: "Organic Chemistry",
-    author: "Paula Yurkanis Bruice",
-    price: 620,
-    condition: "Like New",
-    category: "science",
-    image: "https://images.unsplash.com/photo-1554475900-8e4c622b612a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Comprehensive guide to organic chemistry concepts."
-  },
-  {
-    id: 10,
-    title: "Digital Logic Design",
-    author: "Morris Mano",
-    price: 490,
-    condition: "Good",
-    category: "engineering",
-    image: "https://images.unsplash.com/photo-1581092580491-4cb16c945c85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Fundamentals of digital logic and circuit design."
-  },
-  {
-    id: 11,
-    title: "Marketing Management",
-    author: "Philip Kotler",
-    price: 570,
-    condition: "New",
-    category: "business",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Comprehensive guide to marketing strategies and management."
-  },
-  {
-    id: 12,
-    title: "Advanced Calculus",
-    author: "James Stewart",
-    price: 680,
-    condition: "Like New",
-    category: "mathematics",
-    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-    description: "Advanced concepts in calculus for mathematics students."
-  }
-];
-
-// DOM Elements
-const booksGrid = document.getElementById('booksGrid');
-const searchInput = document.getElementById('searchInput');
-const categoryFilter = document.getElementById('categoryFilter');
-const conditionFilter = document.getElementById('conditionFilter');
-const priceRange = document.getElementById('priceRange');
-const priceValue = document.getElementById('priceValue');
-const sortFilter = document.getElementById('sortFilter');
-const purchaseModal = document.getElementById('purchaseModal');
-const closeModal = document.getElementById('closeModal');
-const purchaseForm = document.getElementById('purchaseForm');
-const modalBookTitle = document.getElementById('modalBookTitle');
-const modalBookPrice = document.getElementById('modalBookPrice');
-
-// Display books
-function displayBooks(booksToDisplay) {
-  booksGrid.innerHTML = '';
-  
-  if (booksToDisplay.length === 0) {
-    booksGrid.innerHTML = '<p class="no-books">No books found matching your criteria.</p>';
-    return;
-  }
-  
-  booksToDisplay.forEach(book => {
-    const bookCard = document.createElement('div');
-    bookCard.className = 'book-card';
-    bookCard.innerHTML = `
-      <div class="book-image">
-        <img src="${book.image}" alt="${book.title}" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184e5346b8d%20text%20%7B%20fill%3A%23999%3Bfont-weight%3Anormal%3Bfont-family%3Avar(--bs-font-sans-serif)%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184e5346b8d%22%3E%3Crect%20width%3D%22286%22%20height%3D%22200%22%20fill%3D%22%23373940%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22106.671875%22%20y%3D%22106.1%22%3E${encodeURIComponent(book.title)}%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E'">
-      </div>
-      <div class="book-details">
-        <h3 class="book-title">${book.title}</h3>
-        <p class="book-author">by ${book.author}</p>
-        <div class="book-condition">${book.condition}</div>
-        <div class="book-price">${book.price}</div>
-        <button class="buy-btn" data-id="${book.id}">
-          <i class="fas fa-shopping-cart"></i> Buy Now
-        </button>
-      </div>
-    `;
-    booksGrid.appendChild(bookCard);
-  });
-  
-  // Add event listeners to buy buttons
-  document.querySelectorAll('.buy-btn').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const bookId = parseInt(e.target.closest('.buy-btn').dataset.id);
-      openPurchaseModal(bookId);
-    });
-  });
-}
-
-// Filter books based on criteria
-function filterBooks() {
-  const searchText = searchInput.value.toLowerCase();
-  const category = categoryFilter.value;
-  const condition = conditionFilter.value;
-  const maxPrice = parseInt(priceRange.value);
-  const sortBy = sortFilter.value;
-  
-  let filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(searchText) || 
-                          book.author.toLowerCase().includes(searchText) ||
-                          book.description.toLowerCase().includes(searchText);
-    const matchesCategory = category === '' || book.category === category;
-    const matchesCondition = condition === '' || book.condition.toLowerCase() === condition.toLowerCase();
-    const matchesPrice = book.price <= maxPrice;
-    
-    return matchesSearch && matchesCategory && matchesCondition && matchesPrice;
-  });
-  
-  // Sort books
-  switch(sortBy) {
-    case 'price-low':
-      filteredBooks.sort((a, b) => a.price - b.price);
-      break;
-    case 'price-high':
-      filteredBooks.sort((a, b) => b.price - a.price);
-      break;
-    case 'newest':
-    default:
-      // Already sorted by ID (which simulates newest first)
-      break;
-  }
-  
-  displayBooks(filteredBooks);
-}
-
-// Open purchase modal
-function openPurchaseModal(bookId) {
-  const book = books.find(b => b.id === bookId);
-  if (book) {
-    modalBookTitle.value = book.title;
-    modalBookPrice.value = `₹${book.price}`;
-    purchaseModal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
-  }
-}
-
-// Close purchase modal
-function closePurchaseModal() {
-  purchaseModal.style.display = 'none';
-  document.body.style.overflow = 'auto'; // Enable scrolling
-}
-
-// Event Listeners
-searchInput.addEventListener('input', filterBooks);
-categoryFilter.addEventListener('change', filterBooks);
-conditionFilter.addEventListener('change', filterBooks);
-priceRange.addEventListener('input', () => {
-  priceValue.textContent = `₹${priceRange.value}`;
-  filterBooks();
-});
-sortFilter.addEventListener('change', filterBooks);
-closeModal.addEventListener('click', closePurchaseModal);
-purchaseForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  alert('Purchase successful! You will receive a confirmation email shortly.');
-  closePurchaseModal();
-});
-
-// Close modal if clicked outside
-window.addEventListener('click', (e) => {
-  if (e.target === purchaseModal) {
-    closePurchaseModal();
-  }
-});
-
-// Initialize page
-displayBooks(books);
-priceValue.textContent = `₹${priceRange.value}`;
-
-// Go back to previous page
-function goBack() {
-  window.history.back();
-}
-</script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadButton = document.getElementById('upload-button');
+            const statusMessage = document.getElementById('status-message');
+            const pdfContainer = document.getElementById('pdf-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            // Cloudinary configuration
+            const cloudName = 'dnqudeeuu';
+            const uploadPreset = 'abhilearn';
+            
+            // Initialize Cloudinary upload widget
+            const uploadWidget = cloudinary.createUploadWidget({
+                cloudName: cloudName,
+                uploadPreset: uploadPreset,
+                sources: ['local'],
+                resourceType: 'raw',
+                clientAllowedFormats: ['pdf'],
+                maxFileSize: 15000000, // 15MB
+                multiple: false,
+                text: {
+                    en: {
+                        queue: {
+                            title: 'PDF Uploader',
+                            upload: 'Upload to Cloudinary'
+                        }
+                    }
+                }
+            }, (error, result) => {
+                if (!error && result && result.event === 'success') {
+                    // Handle successful upload
+                    const fileName = result.info.original_filename;
+                    const pdfUrl = result.info.secure_url;
+                    
+                    // Add PDF card to the grid
+                    addPdfCard(fileName, pdfUrl);
+                    
+                    // Show success message
+                    statusMessage.textContent = "PDF uploaded successfully!";
+                    statusMessage.className = "status-message success";
+                    
+                    // Hide empty state if it's visible
+                    emptyState.classList.add('hidden');
+                } else if (error) {
+                    statusMessage.textContent = "Upload failed. Please try again.";
+                    statusMessage.className = "status-message error";
+                    console.error("Upload error:", error);
+                }
+            });
+            
+            // Handle upload button click
+            uploadButton.addEventListener('click', function() {
+                uploadWidget.open();
+            });
+            
+            // Function to add a new PDF card
+            function addPdfCard(name, url) {
+                const pdfCard = document.createElement('div');
+                pdfCard.className = 'pdf-card';
+                
+                // Shorten long names
+                const displayName = name.length > 18 ? name.substring(0, 15) + '...' : name;
+                
+                pdfCard.innerHTML = `
+                    <a href="${url}" class="pdf-link" target="_blank">
+                        <div class="pdf-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="pdf-name">${displayName}</div>
+                    </a>
+                `;
+                
+                pdfContainer.insertBefore(pdfCard, pdfContainer.firstChild);
+            }
+            
+            // Sample PDFs for demonstration (would be loaded from Cloudinary in real usage)
+            setTimeout(() => {
+                // In a real app, you would fetch the list of uploaded PDFs from your server
+                // For demo purposes, we're adding some sample PDFs
+                addPdfCard("Sample Document", "https://cdn.cloudinary.com/dnqudeeuu/raw/upload/v1678934872/sample.pdf");
+                addPdfCard("Project Report", "https://cdn.cloudinary.com/dnqudeeuu/raw/upload/v1678934872/report.pdf");
+                
+                // Hide empty state after adding sample PDFs
+                emptyState.classList.add('hidden');
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
