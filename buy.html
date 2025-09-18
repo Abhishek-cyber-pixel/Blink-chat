@@ -188,6 +188,15 @@
             transition: width 0.3s;
         }
         
+        .config-check {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
         @media (max-width: 600px) {
             .pdf-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -222,9 +231,14 @@
                 </div>
                 <p class="status-message" id="status-message"></p>
                 
+                <div class="config-check">
+                    <p><strong>Configuration Check:</strong> Please verify your Cloudinary account name and upload preset are correct.</p>
+                    <p>Cloudinary Name: <strong id="cloud-name">dnqudeeuu</strong></p>
+                    <p>Upload Preset: <strong id="upload-preset">abhilearn</strong></p>
+                </div>
+                
                 <div class="instructions">
                     <p><strong>How to use:</strong> Click "Upload PDF" to select a PDF file. After upload, it will appear below. Click on any PDF to view it.</p>
-                    <p>Cloudinary Account: <strong>dnqudeeuu</strong> | Upload Preset: <strong>abhilearn</strong></p>
                 </div>
             </div>
             
@@ -253,9 +267,9 @@
             const pdfContainer = document.getElementById('pdf-container');
             const emptyState = document.getElementById('empty-state');
             
-            // Cloudinary configuration
-            const cloudName = 'dnqudeeuu';
-            const uploadPreset = 'abhilearn';
+            // Cloudinary configuration - USER MUST VERIFY THESE
+            const cloudName = 'dnqudeeuu'; // Verify this is correct
+            const uploadPreset = 'abhilearn'; // Verify this is correct
             
             // Handle upload button click
             uploadButton.addEventListener('click', function() {
@@ -284,6 +298,17 @@
                     formData.append('file', file);
                     formData.append('upload_preset', uploadPreset);
                     
+                    // Show upload progress
+                    let width = 0;
+                    const progressInterval = setInterval(() => {
+                        if (width >= 90) {
+                            clearInterval(progressInterval);
+                        } else {
+                            width += 5;
+                            progressBar.style.width = width + '%';
+                        }
+                    }, 300);
+                    
                     // Upload to Cloudinary
                     const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`, {
                         method: 'POST',
@@ -291,10 +316,13 @@
                     });
                     
                     if (!response.ok) {
-                        throw new Error('Upload failed');
+                        throw new Error('Upload failed. Check your Cloudinary configuration.');
                     }
                     
                     const data = await response.json();
+                    
+                    // Complete progress bar
+                    progressBar.style.width = '100%';
                     
                     // Add new PDF card to the grid
                     addPdfCard(file.name, data.secure_url);
@@ -309,11 +337,13 @@
                     // Clear the file input
                     fileInput.value = "";
                     
-                    // Reset progress bar
-                    progressBar.style.width = '0%';
+                    // Reset progress bar after a delay
+                    setTimeout(() => {
+                        progressBar.style.width = '0%';
+                    }, 2000);
                     
                 } catch (error) {
-                    statusMessage.textContent = "Upload failed. Please try again.";
+                    statusMessage.textContent = error.message || "Upload failed. Please try again.";
                     statusMessage.className = "status-message error";
                     console.error("Upload error:", error);
                     progressBar.style.width = '0%';
@@ -340,23 +370,9 @@
                 pdfContainer.insertBefore(pdfCard, pdfContainer.firstChild);
             }
             
-            // Simulate progress for demo purposes
-            uploadButton.addEventListener('click', function() {
-                if (fileInput.files.length > 0) {
-                    let width = 0;
-                    const interval = setInterval(() => {
-                        if (width >= 100) {
-                            clearInterval(interval);
-                        } else {
-                            width += 5;
-                            progressBar.style.width = width + '%';
-                        }
-                    }, 100);
-                }
-            });
-            
             // Add sample PDFs for demonstration
             setTimeout(() => {
+                // Using reliable sample PDFs that work on all devices
                 addPdfCard("Sample Document", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
                 addPdfCard("Project Report", "https://www.africau.edu/images/default/sample.pdf");
                 
