@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Manager | Cloudinary Integration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <style>
         * {
             margin: 0;
@@ -173,6 +172,22 @@
             color: #6c757d;
         }
         
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #4e54c8;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
         @media (max-width: 600px) {
             .pdf-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -198,14 +213,18 @@
         
         <div class="main-content">
             <div class="upload-section">
+                <input type="file" id="file-input" accept=".pdf">
                 <button class="upload-btn" id="upload-button">
                     <i class="fas fa-cloud-upload-alt"></i> Upload PDF
                 </button>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
                 <p class="status-message" id="status-message"></p>
                 
                 <div class="instructions">
                     <p><strong>How to use:</strong> Click "Upload PDF" to select a PDF file. After upload, it will appear below. Click on any PDF to view it.</p>
-                    <p class="hidden" id="cloudinary-info">Cloudinary Account: dnqudeeuu | Upload Preset: abhilearn</p>
+                    <p>Cloudinary Account: <strong>dnqudeeuu</strong> | Upload Preset: <strong>abhilearn</strong></p>
                 </div>
             </div>
             
@@ -227,8 +246,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
             const uploadButton = document.getElementById('upload-button');
             const statusMessage = document.getElementById('status-message');
+            const progressBar = document.getElementById('progress-bar');
             const pdfContainer = document.getElementById('pdf-container');
             const emptyState = document.getElementById('empty-state');
             
@@ -236,31 +257,47 @@
             const cloudName = 'dnqudeeuu';
             const uploadPreset = 'abhilearn';
             
-            // Initialize Cloudinary upload widget
-            const uploadWidget = cloudinary.createUploadWidget({
-                cloudName: cloudName,
-                uploadPreset: uploadPreset,
-                sources: ['local'],
-                resourceType: 'raw',
-                clientAllowedFormats: ['pdf'],
-                maxFileSize: 15000000, // 15MB
-                multiple: false,
-                text: {
-                    en: {
-                        queue: {
-                            title: 'PDF Uploader',
-                            upload: 'Upload to Cloudinary'
-                        }
-                    }
+            // Handle upload button click
+            uploadButton.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Handle file selection
+            fileInput.addEventListener('change', async function() {
+                if (this.files.length === 0) return;
+                
+                const file = this.files[0];
+                
+                // Check if file is PDF
+                if (file.type !== 'application/pdf') {
+                    statusMessage.textContent = "Please select a PDF file.";
+                    statusMessage.className = "status-message error";
+                    return;
                 }
-            }, (error, result) => {
-                if (!error && result && result.event === 'success') {
-                    // Handle successful upload
-                    const fileName = result.info.original_filename;
-                    const pdfUrl = result.info.secure_url;
+                
+                try {
+                    statusMessage.textContent = "Uploading PDF...";
+                    statusMessage.className = "status-message";
                     
-                    // Add PDF card to the grid
-                    addPdfCard(fileName, pdfUrl);
+                    // Create a FormData object
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', uploadPreset);
+                    
+                    // Upload to Cloudinary
+                    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Upload failed');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Add new PDF card to the grid
+                    addPdfCard(file.name, data.secure_url);
                     
                     // Show success message
                     statusMessage.textContent = "PDF uploaded successfully!";
@@ -268,16 +305,19 @@
                     
                     // Hide empty state if it's visible
                     emptyState.classList.add('hidden');
-                } else if (error) {
+                    
+                    // Clear the file input
+                    fileInput.value = "";
+                    
+                    // Reset progress bar
+                    progressBar.style.width = '0%';
+                    
+                } catch (error) {
                     statusMessage.textContent = "Upload failed. Please try again.";
                     statusMessage.className = "status-message error";
                     console.error("Upload error:", error);
+                    progressBar.style.width = '0%';
                 }
-            });
-            
-            // Handle upload button click
-            uploadButton.addEventListener('click', function() {
-                uploadWidget.open();
             });
             
             // Function to add a new PDF card
@@ -300,12 +340,25 @@
                 pdfContainer.insertBefore(pdfCard, pdfContainer.firstChild);
             }
             
-            // Sample PDFs for demonstration (would be loaded from Cloudinary in real usage)
+            // Simulate progress for demo purposes
+            uploadButton.addEventListener('click', function() {
+                if (fileInput.files.length > 0) {
+                    let width = 0;
+                    const interval = setInterval(() => {
+                        if (width >= 100) {
+                            clearInterval(interval);
+                        } else {
+                            width += 5;
+                            progressBar.style.width = width + '%';
+                        }
+                    }, 100);
+                }
+            });
+            
+            // Add sample PDFs for demonstration
             setTimeout(() => {
-                // In a real app, you would fetch the list of uploaded PDFs from your server
-                // For demo purposes, we're adding some sample PDFs
-                addPdfCard("Sample Document", "https://cdn.cloudinary.com/dnqudeeuu/raw/upload/v1678934872/sample.pdf");
-                addPdfCard("Project Report", "https://cdn.cloudinary.com/dnqudeeuu/raw/upload/v1678934872/report.pdf");
+                addPdfCard("Sample Document", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
+                addPdfCard("Project Report", "https://www.africau.edu/images/default/sample.pdf");
                 
                 // Hide empty state after adding sample PDFs
                 emptyState.classList.add('hidden');
