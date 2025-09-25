@@ -15,8 +15,9 @@ body {
     padding: 20px;
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
-
 /* Animated Background */
 .background-animation {
     position: fixed;
@@ -61,8 +62,9 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     animation: fadeInUp 1s ease-out;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -267,13 +269,14 @@ body {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-    .content-card {
+
+     .content-card {
         padding: 40px 25px;
-        margin: 20px;
+        margin: 20px auto;
+        width: calc(100% - 40px);
     }
-    
+
     .logo {
         font-size: 1.8rem;
     }
