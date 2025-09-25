@@ -15,8 +15,8 @@ body {
     padding: 20px;
     line-height: 1.6;
     overflow-x: hidden;
-    width: 100%;
-    box-sizing: border-box;
+    width: 100vw;
+    margin: 0;
 }
 /* Animated Background */
 .background-animation {
@@ -54,11 +54,11 @@ body {
 .content-card {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    padding: 50px 40px;
+    padding: 40px 30px;
     border-radius: 20px;
     text-align: center;
     max-width: 600px;
-    width: 100%;
+    width: 95%;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     animation: fadeInUp 1s ease-out;
@@ -270,32 +270,38 @@ body {
 }
 
 @media (max-width: 768px) {
-
-     .content-card {
-        padding: 40px 25px;
-        margin: 20px auto;
-        width: calc(100% - 40px);
+    body {
+        padding: 15px;
+        display: block;
+        min-height: 100vh;
+        height: auto;
     }
-
-    .logo {
-        font-size: 1.8rem;
+    
+    .content-card {
+        padding: 30px 20px;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 15px;
     }
     
     .maintenance-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
     }
     
     .maintenance-text {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        margin-bottom: 30px;
     }
     
     .progress-section {
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
+        margin: 25px 0;
     }
-}
-
-@media (max-width: 480px) {
+    
+    @media (max-width: 480px) {
     .content-card {
         padding: 30px 20px;
     }
