@@ -3,43 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Under Maintenance</title>
+    <title>Site Under Maintenance - AbhiLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="maintenance.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="maintenance-container">
-        <div class="content-wrapper">
-            <div class="icon">🚧</div>
-            <h1 class="animated-heading">Site Under Maintenance</h1>
-            <p class="animated-text">We're performing some important updates to serve you better. We'll be back online shortly.</p>
+        <!-- Animated Background -->
+        <div class="background-animation"></div>
+        
+        <!-- Content Card -->
+        <div class="content-card">
+            <div class="logo">
+                <span class="logo-icon">🚧</span> AbhiLearn
+            </div>
             
+            <div class="maintenance-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            
+            <h1 class="maintenance-title">Site Under Maintenance</h1>
+            
+            <p class="maintenance-text">
+                We're performing important updates to serve you better. 
+                We'll be back online shortly with an improved experience.
+            </p>
+            
+            <!-- Simple Loader -->
             <div class="loader-container">
                 <div class="loader"></div>
-                <div class="progress-text">Progress: <span id="progress">0%</span></div>
+                <p>Working on improvements...</p>
             </div>
             
-            <div class="status-container">
-                <div class="status-item">
-                    <span class="status-dot"></span>
-                    <span>System Update</span>
+            <!-- Progress Section (Static, no fake progress) -->
+            <div class="progress-section">
+                <div class="progress-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>System Analysis</span>
                 </div>
-                <div class="status-item">
-                    <span class="status-dot"></span>
-                    <span>Security Enhancements</span>
+                <div class="progress-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>Performance Updates</span>
                 </div>
-                <div class="status-item">
-                    <span class="status-dot"></span>
-                    <span>Performance Optimization</span>
+                <div class="progress-item">
+                    <i class="far fa-clock"></i>
+                    <span>Final Testing</span>
                 </div>
             </div>
             
+            <!-- Contact Info -->
             <div class="contact-info">
-                <p>For urgent inquiries, please contact us at <a href="contact.html">support@abhi-LearnTeam.com</a></p>
+                <p>For urgent inquiries, contact us at:</p>
+                <a href="contact.html">
+                    <i class="fas fa-envelope"></i> info@abhilearn.netlify.app
+                </a>
             </div>
             
-            <div class="countdown">
-                <p>Estimated completion: <span id="countdown-timer">30:00</span></p>
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            
+            <div class="footer-note">
+                <p>&copy; 2025 AbhiLearn. All rights reserved.</p>
             </div>
         </div>
     </div>
