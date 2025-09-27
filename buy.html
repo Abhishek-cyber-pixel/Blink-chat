@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Payment - ₹1</title>
+    <title>QR Code Payment</title>
     <style>
         * {
             margin: 0;
@@ -37,115 +37,67 @@
             color: white;
         }
 
-        .payment-section {
-            padding: 25px;
+        .qr-section {
+            padding: 30px;
         }
 
-        .price {
-            font-size: 42px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 15px 0;
-        }
-
-        .test-btn {
-            background: linear-gradient(45deg, #34ace0, #227093);
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 90%;
-            margin: 20px 0;
-            transition: all 0.3s;
-        }
-
-        .test-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(52, 172, 224, 0.4);
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background: #f0f0f0;
+            border: 3px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
         }
 
         .instructions {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 20px;
             margin: 15px;
             border-radius: 10px;
-            font-size: 14px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧪 Test Payment</h1>
-            <p>Only ₹1 - Payment Testing</p>
+            <h1>📱 QR Code Payment</h1>
+            <p>Scan QR to Pay ₹1</p>
         </div>
 
-        <div class="payment-section">
-            <div class="price">₹1</div>
-            <p><em>Test payment for verification</em></p>
-
-            <!-- SIRF ₹1 KA PAYTM LINK -->
-            <button class="test-btn" onclick="payWithPaytm()">
-                💰 Pay ₹1 via Paytm
-            </button>
-
-            <div class="instructions">
-                <strong>Testing Purpose:</strong>
-                <ul>
-                    <li>Click the button above</li>
-                    <li>Paytm app will open</li>
-                    <li>Amount will be auto-filled as ₹1</li>
-                    <li>Complete the payment</li>
-                    <li>Send screenshot after payment</li>
-                </ul>
+        <div class="qr-section">
+            <div style="font-size: 32px; color: #e74c3c; font-weight: bold;">₹1</div>
+            
+            <div class="qr-placeholder">
+                <!-- Yahan apna QR code laga dena -->
+                <div>
+                    <div style="font-size: 48px;">📷</div>
+                    <div>6239547147@ptsbi</div>
+                </div>
             </div>
+
+            <p><strong>Scan with Paytm App</strong></p>
+        </div>
+
+        <div class="instructions">
+            <strong>Bhai, yeh 100% kaam karega:</strong>
+            <ol>
+                <li>Paytm app mein jao</li>
+                <li>QR Scanner kholo</li>
+                <li>Mera QR code scan karo</li>
+                <li>Amount ₹1 enter karo</li>
+                <li>Payment complete karo</li>
+            </ol>
+            
+            <p style="color: #e74c3c; margin-top: 15px;">
+                <strong>Note:</strong> QR code se payment mein koi restriction nahi hoti!
+            </p>
         </div>
     </div>
-
-    <script>
-        function payWithPaytm() {
-            // Paytm specific link with ₹1
-            const paytmLink = "paytmmp://pay?pa=6239547147@ptsbi&pn=Abhishek+Pant&am=1&cu=INR&tn=Test+Payment";
-            
-            // Paytm app open karo
-            window.location.href = paytmLink;
-            
-            // Agar app na khule toh fallback
-            setTimeout(() => {
-                if (document.hasFocus()) {
-                    // Manual payment details show karo
-                    showManualPayment();
-                }
-            }, 3000);
-        }
-
-        function showManualPayment() {
-            const details = `
-📱 Manual Payment Instructions:
-
-Send ₹1 to this UPI ID:
-abhipaytm@paytm
-
-Steps:
-1. Open Paytm app
-2. Go to 'Send Money'
-3. Enter UPI ID: abhipaytm@paytm
-4. Enter amount: ₹1
-5. Add note: Test Payment
-6. Confirm payment
-
-Payment ke baad screenshot bhej dena.
-            `;
-            alert(details);
-        }
-
-        // Direct link bhi rakhte hain backup ke liye
-        function openDirectLink() {
-            window.open('https://paytm.com', '_blank');
-        }
-    </script>
 </body>
 </html>
