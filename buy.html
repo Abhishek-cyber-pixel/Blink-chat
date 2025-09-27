@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPI Payment via QR</title>
+<title>UPI Payment</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
         border-radius: 12px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         text-align: center;
-        width: 300px;
+        width: 320px;
     }
     h2 {
         margin-bottom: 20px;
@@ -28,16 +28,16 @@
         width: 200px;
         margin-bottom: 20px;
     }
-    button {
+    .btn {
+        display: inline-block;
         background: #4CAF50;
         color: white;
-        border: none;
         padding: 12px 20px;
         border-radius: 6px;
-        cursor: pointer;
+        text-decoration: none;
         font-size: 16px;
     }
-    button:hover {
+    .btn:hover {
         background: #45a049;
     }
 </style>
@@ -46,17 +46,18 @@
 
 <div class="container">
     <h2>Pay via UPI</h2>
-    <p>Scan this QR to pay ₹1</p>
-    <img src="qrcode.jpg" alt="UPI QR Code"> <!-- apna QR image name yaha dal -->
-    <br>
-    <button onclick="goBack()">Back</button>
-</div>
+    <p>Scan QR or click the button below to pay ₹1</p>
+    
+    <!-- QR Image -->
+    <img src="qrcode.jpg" alt="UPI QR Code"> <!-- yaha apna QR image dal -->
 
-<script>
-function goBack() {
-    window.history.back(); // ya apna specific back page url de sakte ho
-}
-</script>
+    <!-- Direct Pay Button -->
+    <br>
+    <a class="btn" 
+       href="upi://pay?pa=6239547147@ptsbi&pn=Abhishek+Pant&am=1&cu=INR&tn=Test+Payment">
+       Pay with UPI
+    </a>
+</div>
 
 </body>
 </html>
