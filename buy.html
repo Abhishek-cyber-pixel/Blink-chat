@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPI Payment</title>
+    <title>Elite Premium Payment</title>
     <style>
         * {
             margin: 0;
@@ -13,203 +13,281 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0c0c0c 0%, #2d3436 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: white;
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
 
         .header {
-            background: linear-gradient(45deg, #00B9F1, #0099CC);
-            padding: 30px 20px;
-            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .product-card {
-            padding: 25px;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 15px 0;
+            font-size: 14px;
+            border: 2px solid gold;
+        }
+
+        .product-section {
+            padding: 30px;
         }
 
         .price {
-            font-size: 32px;
+            font-size: 42px;
             font-weight: bold;
-            color: #e74c3c;
-            margin: 15px 0;
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
         }
 
-        .payment-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding: 0 20px 20px;
+        .payment-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
         }
 
-        .pay-option {
-            background: linear-gradient(45deg, #34ace0, #227093);
+        .payment-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pay-btn {
+            background: linear-gradient(45deg, #00b894, #00a085);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 18px 35px;
+            border-radius: 15px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .pay-option:hover {
-            transform: scale(1.03);
+        .pay-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
         }
 
-        .qr-option {
-            background: linear-gradient(45deg, #00b894, #00a085);
+        .pay-btn:hover::after {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 184, 148, 0.4);
         }
 
         .instructions {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-            margin: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            text-align: left;
-            border-left: 4px solid #34ace0;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
+            margin: 20px;
             border-radius: 15px;
-            text-align: center;
-            max-width: 300px;
-            width: 90%;
+            border-left: 4px solid #00b894;
+            text-align: left;
         }
 
-        .qr-code {
-            width: 200px;
-            height: 200px;
-            background: #f0f0f0;
-            margin: 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #666;
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
         }
 
-        .close-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .feature-list li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📱 UPI Payment</h1>
-            <p>Choose your payment method</p>
+            <div class="premium-badge">⭐ ELITE MEMBERSHIP</div>
+            <h1>Exclusive Access</h1>
+            <p>Premium Experience Awaits</p>
         </div>
 
-        <div class="product-card">
-            <h3>Premium Product</h3>
-            <div class="price">₹999</div>
-            <p>Instant delivery after successful payment</p>
-        </div>
-
-        <div class="payment-options">
-            <button class="pay-option" onclick="showMobilePayment()">
-                📞 Pay via Mobile Number
-            </button>
-            
-            <button class="pay-option qr-option" onclick="showQRCode()">
-                📷 Pay via QR Code
-            </button>
-        </div>
-
-        <div class="instructions">
-            <strong>Note:</strong> 
-            <ul>
-                <li>Paytm security policy ke karan direct UPI payment block ho raha hai</li>
-                <li>Kripya upar diye gaye options mein se koi ek choose karein</li>
-                <li>Payment confirmation ke baad screenshot bhejein</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Mobile Payment Modal -->
-    <div class="modal" id="mobileModal">
-        <div class="modal-content">
-            <h2>📞 Mobile Payment</h2>
-            <p>Please send payment to this mobile number:</p>
-            <div style="font-size: 24px; font-weight: bold; margin: 15px 0; color: #e74c3c;">
-                YOUR_MOBILE_NUMBER
+        <div class="product-section">
+            <div class="payment-card">
+                <h3>🚀 Premium Package</h3>
+                <div class="price">₹999</div>
+                
+                <ul class="feature-list">
+                    <li>Exclusive Content Access</li>
+                    <li>Priority Support</li>
+                    <li>Premium Features</li>
+                    <li>Lifetime Updates</li>
+                    <li>VIP Treatment</li>
+                </ul>
             </div>
-            <p>Amount: <strong>₹999</strong></p>
-            <button class="close-btn" onclick="closeModal('mobileModal')">Close</button>
-        </div>
-    </div>
 
-    <!-- QR Code Modal -->
-    <div class="modal" id="qrModal">
-        <div class="modal-content">
-            <h2>📷 QR Code Payment</h2>
-            <p>Scan this QR code with your Paytm app:</p>
-            <div class="qr-code">
-                [Your QR Code Image Here]
-                <!-- Yahan apna QR code image lagana -->
-                <div>QR Code Image</div>
+            <button class="pay-btn" onclick="showPremiumPayment()">
+                💎 UNLOCK PREMIUM ACCESS
+            </button>
+
+            <div class="instructions">
+                <h4>🎯 How to Get Access:</h4>
+                <p>1. Click the button above</p>
+                <p>2. Follow the simple payment steps</p>
+                <p>3. Instant access granted</p>
+                <p>4. Enjoy premium experience</p>
             </div>
-            <p>Amount: <strong>₹999</strong></p>
-            <button class="close-btn" onclick="closeModal('qrModal')">Close</button>
         </div>
     </div>
 
     <script>
-        function showMobilePayment() {
-            // Yahan apna mobile number dalo
-            document.getElementById('mobileModal').style.display = 'flex';
+        function showPremiumPayment() {
+            // Premium payment flow
+            const paymentMethods = `
+💎 PREMIUM PAYMENT OPTIONS:
+
+Option 1: 📱 UPI Payment
+• Open your UPI app
+• Send ₹999 to: YOUR_UPI_ID
+• Send screenshot to confirm
+
+Option 2: 💳 Paytm Direct
+• Open Paytm app
+• Send to mobile: YOUR_NUMBER
+• Amount: ₹999
+
+Option 3: 🏦 Bank Transfer
+• Bank: YOUR_BANK
+• Account: YOUR_ACCOUNT
+• IFSC: YOUR_IFSC
+• Amount: ₹999
+
+⭐ After payment, you'll get instant premium access!
+            `;
+
+            // Create a premium looking alert
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                color: white;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(45deg, #1a1a1a, #2d3436);
+                    padding: 40px;
+                    border-radius: 20px;
+                    max-width: 500px;
+                    width: 90%;
+                    border: 2px solid #ffd700;
+                    text-align: center;
+                ">
+                    <h2 style="color: #ffd700; margin-bottom: 20px;">💎 Premium Access</h2>
+                    <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p><strong>📱 UPI ID:</strong> YOUR_UPI_ID</p>
+                        <p><strong>📞 Mobile:</strong> YOUR_NUMBER</p>
+                        <p><strong>💳 Amount:</strong> ₹999</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 10px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        margin: 10px;
+                    ">Close</button>
+                    <button onclick="copyPaymentDetails()" style="
+                        background: linear-gradient(45deg, #00b894, #00a085);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 10px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        margin: 10px;
+                    ">Copy Details</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
         }
 
-        function showQRCode() {
-            document.getElementById('qrModal').style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Modal ke bahar click kare toh close ho
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
+        function copyPaymentDetails() {
+            const details = `UPI ID: 6239547147@ptsbi\nMobile: 6239547147\nAmount: ₹1`;
+            navigator.clipboard.writeText(details);
+            alert('Payment details copied! Paste in your payment app.');
         }
     </script>
 </body>
