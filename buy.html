@@ -1,180 +1,75 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PayTM Payment</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .header {
-            background: linear-gradient(45deg, #00B9F1, #0099CC);
-            padding: 30px 20px;
-            color: white;
-        }
-
-        .payment-section {
-            padding: 25px;
-        }
-
-        .price {
-            font-size: 32px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 15px 0;
-        }
-
-        .paytm-btn {
-            background: linear-gradient(45deg, #00B9F1, #0099CC);
-            color: white;
-            border: none;
-            padding: 18px 30px;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 90%;
-            margin: 20px 0;
-            transition: all 0.3s;
-        }
-
-        .paytm-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 185, 241, 0.4);
-        }
-
-        .instructions {
-            background: #f8f9fa;
-            padding: 15px;
-            margin: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            text-align: left;
-        }
-
-        .alert-message {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            margin: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #ffc107;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Shopping UI</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #f0f2f5;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        width: 300px;
+    }
+    h2 {
+        margin-bottom: 20px;
+    }
+    button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background: #45a049;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📱 PayTM Payment</h1>
-            <p>Direct Payment - ₹1</p>
-        </div>
 
-        <div class="payment-section">
-            <h3>Test Payment</h3>
-            <div class="price">₹1</div>
-            <p>Instant payment testing</p>
+<div class="container">
+    <h2>Buy This Item</h2>
+    <p>Price: ₹999</p>
+    <button id="payBtn">Pay Now</button>
+</div>
 
-            <div class="alert-message" id="alertMessage">
-                ⚠️ <strong>PayTM Alert:</strong> Pehle security alert aayega, use skip karo aur payment continue karo!
-            </div>
+<script>
+    const payBtn = document.getElementById('payBtn');
+    payBtn.addEventListener('click', function() {
+        // UPI Deep Link
+        const upiId = "6239547147@ptsbi";
+        const name = "Abhishek Pant";
+        const amount = "999"; // Item price
+        const note = "Payment for item";
 
-            <button class="paytm-btn" onclick="initiatePayment()">
-                💰 Pay ₹1 via PayTM
-            </button>
+        // Deeplink URL
+        const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 
-            <div class="instructions">
-                <strong>Correct Steps:</strong>
-                <ol>
-                    <li>Pay button click karo</li>
-                    <li>PayTM app khulega</li>
-                    <li><strong>Security alert aayega - SKIP/CONTINUE karo</strong></li>
-                    <li>Amount ₹1 auto-filled hoga</li>
-                    <li>Payment complete karo</li>
-                </ol>
+        // Open UPI app
+        window.location.href = upiLink;
 
-                <p style="color: #e74c3c; margin-top: 10px;">
-                    <strong>Important:</strong> Security alert ko skip karna hai, cancel nahi karna!
-                </p>
-            </div>
-        </div>
-    </div>
+        // Optional: backme anchor after some delay
+        setTimeout(() => {
+            window.location.href = "#back"; // replace with your actual back link if needed
+        }, 5000); // 5 sec delay
+    });
+</script>
 
-    <script>
-        function initiatePayment() {
-            // Alert message show karo
-            document.getElementById('alertMessage').style.display = 'block';
-            
-            // PayTM direct link
-            const paytmLink = "upi://pay?pa=6239547147@ptsbi&pn=AbhiLearn&am=1&cu=INR&tn=Test+Payment";
-            
-            // Pehle try karo direct app open
-            window.location.href = paytmLink;
-            
-            // 2 second baad fallback try karo
-            setTimeout(() => {
-                // Agar app na khula ho toh universal UPI try karo
-                const universalLink = "upi://pay?pa=6239547147@ptsbi&pn=AbhiLearn&am=1&cu=INR";
-                window.location.href = universalLink;
-            }, 2000);
-            
-            // 5 second baad manual instructions
-            setTimeout(() => {
-                if (document.hasFocus()) {
-                    showManualInstructions();
-                }
-            }, 5000);
-        }
+<!-- Back anchor (replace #back with actual URL if needed) -->
+<a id="back" href="index.html" style="display:none;">Back</a>
 
-        function showManualInstructions() {
-            const message = `
-📱 Agar Payment Na Khule Toh:
-
-Manual Steps:
-1. PayTM app kholo
-2. 'Send Money' par jao
-3. UPI ID enter karo: abhipaytm@paytm
-4. Amount: ₹1
-5. Note: Test Payment
-6. Send karo
-
-Ya fir:
-1. Direct mobile number pe bhejo: YOUR_NUMBER
-2. Amount: ₹1
-
-Payment success ka screenshot bhej dena!
-            `;
-            alert(message);
-        }
-
-        // Page load pe hint dena
-        window.onload = function() {
-            console.log('Payment method working - just skip the security alert!');
-        }
-    </script>
 </body>
 </html>
