@@ -48,23 +48,31 @@
             margin: 15px 0;
         }
 
-        .upi-btn {
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 0 20px 20px;
+        }
+
+        .pay-option {
             background: linear-gradient(45deg, #34ace0, #227093);
             color: white;
             border: none;
-            padding: 18px 30px;
-            border-radius: 12px;
-            font-size: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            width: 90%;
-            margin: 20px 0;
             transition: all 0.3s;
         }
 
-        .upi-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(52, 172, 224, 0.4);
+        .pay-option:hover {
+            transform: scale(1.03);
+        }
+
+        .qr-option {
+            background: linear-gradient(45deg, #00b894, #00a085);
         }
 
         .instructions {
@@ -77,14 +85,48 @@
             border-left: 4px solid #34ace0;
         }
 
-        .success-msg {
+        .modal {
             display: none;
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            margin: 15px;
-            border-radius: 10px;
-            border: 1px solid #c3e6cb;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -92,7 +134,7 @@
     <div class="container">
         <div class="header">
             <h1>📱 UPI Payment</h1>
-            <p>One click payment via UPI</p>
+            <p>Choose your payment method</p>
         </div>
 
         <div class="product-card">
@@ -101,78 +143,73 @@
             <p>Instant delivery after successful payment</p>
         </div>
 
-        <!-- UPI Payment Button -->
-        <button class="upi-btn" onclick="initiateUPIPayment()">
-            💰 Pay ₹999 via UPI
-        </button>
-
-        <div class="instructions">
-            <strong>How to pay:</strong> 
-            <ol>
-                <li>Click the Pay button above</li>
-                <li>Your UPI app will open automatically</li>
-                <li>Amount ₹999 will be pre-filled</li>
-                <li>Confirm the payment</li>
-                <li>Payment will be received instantly</li>
-            </ol>
+        <div class="payment-options">
+            <button class="pay-option" onclick="showMobilePayment()">
+                📞 Pay via Mobile Number
+            </button>
+            
+            <button class="pay-option qr-option" onclick="showQRCode()">
+                📷 Pay via QR Code
+            </button>
         </div>
 
-        <div class="success-msg" id="successMessage">
-            ✅ Payment initiated! Check your UPI app...
+        <div class="instructions">
+            <strong>Note:</strong> 
+            <ul>
+                <li>Paytm security policy ke karan direct UPI payment block ho raha hai</li>
+                <li>Kripya upar diye gaye options mein se koi ek choose karein</li>
+                <li>Payment confirmation ke baad screenshot bhejein</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Mobile Payment Modal -->
+    <div class="modal" id="mobileModal">
+        <div class="modal-content">
+            <h2>📞 Mobile Payment</h2>
+            <p>Please send payment to this mobile number:</p>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0; color: #e74c3c;">
+                YOUR_MOBILE_NUMBER
+            </div>
+            <p>Amount: <strong>₹999</strong></p>
+            <button class="close-btn" onclick="closeModal('mobileModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal" id="qrModal">
+        <div class="modal-content">
+            <h2>📷 QR Code Payment</h2>
+            <p>Scan this QR code with your Paytm app:</p>
+            <div class="qr-code">
+                [Your QR Code Image Here]
+                <!-- Yahan apna QR code image lagana -->
+                <div>QR Code Image</div>
+            </div>
+            <p>Amount: <strong>₹999</strong></p>
+            <button class="close-btn" onclick="closeModal('qrModal')">Close</button>
         </div>
     </div>
 
     <script>
-        function initiateUPIPayment() {
-            // Aapka UPI ID yahan dalo
-            const upiID = "6239547147@ptsbi"; // 🔁 YAHAN APNA UPI ID DALNA
-            const amount = "1";
-            const name = "Abhi-Learn"; // 🔁 YAHAN APNA NAME DALNA
-            const note = "Payment for Premium Product";
-            
-            // UPI payment link banaya
-            const upiLink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-            
-            // Success message show karo
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // UPI app open karne ki koshish karo
-            window.location.href = upiLink;
-            
-            // Fallback agar UPI app na khule
-            setTimeout(() => {
-                // Agar UPI app na khula toh manual details show karo
-                showManualUPIDetails(upiID, amount, name, note);
-            }, 2000);
+        function showMobilePayment() {
+            // Yahan apna mobile number dalo
+            document.getElementById('mobileModal').style.display = 'flex';
         }
 
-        function showManualUPIDetails(upiID, amount, name, note) {
-            const manualDetails = `
-📱 UPI Payment Manual Instructions:
-
-UPI ID: ${upiID}
-Amount: ₹${amount}
-Name: ${name}
-Note: ${note}
-
-Steps:
-1. Open your UPI app (PayTM, Google Pay, PhonePe, etc.)
-2. Enter above UPI ID
-3. Enter amount: ₹${amount}
-4. Add note: ${note}
-5. Confirm payment
-
-Payment confirmation ke baad screenshot bhej dena.
-            `;
-            
-            alert(manualDetails);
+        function showQRCode() {
+            document.getElementById('qrModal').style.display = 'flex';
         }
 
-        // Page load pe hint dena
-        window.onload = function() {
-            console.log('⚠️ Don\'t forget to add your UPI ID in the code!');
-            console.log('📍 Line 92 par apna UPI ID dalo');
-            console.log('📍 Line 93 par apna name dalo');
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Modal ke bahar click kare toh close ho
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
         }
     </script>
 </body>
