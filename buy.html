@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct PayTM Payment</title>
+    <title>UPI Payment</title>
     <style>
         * {
             margin: 0;
@@ -38,135 +38,141 @@
         }
 
         .product-card {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
+            padding: 25px;
         }
 
         .price {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #e74c3c;
             margin: 15px 0;
         }
 
-        .paytm-btn {
-            background: linear-gradient(45deg, #00B9F1, #0099CC);
+        .upi-btn {
+            background: linear-gradient(45deg, #34ace0, #227093);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 18px;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
             width: 90%;
-            margin: 15px 0;
-            transition: transform 0.3s;
+            margin: 20px 0;
+            transition: all 0.3s;
         }
 
-        .paytm-btn:hover {
+        .upi-btn:hover {
             transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(52, 172, 224, 0.4);
         }
 
         .instructions {
-            background: #fff9e6;
-            padding: 15px;
+            background: #f8f9fa;
+            padding: 20px;
             margin: 15px;
             border-radius: 10px;
             font-size: 14px;
             text-align: left;
+            border-left: 4px solid #34ace0;
+        }
+
+        .success-msg {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 10px;
+            border: 1px solid #c3e6cb;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📱 Direct PayTM Payment</h1>
-            <p>Click below to pay via PayTM</p>
+            <h1>📱 UPI Payment</h1>
+            <p>One click payment via UPI</p>
         </div>
 
         <div class="product-card">
             <h3>Premium Product</h3>
             <div class="price">₹999</div>
-            <p>Instant delivery after payment</p>
+            <p>Instant delivery after successful payment</p>
         </div>
 
-        <!-- Method 1: PayTM Payment Link (Manual Amount) -->
-        <button class="paytm-btn" onclick="payWithPayTM()">
-            Pay ₹999 via PayTM
-        </button>
-
-        <!-- Method 2: UPI Payment -->
-        <button class="paytm-btn" onclick="payWithUPI()" style="background:linear-gradient(45deg, #34ace0, #227093)">
-            Pay via UPI
+        <!-- UPI Payment Button -->
+        <button class="upi-btn" onclick="initiateUPIPayment()">
+            💰 Pay ₹999 via UPI
         </button>
 
         <div class="instructions">
-            <strong>Note:</strong> 
-            <ul>
-                <li>Payment aapke PayTM par directly jayegi</li>
-                <li>Amount manually ₹999 set karna hoga</li>
-                <li>Payment confirmation ke baad screenshot bheje</li>
-            </ul>
+            <strong>How to pay:</strong> 
+            <ol>
+                <li>Click the Pay button above</li>
+                <li>Your UPI app will open automatically</li>
+                <li>Amount ₹999 will be pre-filled</li>
+                <li>Confirm the payment</li>
+                <li>Payment will be received instantly</li>
+            </ol>
+        </div>
+
+        <div class="success-msg" id="successMessage">
+            ✅ Payment initiated! Check your UPI app...
         </div>
     </div>
 
     <script>
-        function payWithPayTM() {
-            // PayTM payment link - User ko manually amount set karna hoga
-            const paytmLink = "https://paytm.com/";
+        function initiateUPIPayment() {
+            // Aapka UPI ID yahan dalo
+            const upiID = "your-upi-id@paytm"; // 🔁 YAHAN APNA UPI ID DALNA
+            const amount = "999";
+            const name = "Your Name"; // 🔁 YAHAN APNA NAME DALNA
+            const note = "Payment for Premium Product";
             
-            // New tab mein kholo
-            window.open(paytmLink, '_blank');
+            // UPI payment link banaya
+            const upiLink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
             
-            // Instruction show karo
-            alert('Please manually enter amount: ₹999\nPayTM ID: YOUR_PAYTM_MOBILE_NUMBER');
-        }
-
-        function payWithUPI() {
-            // UPI payment method
-            const upiID = "6239547147@ptsbi"; // Aapka UPI ID yahan dalo
-            const amount = "1";
-            const name = "Abhishek pant";
+            // Success message show karo
+            document.getElementById('successMessage').style.display = 'block';
             
-            // UPI payment link
-            const upiLink = `upi://pay?pa=${upiID}&pn=${name}&am=${amount}&cu=INR`;
-            
-            // UPI app open karo
+            // UPI app open karne ki koshish karo
             window.location.href = upiLink;
             
-            // Agar UPI app nahi khulta toh fallback
+            // Fallback agar UPI app na khule
             setTimeout(() => {
-                alert(`UPI Payment Details:\n\nUPI ID: ${upiID}\nAmount: ₹${amount}\nName: ${name}\n\nPlease copy these details and pay via your UPI app.`);
-            }, 1000);
+                // Agar UPI app na khula toh manual details show karo
+                showManualUPIDetails(upiID, amount, name, note);
+            }, 2000);
         }
 
-        // Agar aapke paas PayTM merchant ID hai toh yeh use karo
-        function payWithPayTMMerchant() {
-            /* 
-            PayTM Merchant Integration Example:
-            MID: YOUR_MERCHANT_ID
-            ORDER_ID: UNIQUE_ORDER_ID
-            CUST_ID: CUSTOMER_ID
-            INDUSTRY_TYPE: Retail
-            CHANNEL_ID: WEB
-            TXN_AMOUNT: 999.00
-            WEBSITE: YOUR_WEBSITE
-            CALLBACK_URL: YOUR_CALLBACK_URL
-            */
+        function showManualUPIDetails(upiID, amount, name, note) {
+            const manualDetails = `
+📱 UPI Payment Manual Instructions:
+
+UPI ID: ${upiID}
+Amount: ₹${amount}
+Name: ${name}
+Note: ${note}
+
+Steps:
+1. Open your UPI app (PayTM, Google Pay, PhonePe, etc.)
+2. Enter above UPI ID
+3. Enter amount: ₹${amount}
+4. Add note: ${note}
+5. Confirm payment
+
+Payment confirmation ke baad screenshot bhej dena.
+            `;
             
-            const merchantParams = {
-                MID: "YOUR_MERCHANT_ID",
-                ORDER_ID: "ORDER_" + Date.now(),
-                CUST_ID: "CUST_" + Date.now(),
-                INDUSTRY_TYPE_ID: "Retail",
-                CHANNEL_ID: "WEB",
-                TXN_AMOUNT: "999.00",
-                WEBSITE: "YOUR_WEBSITE",
-                CALLBACK_URL: "YOUR_CALLBACK_URL"
-            };
-            
-            // Yahan PayTM API integration karna hoga
-            alert('PayTM Merchant integration required!');
+            alert(manualDetails);
+        }
+
+        // Page load pe hint dena
+        window.onload = function() {
+            console.log('⚠️ Don\'t forget to add your UPI ID in the code!');
+            console.log('📍 Line 92 par apna UPI ID dalo');
+            console.log('📍 Line 93 par apna name dalo');
         }
     </script>
 </body>
