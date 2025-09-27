@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct UPI Payment</title>
+    <title>Instant UPI Payment</title>
     <style>
         * {
             margin: 0;
@@ -37,7 +37,7 @@
             color: white;
         }
 
-        .product-card {
+        .product-section {
             padding: 25px;
         }
 
@@ -48,23 +48,27 @@
             margin: 15px 0;
         }
 
-        .upi-btn {
+        .upi-button {
+            display: inline-block;
             background: linear-gradient(45deg, #34ace0, #227093);
             color: white;
-            border: none;
-            padding: 18px 30px;
+            padding: 18px 40px;
             border-radius: 12px;
             font-size: 20px;
             font-weight: bold;
+            text-decoration: none;
+            margin: 15px 0;
+            transition: all 0.3s;
+            border: none;
             cursor: pointer;
             width: 90%;
-            margin: 20px 0;
-            transition: all 0.3s;
         }
 
-        .upi-btn:hover {
+        .upi-button:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(52, 172, 224, 0.4);
+            text-decoration: none;
+            color: white;
         }
 
         .instructions {
@@ -74,141 +78,89 @@
             border-radius: 10px;
             font-size: 14px;
         }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feature-list li:before {
+            content: "✅ ";
+            color: #27ae60;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📱 Direct UPI Payment</h1>
+            <h1>💰 Instant UPI Payment</h1>
             <p>One Click - Direct Payment</p>
         </div>
 
-        <div class="product-card">
+        <div class="product-section">
             <h3>Premium Product</h3>
             <div class="price">₹999</div>
-            <p>Instant delivery after payment</p>
-        </div>
+            <p>Instant delivery after successful payment</p>
 
-        <!-- Multiple UPI Links for Different Apps -->
-        <button class="upi-btn" onclick="openPaytm()">
-            🎯 Pay via Paytm
-        </button>
+            <ul class="feature-list">
+                <li>Premium Quality Product</li>
+                <li>Instant Delivery</li>
+                <li>24/7 Support</li>
+                <li>Easy Returns</li>
+            </ul>
 
-        <button class="upi-btn" onclick="openGooglePay()" style="background:linear-gradient(45deg, #4285F4, #34A853)">
-            📱 Pay via Google Pay
-        </button>
+            <!-- YOUR UPI LINK - JUST CHANGE AMOUNT TO 999 -->
+            <a href="upi://pay?pa=abhipaytm@paytm&pn=Abhishek+Pant&mc=0000&tid=123456789&tr=9876543210&tn=Payment+for+Premium+Product&am=999&cu=INR" 
+               class="upi-button">
+                📱 Pay ₹999 via UPI
+            </a>
 
-        <button class="upi-btn" onclick="openPhonePe()" style="background:linear-gradient(45deg, #6000AA, #9013FE)">
-            💜 Pay via PhonePe
-        </button>
-
-        <button class="upi-btn" onclick="openAnyUPI()" style="background:linear-gradient(45deg, #FF6B6B, #FF8E53)">
-            🌟 Any UPI App
-        </button>
-
-        <div class="instructions">
-            <strong>Note:</strong> App selection screen will open. Choose your preferred UPI app.
+            <div class="instructions">
+                <strong>How it works:</strong>
+                <ol>
+                    <li>Click the Pay button above</li>
+                    <li>Your UPI app will open automatically</li>
+                    <li>Amount will be pre-filled as ₹999</li>
+                    <li>Confirm the payment</li>
+                    <li>Payment received instantly!</li>
+                </ol>
+            </div>
         </div>
     </div>
 
     <script>
-        // Replace with your actual UPI ID
-        const UPI_ID = "6239547147@ptsbi"; // 🔁 YAHAN APNA UPI ID DALO
-        const AMOUNT = "1";
-        const NAME = "Abhishek pant"; // 🔁 YAHAN APNA NAME DALO
-        const NOTE = "Premium Product Payment";
+        // Fallback mechanism agar UPI link na khule
+        document.querySelector('.upi-button').addEventListener('click', function(e) {
+            // 3 second baad check karo agar UPI app na khula ho
+            setTimeout(function() {
+                if (document.hasFocus()) {
+                    // Agar tab still open hai matlab UPI app nahi khula
+                    alert('UPI app not found! Please manually send ₹999 to: abhipaytm@paytm');
+                }
+            }, 3000);
+        });
 
-        function openPaytm() {
-            // Paytm specific UPI link
-            const paytmLink = `paytmmp://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR`;
-            const universalLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(NOTE)}`;
-            
-            try {
-                window.location.href = paytmLink;
-                setTimeout(() => {
-                    window.location.href = universalLink;
-                }, 500);
-            } catch (e) {
-                window.location.href = universalLink;
+        // Multiple UPI apps ke liye try karo
+        function tryAllUPIApps() {
+            const upiLinks = [
+                "upi://pay?pa=6239547147@ptsbi&pn=AbhiLearn&am=1&cu=INR",
+                "paytmmp://pay?pa=abhipaytm@paytm&pn=Abhishek+Pant&am=999",
+                "phonepe://pay?pa=abhipaytm@paytm&pn=Abhishek+Pant&am=999",
+                "gpay://upi/pay?pa=abhipaytm@paytm&pn=Abhishek+Pant&am=999"
+            ];
+
+            for (let link of upiLinks) {
+                window.location.href = link;
+                break; // Pehla wala try karo
             }
         }
-
-        function openGooglePay() {
-            // Google Pay specific link
-            const gpayLink = `gpay://upi/pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR`;
-            const universalLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(NOTE)}`;
-            
-            window.location.href = gpayLink;
-            setTimeout(() => {
-                window.location.href = universalLink;
-            }, 500);
-        }
-
-        function openPhonePe() {
-            // PhonePe specific link
-            const phonepeLink = `phonepe://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}`;
-            const universalLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(NOTE)}`;
-            
-            window.location.href = phonepeLink;
-            setTimeout(() => {
-                window.location.href = universalLink;
-            }, 500);
-        }
-
-        function openAnyUPI() {
-            // Universal UPI link that works with all apps
-            const universalLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(NOTE)}`;
-            
-            // Multiple fallback attempts
-            window.location.href = universalLink;
-            
-            // Fallback for different browsers
-            setTimeout(() => {
-                window.open(universalLink, '_blank');
-            }, 1000);
-            
-            // Final fallback - show details
-            setTimeout(() => {
-                showManualDetails();
-            }, 2000);
-        }
-
-        function showManualDetails() {
-            const details = `
-📱 Manual UPI Payment:
-
-UPI ID: ${UPI_ID}
-Amount: ₹${AMOUNT}
-Name: ${NAME}
-Note: ${NOTE}
-
-Steps:
-1. Open your UPI app
-2. Enter UPI ID: ${UPI_ID}
-3. Enter amount: ₹${AMOUNT}
-4. Add note: ${NOTE}
-5. Confirm payment
-            `;
-            alert(details);
-        }
-
-        // Auto-detect user's UPI app
-        function autoDetectUPI() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            
-            if (userAgent.includes('paytm')) {
-                openPaytm();
-            } else if (userAgent.includes('googlepay') || userAgent.includes('gpay')) {
-                openGooglePay();
-            } else if (userAgent.includes('phonepe')) {
-                openPhonePe();
-            } else {
-                openAnyUPI();
-            }
-        }
-
-        // Page load suggestion
-        console.log('🔔 Important: Replace UPI_ID and NAME with your details on lines 92-93');
     </script>
 </body>
 </html>
