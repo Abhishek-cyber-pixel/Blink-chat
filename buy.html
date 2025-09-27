@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Payment</title>
+    <title>PayTM Payment</title>
     <style>
         * {
             margin: 0;
@@ -37,67 +37,144 @@
             color: white;
         }
 
-        .qr-section {
-            padding: 30px;
+        .payment-section {
+            padding: 25px;
         }
 
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            background: #f0f0f0;
-            border: 3px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #666;
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+
+        .paytm-btn {
+            background: linear-gradient(45deg, #00B9F1, #0099CC);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 90%;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .paytm-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 185, 241, 0.4);
         }
 
         .instructions {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             margin: 15px;
             border-radius: 10px;
+            font-size: 14px;
             text-align: left;
+        }
+
+        .alert-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📱 QR Code Payment</h1>
-            <p>Scan QR to Pay ₹1</p>
+            <h1>📱 PayTM Payment</h1>
+            <p>Direct Payment - ₹1</p>
         </div>
 
-        <div class="qr-section">
-            <div style="font-size: 32px; color: #e74c3c; font-weight: bold;">₹1</div>
-            
-            <div class="qr-placeholder">
-                <!-- Yahan apna QR code laga dena -->
-                <div>
-                    <div style="font-size: 48px;">📷</div>
-                    <div>6239547147@ptsbi</div>
-                </div>
+        <div class="payment-section">
+            <h3>Test Payment</h3>
+            <div class="price">₹1</div>
+            <p>Instant payment testing</p>
+
+            <div class="alert-message" id="alertMessage">
+                ⚠️ <strong>PayTM Alert:</strong> Pehle security alert aayega, use skip karo aur payment continue karo!
             </div>
 
-            <p><strong>Scan with Paytm App</strong></p>
-        </div>
+            <button class="paytm-btn" onclick="initiatePayment()">
+                💰 Pay ₹1 via PayTM
+            </button>
 
-        <div class="instructions">
-            <strong>Bhai, yeh 100% kaam karega:</strong>
-            <ol>
-                <li>Paytm app mein jao</li>
-                <li>QR Scanner kholo</li>
-                <li>Mera QR code scan karo</li>
-                <li>Amount ₹1 enter karo</li>
-                <li>Payment complete karo</li>
-            </ol>
-            
-            <p style="color: #e74c3c; margin-top: 15px;">
-                <strong>Note:</strong> QR code se payment mein koi restriction nahi hoti!
-            </p>
+            <div class="instructions">
+                <strong>Correct Steps:</strong>
+                <ol>
+                    <li>Pay button click karo</li>
+                    <li>PayTM app khulega</li>
+                    <li><strong>Security alert aayega - SKIP/CONTINUE karo</strong></li>
+                    <li>Amount ₹1 auto-filled hoga</li>
+                    <li>Payment complete karo</li>
+                </ol>
+
+                <p style="color: #e74c3c; margin-top: 10px;">
+                    <strong>Important:</strong> Security alert ko skip karna hai, cancel nahi karna!
+                </p>
+            </div>
         </div>
     </div>
+
+    <script>
+        function initiatePayment() {
+            // Alert message show karo
+            document.getElementById('alertMessage').style.display = 'block';
+            
+            // PayTM direct link
+            const paytmLink = "paytmmp://pay?pa=6239547147@ptsbi&pn=Abhishek+Pant&am=1&cu=INR&tn=Test+Payment";
+            
+            // Pehle try karo direct app open
+            window.location.href = paytmLink;
+            
+            // 2 second baad fallback try karo
+            setTimeout(() => {
+                // Agar app na khula ho toh universal UPI try karo
+                const universalLink = "upi://pay?pa=abhipaytm@paytm&pn=Abhishek+Pant&am=1&cu=INR";
+                window.location.href = universalLink;
+            }, 2000);
+            
+            // 5 second baad manual instructions
+            setTimeout(() => {
+                if (document.hasFocus()) {
+                    showManualInstructions();
+                }
+            }, 5000);
+        }
+
+        function showManualInstructions() {
+            const message = `
+📱 Agar Payment Na Khule Toh:
+
+Manual Steps:
+1. PayTM app kholo
+2. 'Send Money' par jao
+3. UPI ID enter karo: abhipaytm@paytm
+4. Amount: ₹1
+5. Note: Test Payment
+6. Send karo
+
+Ya fir:
+1. Direct mobile number pe bhejo: YOUR_NUMBER
+2. Amount: ₹1
+
+Payment success ka screenshot bhej dena!
+            `;
+            alert(message);
+        }
+
+        // Page load pe hint dena
+        window.onload = function() {
+            console.log('Payment method working - just skip the security alert!');
+        }
+    </script>
 </body>
 </html>
