@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Shopping UI</title>
+<title>Try 1₹ Payment</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -20,9 +20,6 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         text-align: center;
         width: 300px;
-    }
-    h2 {
-        margin-bottom: 20px;
     }
     button {
         background: #4CAF50;
@@ -41,34 +38,29 @@
 <body>
 
 <div class="container">
-    <h2>Buy This Item</h2>
-    <p>Price: ₹999</p>
-    <button id="payBtn">Pay Now</button>
+    <h2>Try Payment</h2>
+    <p>Amount: ₹1</p>
+    <button id="payBtn">Pay 1₹</button>
 </div>
 
 <script>
     const payBtn = document.getElementById('payBtn');
     payBtn.addEventListener('click', function() {
-        // UPI Deep Link
-        const upiId = "6239547147@ptsbi";
+        const upiId = "6239547147@ptsbi"; // tera Paytm UPI ID
         const name = "Abhishek Pant";
-        const amount = "999"; // Item price
-        const note = "Payment for item";
+        const amount = "1"; // 1 rupee
+        const note = "Test Payment";
 
-        // Deeplink URL
         const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-
-        // Open UPI app
         window.location.href = upiLink;
 
-        // Optional: backme anchor after some delay
+        // Optional: back link after 5 sec
         setTimeout(() => {
-            window.location.href = "#back"; // replace with your actual back link if needed
-        }, 5000); // 5 sec delay
+            window.location.href = "#back";
+        }, 5000);
     });
 </script>
 
-<!-- Back anchor (replace #back with actual URL if needed) -->
 <a id="back" href="index.html" style="display:none;">Back</a>
 
 </body>
